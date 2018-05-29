@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Music Player</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_permissions">Permissions</string>
+    <string name="btn_next">Next</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="toast_permissions_not_granted">Permissions not granted.</string>
+    <string name="message_permissions"><![CDATA[To allow audio visualization view to process audio stream app needs an access to your <b>Microphone</b>.]]></string>
+</resources>
