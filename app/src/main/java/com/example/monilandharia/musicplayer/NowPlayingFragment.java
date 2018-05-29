@@ -59,13 +59,6 @@ public class NowPlayingFragment extends Fragment {
     }
 
     private void formatViews() {
-        AssetManager am = getActivity().getApplicationContext().getAssets();
-        Typeface typeface = Typeface.createFromAsset(am,"fonts/Raleway-Regular.ttf");
-
-        album_track.setTypeface(typeface);
-        album_artist_name.setTypeface(typeface);
-        start_time.setTypeface(typeface);
-        end_time.setTypeface(typeface);
         seekBar.getProgressDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
 //        seekBar.getThumb().mutate().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
         seekBar.getThumb().mutate().setAlpha(0);
