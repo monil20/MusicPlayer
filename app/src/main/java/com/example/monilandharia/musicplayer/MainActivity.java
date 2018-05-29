@@ -1,31 +1,19 @@
 package com.example.monilandharia.musicplayer;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.graphics.Path;
-import android.graphics.Point;
-import android.support.constraint.ConstraintLayout;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewTreeObserver;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.animation.LinearInterpolator;
-import android.view.animation.TranslateAnimation;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.ohoussein.playpause.PlayPauseView;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState;
@@ -36,26 +24,100 @@ public class MainActivity extends AppCompatActivity {
     private CardView cardView;
     private PlayPauseView playPauseView;
     private TextView trackName;
-//    private NowPlayingFragment nowPlayingFragment;
+    //    private NowPlayingFragment nowPlayingFragment;
     private float playPauseOriX, playPauseOriY, trackX, trackY, x, y;
+    private AHBottomNavigation bottomNavigation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mLayout = findViewById(R.id.sliding_layout);
-//        nowPlayingFragment = (NowPlayingFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_now_playing);
-        cardView = findViewById(R.id.cardView);
-        playPauseView = findViewById(R.id.play_pause);
-        trackName = findViewById(R.id.album_track);
+        initComponents();
+
+        AHBottomNavigationItem item1 = new AHBottomNavigationItem("Home", R.drawable.house_outline, android.R.color.white);
+        AHBottomNavigationItem item2 = new AHBottomNavigationItem("Me", R.drawable.avatar, android.R.color.white);
+        AHBottomNavigationItem item3 = new AHBottomNavigationItem("Cloud", R.drawable.cloud, android.R.color.white);
+        AHBottomNavigationItem item4 = new AHBottomNavigationItem("Search", R.drawable.search, android.R.color.white);
+
+        bottomNavigation.addItem(item1);
+        bottomNavigation.addItem(item2);
+        bottomNavigation.addItem(item3);
+        bottomNavigation.addItem(item4);
+
+        bottomNavigation.setTranslucentNavigationEnabled(true);
+        bottomNavigation.setAccentColor(R.color.colorPrimaryDark);
+        bottomNavigation.setTitleState(AHBottomNavigation.TitleState.SHOW_WHEN_ACTIVE);
+        bottomNavigation.setCurrentItem(0);
+
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        Fragment fraggy = new HomeFragment();
+        fragmentTransaction.add(R.id.fragment_home, fraggy);
+        fragmentTransaction.commit();
+
+        bottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
+            @Override
+            public boolean onTabSelected(int position, boolean wasSelected) {
+                switch (position) {
+                    case 0: {
+                        if (!wasSelected) {
+                            Fragment fragment = new HomeFragment();
+                            android.app.FragmentManager fragmentManager = getFragmentManager();
+                            fragmentManager.beginTransaction()
+                                    .replace(R.id.fragment_home, fragment)
+                                    .commit();
+                        }
+                        break;
+                    }
+                    case 1: {
+                        if (!wasSelected) {
+                            Fragment fragment = new MeFragment();
+                            android.app.FragmentManager fragmentManager = getFragmentManager();
+                            fragmentManager.beginTransaction()
+                                    .replace(R.id.fragment_home, fragment)
+                                    .commit();
+                        }
+                        break;
+                    }
+                    case 2: {
+                        if (!wasSelected) {
+                            Fragment fragment = new CloudFragment();
+                            android.app.FragmentManager fragmentManager = getFragmentManager();
+                            fragmentManager.beginTransaction()
+                                    .replace(R.id.fragment_home, fragment)
+                                    .commit();
+                        }
+                        break;
+                    }
+                    case 3: {
+                        if (!wasSelected) {
+                            Fragment fragment = new SearchFragment();
+                            android.app.FragmentManager fragmentManager = getFragmentManager();
+                            fragmentManager.beginTransaction()
+                                    .replace(R.id.fragment_home, fragment)
+                                    .commit();
+                        }
+                        break;
+                    }
+                }
+                return true;
+            }
+        });
+        bottomNavigation.setOnNavigationPositionListener(new AHBottomNavigation.OnNavigationPositionListener() {
+            @Override
+            public void onPositionChange(int y) {
+                // Manage the new y position
+            }
+        });
 
         playPauseView.post(new Runnable() {
             @Override
             public void run() {
                 playPauseOriX = playPauseView.getX();
                 playPauseOriY = playPauseView.getY();
-                playPauseView.setX(playPauseOriX+playPauseOriX+10);
+                playPauseView.setX(playPauseOriX + playPauseOriX + 10);
                 playPauseView.setY(-30);
                 trackX = trackName.getX();
                 trackY = trackName.getY();
@@ -155,6 +217,15 @@ public class MainActivity extends AppCompatActivity {
                 mLayout.setPanelState(PanelState.COLLAPSED);
             }
         });
+    }
+
+    private void initComponents() {
+        mLayout = findViewById(R.id.sliding_layout);
+//        nowPlayingFragment = (NowPlayingFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_now_playing);
+        cardView = findViewById(R.id.cardView);
+        playPauseView = findViewById(R.id.play_pause);
+        trackName = findViewById(R.id.album_track);
+        bottomNavigation = findViewById(R.id.bottom_navigation);
     }
 
 
