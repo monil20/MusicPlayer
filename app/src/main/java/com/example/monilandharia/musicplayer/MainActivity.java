@@ -1,12 +1,13 @@
 package com.example.monilandharia.musicplayer;
 
 import android.animation.ObjectAnimator;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.graphics.Color;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.content.Context;
 import android.graphics.Path;
 import android.os.Handler;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -31,11 +33,13 @@ public class MainActivity extends AppCompatActivity {
     private PlayPauseView playPauseView;
     private TextView trackName, album_artist, startTime, endTime;
     //    private NowPlayingFragment nowPlayingFragment;
-    private float playPauseOriX, playPauseOriY, trackX, trackY, albumArtistX, albumArtistY, x, y, tempY;
+    private float playPauseOriX, playPauseOriY, trackX, trackY, albumArtistX, albumArtistY, cardViewX, cardViewY, x, y, tempY, tempY1;
     private AHBottomNavigation bottomNavigation;
     private ImageView next, prev, repeat, shuffle;
     private boolean flag = true, flag1 = false;
     private SeekBar seekBar;
+    private SlidingUpPanelLayout slidingLayout;
+    private RelativeLayout relativeLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigation.setTitleState(AHBottomNavigation.TitleState.SHOW_WHEN_ACTIVE);
         bottomNavigation.setCurrentItem(0);
 
-        FragmentManager fragmentManager = getFragmentManager();
+        FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         Fragment fraggy = new HomeFragment();
@@ -73,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
                     case 0: {
                         if (!wasSelected) {
                             Fragment fragment = new HomeFragment();
-                            android.app.FragmentManager fragmentManager = getFragmentManager();
+                            FragmentManager fragmentManager = getSupportFragmentManager();
                             fragmentManager.beginTransaction()
                                     .replace(R.id.fragment_home, fragment)
                                     .commit();
@@ -83,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
                     case 1: {
                         if (!wasSelected) {
                             Fragment fragment = new MeFragment();
-                            android.app.FragmentManager fragmentManager = getFragmentManager();
+                            FragmentManager fragmentManager = getSupportFragmentManager();
                             fragmentManager.beginTransaction()
                                     .replace(R.id.fragment_home, fragment)
                                     .commit();
@@ -93,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
                     case 2: {
                         if (!wasSelected) {
                             Fragment fragment = new CloudFragment();
-                            android.app.FragmentManager fragmentManager = getFragmentManager();
+                            FragmentManager fragmentManager = getSupportFragmentManager();
                             fragmentManager.beginTransaction()
                                     .replace(R.id.fragment_home, fragment)
                                     .commit();
@@ -103,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
                     case 3: {
                         if (!wasSelected) {
                             Fragment fragment = new SearchFragment();
-                            android.app.FragmentManager fragmentManager = getFragmentManager();
+                            FragmentManager fragmentManager = getSupportFragmentManager();
                             fragmentManager.beginTransaction()
                                     .replace(R.id.fragment_home, fragment)
                                     .commit();
@@ -137,6 +141,16 @@ public class MainActivity extends AppCompatActivity {
                 album_artist.setX(250);
                 tempY = y;
                 album_artist.setY(y + trackName.getHeight() + 26);
+                cardViewX = cardView.getX();
+                cardViewY = cardView.getY();
+                cardView.setScaleX(0.28f);
+                cardView.setScaleY(0.23f);
+                cardView.setX(trackName.getY());
+                cardView.setY(trackName.getY());
+                tempY1 = trackName.getY();
+                cardView.setPivotX(0);
+                cardView.setPivotY(0);
+
                 flag1 = true;
             }
         });
@@ -177,6 +191,10 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
                 if (newState.toString().equals("EXPANDED")) {
+//                    bottomNavigation.setVisibility(View.INVISIBLE);
+//                    SlidingUpPanelLayout.LayoutParams layoutParams = (SlidingUpPanelLayout.LayoutParams) slidingLayout.getLayoutParams();
+//                    layoutParams.add
+
                     x = playPauseView.getX();
                     y = playPauseView.getY();
                     Path path = new Path();
@@ -207,12 +225,25 @@ public class MainActivity extends AppCompatActivity {
                                     View.Y, path2);
                     objectAnimator2.setDuration(250);
 
+                    Path path3 = new Path();
+                    x = cardView.getX();
+                    y = cardView.getY();
+                    path3.moveTo(x, y);
+                    path3.lineTo(cardViewX, cardViewY);
+                    ObjectAnimator objectAnimator3 =
+                            ObjectAnimator.ofFloat(cardView, View.X,
+                                    View.Y, path3);
+                    objectAnimator2.setDuration(200);
+
                     Animation animationFadeIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fadein);
 
                     if (flag) {
                         objectAnimator.start();
                         objectAnimator1.start();
                         objectAnimator2.start();
+                        objectAnimator3.start();
+                        cardView.setScaleX(1);
+                        cardView.setScaleY(1);
                         prev.startAnimation(animationFadeIn);
                         next.startAnimation(animationFadeIn);
                         shuffle.startAnimation(animationFadeIn);
@@ -282,14 +313,30 @@ public class MainActivity extends AppCompatActivity {
                                         View.Y, path2);
                         objectAnimator2.setDuration(0);
 
+                        x = cardView.getX();
+                        cardViewX = x;
+                        y = cardView.getY();
+                        cardViewY = y;
+                        cardView.setScaleX(0.28f);
+                        cardView.setScaleY(0.23f);
+                        Path path3 = new Path();
+                        path3.moveTo(x, y);
+                        path3.lineTo(tempY1, tempY1);
+                        ObjectAnimator objectAnimator3 =
+                                ObjectAnimator.ofFloat(cardView, View.X,
+                                        View.Y, path3);
+                        objectAnimator3.setDuration(0);
+
+
                         objectAnimator.start();
                         objectAnimator1.start();
                         objectAnimator2.start();
+                        objectAnimator3.start();
                         next.setAlpha(0.0f);
                         prev.setAlpha(0.0f);
                         repeat.setAlpha(0.0f);
                         shuffle.setAlpha(0.0f);
-                        cardView.setAlpha(0.0f);
+//                        cardView.setAlpha(1.0f);
                         seekBar.setAlpha(0.0f);
                         startTime.setAlpha(0.0f);
                         endTime.setAlpha(0.0f);
@@ -312,7 +359,7 @@ public class MainActivity extends AppCompatActivity {
     private void initComponents() {
         mLayout = findViewById(R.id.sliding_layout);
 //        nowPlayingFragment = (NowPlayingFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_now_playing);
-        cardView = findViewById(R.id.cardView);
+        cardView = findViewById(R.id.songCardView);
         playPauseView = findViewById(R.id.play_pause);
         trackName = findViewById(R.id.album_track);
         bottomNavigation = findViewById(R.id.bottom_navigation);
@@ -324,6 +371,8 @@ public class MainActivity extends AppCompatActivity {
         seekBar = findViewById(R.id.seekBar);
         startTime = findViewById(R.id.start_time);
         endTime = findViewById(R.id.end_time);
+//        slidingLayout = findViewById(R.id.sliding_layout);
+        relativeLayout = findViewById(R.id.relativelayout);
     }
 
     @Override
