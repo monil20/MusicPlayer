@@ -9,87 +9,116 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.monilandharia.musicplayer.R;
 import com.example.monilandharia.musicplayer.models.SongInfo;
 import com.example.monilandharia.musicplayer.utilities.Utility;
+import com.ohoussein.playpause.PlayPauseView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-
-import Utility.Utility;
 
 public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
     private ArrayList<SongInfo> songs;
     private Context context;
     private RecyclerItemClickListener listener;
 
-    public DataAdapter(Context context, ArrayList<SongInfo> songs, RecyclerItemClickListener listener)
-    {
+    public DataAdapter(Context context, ArrayList<SongInfo> songs, RecyclerItemClickListener listener) {
         this.context = context;
         this.songs = songs;
         this.listener = listener;
     }
 
     @Override
-    public DataAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup,int i)
-    {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_song,viewGroup,false);
-        return new ViewHolder(view);
-    }
-
-    @Override
-    public void onBindViewHolder(ViewHolder viewHolder,int i)
-    {
-        SongInfo s = songs.get(i);
-        if(s!=null) {
-            viewHolder.sname.setText(s.getSong_name());
-            viewHolder.sartist.setText(s.getSong_artist());
-            viewHolder.sdur.setText(Utility.getTime(s.getSong_duration()));
-            Uri albart = getAlbumArtUri(s.getAlbum_id());
-            String datatoplay = s.getData();
-            Picasso.with(context).load(albart.toString()).placeholder(R.drawable.placeholder).into(viewHolder.simg);
+    public DataAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        View view;
+        if (i == R.layout.item_viewpager) {
+            view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_viewpager, viewGroup, false);
+            return new ViewHolder(view);
+        } else {
+            view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_seemore, viewGroup, false);
+            return new ViewHolder(view, 1);
         }
 
-        viewHolder.bind(s,listener);
     }
 
     @Override
-    public int getItemCount(){
-        return songs.size();
+    public void onBindViewHolder(ViewHolder viewHolder, int i) {
+
+        if(i == songs.size()){
+            viewHolder.seemore.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(context, "Button Clicked", Toast.LENGTH_LONG).show();
+                }
+            });
+        }else{
+            SongInfo s = songs.get(i);
+            if (s != null) {
+                viewHolder.sname.setText(s.getSong_name());
+                viewHolder.sartist.setText(s.getSong_artist());
+//            viewHolder.sdur.setText(Utility.getTime(s.getSong_duration()));
+                Uri albart = getAlbumArtUri(s.getAlbum_id());
+                String datatoplay = s.getData();
+                Picasso.with(context).load(albart.toString()).placeholder(R.mipmap.ic_launcher).into(viewHolder.simg);
+            }
+
+            viewHolder.bind(s, listener);
+        }
+
+
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    @Override
+    public int getItemCount() {
+        return songs.size()+1;
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
         TextView sname;
-        ImageView simg;
+        ImageView simg, seemore;
         TextView sartist;
-        TextView sdur;
-        public ViewHolder(View view)
-        {
+        PlayPauseView playPauseView;
+
+        //        TextView sdur;
+        public ViewHolder(View view) {
             super(view);
-            sname = view.findViewById(R.id.songname);
-            simg = view.findViewById(R.id.thumb);
-            sartist = view.findViewById(R.id.Author);
-            sdur = view.findViewById(R.id.duration);
+            sname = view.findViewById(R.id.songName);
+            sname.setSelected(true);
+            simg = view.findViewById(R.id.songArt);
+            sartist = view.findViewById(R.id.songArtist);
+            playPauseView = view.findViewById(R.id.songPlayPause);
+            playPauseView.bringToFront();
+
+//            sdur = view.findViewById(R.id.duration);
         }
 
-        public void bind(final SongInfo song, final RecyclerItemClickListener listener)
-        {
+        public ViewHolder(View view, int n) {
+            super(view);
+            seemore = view.findViewById(R.id.imageView2);
+        }
+
+        public void bind(final SongInfo song, final RecyclerItemClickListener listener) {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    listener.onClickListener(song,getLayoutPosition());
+                    listener.onClickListener(song, getLayoutPosition());
                 }
             });
         }
     }
 
-    public Uri getAlbumArtUri(long param)
-    {
-        return ContentUris.withAppendedId(Uri.parse("content://media/external/audio/albumart"),param);
+    @Override
+    public int getItemViewType(int position) {
+        return (position == songs.size()) ? R.layout.layout_seemore : R.layout.item_viewpager;
     }
 
-    public interface RecyclerItemClickListener{
+    public Uri getAlbumArtUri(long param) {
+        return ContentUris.withAppendedId(Uri.parse("content://media/external/audio/albumart"), param);
+    }
+
+    public interface RecyclerItemClickListener {
         void onClickListener(SongInfo song, int position);
     }
 }
