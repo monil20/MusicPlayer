@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:foo="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:foo="http://schemas.android.com/apk/res-auto"
-    tools:context=".HomeFragment"
-    android:padding="8dp">
+    android:padding="8dp"
+    tools:context=".HomeFragment">
 
 
     <com.example.monilandharia.musicplayer.customViews.RalewayTextView
@@ -18,13 +18,13 @@
         android:layout_marginTop="8dp"
         android:text="Recently Added"
         android:textSize="16dp"
+        foo:customFont="fonts/Raleway-Regular.ttf"
         foo:layout_constraintBottom_toBottomOf="parent"
         foo:layout_constraintEnd_toEndOf="parent"
         foo:layout_constraintHorizontal_bias="0.028"
         foo:layout_constraintStart_toStartOf="parent"
         foo:layout_constraintTop_toTopOf="parent"
-        foo:layout_constraintVertical_bias="0.014"
-        foo:customFont="fonts/Raleway-Regular.ttf"/>
+        foo:layout_constraintVertical_bias="0.014" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerRecentlyAdded"
@@ -44,24 +44,25 @@
     <com.example.monilandharia.musicplayer.customViews.RalewayTextView
         android:id="@+id/ralewayTextView2"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="304dp"
+        android:layout_height="22dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="16dp"
         android:text="Albums"
         android:textSize="16dp"
+        foo:customFont="fonts/Raleway-Regular.ttf"
         foo:layout_constraintBottom_toBottomOf="parent"
         foo:layout_constraintEnd_toEndOf="parent"
         foo:layout_constraintHorizontal_bias="0.023"
         foo:layout_constraintStart_toStartOf="parent"
         foo:layout_constraintTop_toBottomOf="@id/recyclerRecentlyAdded"
-        foo:layout_constraintVertical_bias="0.148" />
+        foo:layout_constraintVertical_bias="0.0" />
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerAlbums"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/recyclerAlbums"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -76,12 +77,13 @@
         android:id="@+id/ralewayTextView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="304dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:text="Artists"
         android:textSize="16dp"
+        foo:customFont="fonts/Raleway-Regular.ttf"
         foo:layout_constraintBottom_toBottomOf="parent"
         foo:layout_constraintEnd_toEndOf="parent"
         foo:layout_constraintHorizontal_bias="0.023"
@@ -90,9 +92,9 @@
         foo:layout_constraintVertical_bias="0.0" />
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerArtists"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/recyclerArtists"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -101,6 +103,6 @@
         foo:layout_constraintEnd_toEndOf="parent"
         foo:layout_constraintStart_toStartOf="parent"
         foo:layout_constraintTop_toBottomOf="@id/ralewayTextView3"
-        foo:layout_constraintVertical_bias="0.0"/>
+        foo:layout_constraintVertical_bias="0.0" />
 
 </android.support.constraint.ConstraintLayout>
