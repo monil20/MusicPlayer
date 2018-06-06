@@ -17,14 +17,14 @@
         android:orientation="vertical">
 
         <com.ohoussein.playpause.PlayPauseView
-            android:id="@+id/songPlayPause"
+            android:id="@+id/genrePlayPause"
             android:layout_width="34dp"
             android:layout_height="251dp"
             android:layout_marginBottom="5dp"
             android:layout_marginEnd="5dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/songArt"
+            app:layout_constraintBottom_toBottomOf="@+id/albumArt"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -34,7 +34,7 @@
             app:play_bg="@color/colorAccent" />
 
         <ImageView
-            android:id="@+id/songArt"
+            android:id="@+id/albumArt"
             android:layout_width="171dp"
             android:layout_height="171dp"
             android:layout_marginEnd="-5dp"
@@ -49,7 +49,7 @@
             app:layout_constraintVertical_bias="0.0" />
 
         <com.example.monilandharia.musicplayer.customViews.RalewayTextView
-            android:id="@+id/songName"
+            android:id="@+id/genreName"
             android:layout_width="143dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -59,34 +59,34 @@
             android:ellipsize="marquee"
             android:marqueeRepeatLimit="marquee_forever"
             android:singleLine="true"
-            android:text="Song Name"
+            android:text="Genre"
             android:textColor="@color/colorPrimary"
             android:textSize="14dp"
             app:customFont="fonts/Raleway-Regular.ttf"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/songArt"
+            app:layout_constraintEnd_toEndOf="@+id/albumArt"
             app:layout_constraintHorizontal_bias="0.583"
-            app:layout_constraintStart_toStartOf="@+id/songArt"
-            app:layout_constraintTop_toBottomOf="@+id/songArt"
+            app:layout_constraintStart_toStartOf="@+id/albumArt"
+            app:layout_constraintTop_toBottomOf="@+id/albumArt"
             app:layout_constraintVertical_bias="0.0" />
 
         <com.example.monilandharia.musicplayer.customViews.RalewayTextView
-            android:id="@+id/songArtist"
+            android:id="@+id/genreSongCount"
             android:layout_width="112dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
             android:layout_marginEnd="8dp"
             android:layout_marginTop="4dp"
             android:singleLine="true"
-            android:text="Artist name"
+            android:text="15 songs"
             android:textColor="@color/colorAccent"
             android:textSize="12dp"
             app:customFont="fonts/Raleway-Regular.ttf"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/songName"
+            app:layout_constraintEnd_toEndOf="@+id/genreName"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/songName"
-            app:layout_constraintTop_toBottomOf="@+id/songName"
+            app:layout_constraintStart_toStartOf="@+id/genreName"
+            app:layout_constraintTop_toBottomOf="@+id/genreName"
             app:layout_constraintVertical_bias="0.0" />
 
 

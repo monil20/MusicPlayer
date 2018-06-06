@@ -13,28 +13,27 @@ import android.widget.Toast;
 
 import com.example.monilandharia.musicplayer.R;
 import com.example.monilandharia.musicplayer.models.SongInfo;
-import com.example.monilandharia.musicplayer.utilities.Utility;
 import com.ohoussein.playpause.PlayPauseView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
+public class RecentlyAddedAdapter extends RecyclerView.Adapter<RecentlyAddedAdapter.ViewHolder> {
     private ArrayList<SongInfo> songs;
     private Context context;
     private RecyclerItemClickListener listener;
 
-    public DataAdapter(Context context, ArrayList<SongInfo> songs, RecyclerItemClickListener listener) {
+    public RecentlyAddedAdapter(Context context, ArrayList<SongInfo> songs, RecyclerItemClickListener listener) {
         this.context = context;
         this.songs = songs;
         this.listener = listener;
     }
 
     @Override
-    public DataAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public RecentlyAddedAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view;
-        if (i == R.layout.item_viewpager) {
-            view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_viewpager, viewGroup, false);
+        if (i == R.layout.item_track) {
+            view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_track, viewGroup, false);
             return new ViewHolder(view);
         } else {
             view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_seemore, viewGroup, false);
@@ -84,9 +83,9 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
         //        TextView sdur;
         public ViewHolder(View view) {
             super(view);
-            sname = view.findViewById(R.id.songName);
+            sname = view.findViewById(R.id.genreName);
             sname.setSelected(true);
-            simg = view.findViewById(R.id.songArt);
+            simg = view.findViewById(R.id.albumArt);
             sartist = view.findViewById(R.id.songArtist);
             playPauseView = view.findViewById(R.id.songPlayPause);
             playPauseView.bringToFront();
@@ -111,7 +110,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        return (position == songs.size()) ? R.layout.layout_seemore : R.layout.item_viewpager;
+        return (position == songs.size()) ? R.layout.layout_seemore : R.layout.item_track;
     }
 
     public Uri getAlbumArtUri(long param) {
