@@ -1,70 +1,56 @@
 package com.example.monilandharia.musicplayer.models;
 
-import java.util.ArrayList;
-
 public class AlbumInfo {
-//    private long albumId;
-    private String album;
-    private String albumArtist;
-    private String albumKey;
+    private final long artistId;
+    private String artistName;
+    private final long id;
+    private final int songCount;
+    private final String title;
+    private final int year;
 
-    private String albumArt;
-
-    private int albumSongsCount;
-    public AlbumInfo(String albumArt, String album, String albumArtist, String albumKey, int albumSongsCount) {
-        this.albumArt = albumArt;
-//        this.albumId = albumId;
-        this.album = album;
-        this.albumArtist = albumArtist;
-        this.albumKey = albumKey;
-        this.albumSongsCount = albumSongsCount;
+    public AlbumInfo() {
+        this.id = -1;
+        this.title = "";
+        this.artistName = "";
+        this.artistId = -1;
+        this.songCount = -1;
+        this.year = -1;
     }
 
-    public String getAlbumArt() {
-        return albumArt;
+    public AlbumInfo(long id, String title, String artistName, long artistId, int songCount, int year) {
+        this.id = id;
+        this.title = title;
+        this.artistName = artistName;
+        this.artistId = artistId;
+        this.songCount = songCount;
+        this.year = year;
     }
 
-    public void setAlbumArt(String albumArt) {
-        this.albumArt = albumArt;
+    public long getArtistId() {
+        return artistId;
     }
 
-//    public int getAlbumId() {
-//        return albumId;
-//    }
-//
-//    public void setAlbumId(int albumId) {
-//        this.albumId = albumId;
-//    }
-
-    public String getAlbum() {
-        return album;
+    public String getArtistName() {
+        return artistName;
     }
 
-    public void setAlbum(String album) {
-        this.album = album;
+    public void setArtistName(String artistName) {
+        this.artistName = artistName;
     }
 
-    public String getAlbumArtist() {
-        return albumArtist;
+    public long getId() {
+        return id;
     }
 
-    public void setAlbumArtist(String albumArtist) {
-        this.albumArtist = albumArtist;
+    public int getSongCount() {
+        return songCount;
     }
 
-    public String getAlbumKey() {
-        return albumKey;
+    public String getTitle() {
+        return title;
     }
 
-    public void setAlbumKey(String albumKey) {
-        this.albumKey = albumKey;
-    }
-
-    public int getAlbumSongsCount() {
-        return albumSongsCount;
-    }
-
-    public void setAlbumSongsCount(int albumSongsCount) {
-        this.albumSongsCount = albumSongsCount;
+    public int getYear() {
+        return year;
     }
 }

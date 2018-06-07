@@ -47,12 +47,12 @@ public class HomeFragment extends Fragment {
     };
 
     String[] albumProjection = {
-            MediaStore.Audio.Albums._ID,
-            MediaStore.Audio.Albums.ALBUM_ART,
-            MediaStore.Audio.Albums.ALBUM,
-            MediaStore.Audio.Albums.ARTIST,
-            MediaStore.Audio.Albums.NUMBER_OF_SONGS,
-            MediaStore.Audio.Albums.ALBUM_KEY
+            "_id",
+            "album",
+            "artist",
+            "artist_id",
+            "numsongs",
+            "minyear"
     };
 
     String[] artistProjection = {
@@ -76,7 +76,7 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         initView();
-        hello();
+//        hello2();
         initializeRecentlyAdded(view);
         initializeAlbums(view);
         initializeArtists(view);
@@ -96,22 +96,26 @@ public class HomeFragment extends Fragment {
         if (genrecursor.moveToFirst()) {
             do {
                 index = genrecursor.getColumnIndexOrThrow(MediaStore.Audio.Genres.NAME);
-//                Log.i("GENRENAME", genrecursor.getString(index));
+                Log.i("GENRENAME", genrecursor.getString(index));
 
                 index = genrecursor.getColumnIndexOrThrow(MediaStore.Audio.Genres._ID);
                 genreId = Long.parseLong(genrecursor.getString(index));
                 uri = MediaStore.Audio.Genres.Members.getContentUri("external", genreId);
 
                 tempcursor = getContext().getContentResolver().query(uri, proj2, null,null,null);
-//                Log.i("NUMBERGENRE", tempcursor.getCount() + "");
+                Log.i("NUMBERGENRE", tempcursor.getCount() + "");
                 if (tempcursor.moveToFirst()) {
                     do {
                         index = tempcursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DISPLAY_NAME);
-//                        Log.i("Tag-Song name", tempcursor.getString(index));
+                        Log.i("Tag-Song name", tempcursor.getString(index));
                     } while(tempcursor.moveToNext());
                 }
             } while(genrecursor.moveToNext());
         }
+    }
+
+    private void hello2(){
+
     }
 
     private void initView() {
@@ -164,7 +168,7 @@ public class HomeFragment extends Fragment {
         albums = prepareAlbums();
         adapterAlbums = new AlbumsAdapter(getActivity().getApplicationContext(), albums, new AlbumsAdapter.RecyclerItemClickListener() {
             @Override
-            public void onClickListener(AlbumInfo album, int position) {
+            public void onClickListener(AlbumInfo albumInfo, int position) {
 
             }
         });
@@ -259,31 +263,45 @@ public class HomeFragment extends Fragment {
     }
 
     private ArrayList prepareAlbums() {
-        Log.v("HERE!","I'm Here");
-        int count = 0;
-        albums = new ArrayList();
-        ArrayList temp = new ArrayList();
-        if (albumCursor.moveToFirst()) {
-            do {
-                try {
+//        Log.v("HERE!","I'm Here");
+//        int count = 0;
+//        albums = new ArrayList();
+//        ArrayList temp = new ArrayList();
+//        if (albumCursor.moveToFirst()) {
+//            do {
+//                try {
 //                    long albumId = albumCursor.getLong(albumCursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID));
-                    String albumName = albumCursor.getString(albumCursor.getColumnIndex(MediaStore.Audio.Albums.ALBUM));
-                    String albumArt = albumCursor.getString(albumCursor.getColumnIndex(MediaStore.Audio.Albums.ALBUM_ART));
-                    String albumKey = albumCursor.getString(albumCursor.getColumnIndex(MediaStore.Audio.Albums.ALBUM_KEY));
-                    String albumArtist = albumCursor.getString(albumCursor.getColumnIndex(MediaStore.Audio.Albums.ARTIST));
-                    int albumSongCount = albumCursor.getInt(albumCursor.getColumnIndex(MediaStore.Audio.Albums.NUMBER_OF_SONGS));
-                    AlbumInfo albumInfo = new AlbumInfo(albumArt, albumName, albumArtist, albumKey, albumSongCount);
-                    albums.add(albumInfo);
-                    if (count++ < 6) {
-                        temp.add(albumInfo);
-                    }
-                } catch (NumberFormatException e) {
-                    e.printStackTrace();
-                }
-            } while (albumCursor.moveToNext());
-        }
-        Toast.makeText(getActivity().getApplicationContext(), albums.size() + "", Toast.LENGTH_SHORT).show();
-        return temp;
+//                    String albumName = albumCursor.getString(albumCursor.getColumnIndex(MediaStore.Audio.Albums.ALBUM));
+//                    String albumArt = albumCursor.getString(albumCursor.getColumnIndex(MediaStore.Audio.Albums.ALBUM_ART));
+//                    String albumKey = albumCursor.getString(albumCursor.getColumnIndex(MediaStore.Audio.Albums.ALBUM_KEY));
+//                    String albumArtist = albumCursor.getString(albumCursor.getColumnIndex(MediaStore.Audio.Albums.ARTIST));
+//                    int albumSongCount = albumCursor.getInt(albumCursor.getColumnIndex(MediaStore.Audio.Albums.NUMBER_OF_SONGS));
+//                    AlbumInfo albumInfo = new AlbumInfo(albumArt, albumName, albumArtist, albumKey, albumSongCount);
+//                    albums.add(albumInfo);
+//                    if (count++ < 6) {
+//                        temp.add(albumInfo);
+//                    }
+//                } catch (NumberFormatException e) {
+//                    e.printStackTrace();
+//                }
+//            } while (albumCursor.moveToNext());
+//        }
+//        Toast.makeText(getActivity().getApplicationContext(), albums.size() + "", Toast.LENGTH_SHORT).show();
+//
+//
+//
+//        return temp;
+
+        ArrayList albums = new ArrayList();
+        if ((albumCursor != null) && (albumCursor.moveToFirst()))
+            do {
+                albums.add(new AlbumInfo(albumCursor.getLong(0), albumCursor.getString(1), albumCursor.getString(2), albumCursor.getLong(3), albumCursor.getInt(4), albumCursor.getInt(5)));
+            }
+            while (albumCursor.moveToNext());
+        if (albumCursor != null)
+            albumCursor.close();
+        return albums;
+
     }
 
 }

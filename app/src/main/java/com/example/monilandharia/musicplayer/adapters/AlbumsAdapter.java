@@ -3,7 +3,6 @@ package com.example.monilandharia.musicplayer.adapters;
 import android.content.ContentUris;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.widget.RecyclerView;
@@ -17,18 +16,19 @@ import android.widget.Toast;
 import com.example.monilandharia.musicplayer.R;
 import com.example.monilandharia.musicplayer.models.AlbumInfo;
 import com.ohoussein.playpause.PlayPauseView;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.ViewHolder> {
-    private ArrayList<AlbumInfo> albums;
+    private ArrayList<AlbumInfo> albumInfos;
     private Context context;
     private RecyclerItemClickListener listener;
 
-    public AlbumsAdapter(Context context, ArrayList<AlbumInfo> albums, RecyclerItemClickListener listener) {
+    public AlbumsAdapter(Context context, ArrayList<AlbumInfo> albumInfos, RecyclerItemClickListener listener) {
         this.context = context;
-        this.albums = albums;
+        this.albumInfos = albumInfos;
         this.listener = listener;
     }
 
@@ -48,25 +48,29 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.ViewHolder
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
 
-        if (i == albums.size()) {
+        if (i == albumInfos.size()) {
             viewHolder.seemore.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context, "See more albums", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "See more albumInfos", Toast.LENGTH_LONG).show();
                 }
             });
         } else {
-            AlbumInfo album = albums.get(i);
-            if (album != null) {
-                viewHolder.tvAlbum.setText(album.getAlbum());
-                viewHolder.tvSongCount.setText(album.getAlbumSongsCount() + " songs");
-//                Uri albumArtUri = getAlbumArtUri(album.getAlbumId());
+            AlbumInfo albumInfo = albumInfos.get(i);
+            if (albumInfo != null) {
+                viewHolder.tvAlbum.setText(albumInfo.getTitle());
+                int songCount = albumInfo.getSongCount();
+                String s = songCount>1?" songs":" song";
+                viewHolder.tvSongCount.setText(songCount+s);
+                Uri albumArtUri = getAlbumArtUri(albumInfo.getId());
 //                String datatoplay = s.getData();
-//                Picasso.with(context).load(album.getAlbumArt()).placeholder(R.mipmap.ic_launcher).into(viewHolder.ivAlbumArt);
-                viewHolder.ivAlbumArt.setImageBitmap(BitmapFactory.decodeFile(album.getAlbumArt()));
+                Picasso.with(context).load(albumArtUri.toString()).placeholder(R.mipmap.ic_launcher).into(viewHolder.ivAlbumArt);
+
+//                Picasso.with(context).load(albumInfo.getAlbumArt()).placeholder(R.mipmap.ic_launcher).into(viewHolder.ivAlbumArt);
+//                viewHolder.ivAlbumArt.setImageBitmap(BitmapFactory.decodeFile(albumInfo.getAlbumArt()));
             }
 
-            viewHolder.bind(album, listener);
+            viewHolder.bind(albumInfo, listener);
         }
 
 
@@ -74,7 +78,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.ViewHolder
 
     @Override
     public int getItemCount() {
-        return albums.size() + 1;
+        return albumInfos.size() + 1;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -110,7 +114,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.ViewHolder
 
     @Override
     public int getItemViewType(int position) {
-        return (position == albums.size()) ? R.layout.layout_seemore : R.layout.item_album;
+        return (position == albumInfos.size()) ? R.layout.layout_seemore : R.layout.item_album;
     }
 
     public Uri getAlbumArtUri(long param) {
@@ -118,7 +122,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.ViewHolder
     }
 
     public interface RecyclerItemClickListener {
-        void onClickListener(AlbumInfo album, int position);
+        void onClickListener(AlbumInfo albumInfo, int position);
     }
 
     public Uri getImageUri(Context inContext, Bitmap inImage) {
