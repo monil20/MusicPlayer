@@ -10,34 +10,24 @@ import android.util.Log;
 import com.example.monilandharia.musicplayer.R;
 
 public class RalewayTextView extends AppCompatTextView{
-    private static final String TAG = "TextView";
-    public RalewayTextView(Context context){
-        super(context);
-    }
-    public RalewayTextView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        setCustomFont(context, attrs);
-    }
     public RalewayTextView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        setCustomFont(context, attrs);
     }
-    private void setCustomFont(Context ctx, AttributeSet attrs) {
-        TypedArray a = ctx.obtainStyledAttributes(attrs, R.styleable.RalewayTextView);
-        String customFont = a.getString(R.styleable.RalewayTextView_customFont);
-        setCustomFont(ctx, customFont);
-        a.recycle();
-    }
-    public boolean setCustomFont(Context ctx, String asset) {
-        Typeface typeface = null;
-        try {
-            typeface = Typeface.createFromAsset(ctx.getAssets(), asset);
-        } catch (Exception e) {
-            Log.e(TAG, "Unable to load typeface: "+e.getMessage());
-            return false;
-        }
 
-        setTypeface(typeface);
-        return true;
+    public RalewayTextView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+    public RalewayTextView(Context context) {
+        super(context);
+    }
+
+
+    public void setTypeface(Typeface tf, int style) {
+        if (style == Typeface.BOLD) {
+            super.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/Raleway-Bold.ttf")/*, -1*/);
+        } else {
+            super.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/Raleway-Regular.ttf")/*, -1*/);
+        }
     }
 }

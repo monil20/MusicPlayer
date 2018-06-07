@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,15 +7,13 @@
     android:orientation="horizontal">
 
     <android.support.v7.widget.CardView
-        android:id="@+id/card_view"
+        android:id="@+id/songCardView"
         android:layout_width="fill_parent"
         android:layout_height="125dp"
         android:layout_gravity="center"
         android:layout_margin="5dp"
-        android:background="@android:color/white"
-        card_view:cardBackgroundColor="@color/colorPrimary"
-        card_view:cardCornerRadius="2dp"
-        card_view:contentPadding="10dp">
+        app:cardCornerRadius="2dp"
+        app:contentPadding="10dp">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -24,21 +21,21 @@
             android:orientation="horizontal">
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/imageView_issue"
+                android:id="@+id/songImage"
                 android:layout_width="74dp"
                 android:layout_height="69dp"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                card_view:layout_constraintBottom_toBottomOf="parent"
-                card_view:layout_constraintEnd_toEndOf="parent"
-                card_view:layout_constraintHorizontal_bias="0.03"
-                card_view:layout_constraintStart_toStartOf="parent"
-                card_view:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.03"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <com.example.monilandharia.musicplayer.customViews.RalewayTextView
-                android:id="@+id/textView_title"
+                android:id="@+id/songTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
@@ -46,31 +43,43 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:text="Title"
-                android:textColor="@android:color/white"
-
                 android:textSize="20dp"
-                card_view:layout_constraintBottom_toBottomOf="parent"
-                card_view:layout_constraintEnd_toEndOf="parent"
-                card_view:layout_constraintHorizontal_bias="0.097"
-                card_view:layout_constraintStart_toEndOf="@+id/imageView_issue"
-                card_view:layout_constraintTop_toTopOf="parent"
-                card_view:layout_constraintVertical_bias="0.15" />
+                app:customFont="fonts/Raleway-Regular.ttf"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.097"
+                app:layout_constraintStart_toEndOf="@+id/songImage"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.15" />
 
-            <TextView
-                android:id="@+id/textView"
+            <com.example.monilandharia.musicplayer.customViews.RalewayTextView
+                android:id="@+id/songArtistDuration"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:text="Artist \u2022 02:20"
-                android:textColor="@android:color/white"
-                card_view:layout_constraintBottom_toBottomOf="parent"
-                card_view:layout_constraintEnd_toEndOf="parent"
-                card_view:layout_constraintHorizontal_bias="0.154"
-                card_view:layout_constraintStart_toEndOf="@+id/imageView_issue"
-                card_view:layout_constraintTop_toBottomOf="@+id/textView_title"
-                card_view:layout_constraintVertical_bias="0.0" />
+                app:customFont="fonts/Raleway-Regular.ttf"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.154"
+                app:layout_constraintStart_toEndOf="@+id/songImage"
+                app:layout_constraintTop_toBottomOf="@+id/songTitle"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <es.claucookie.miniequalizerlibrary.EqualizerView
+                android:id="@+id/songEqualizer"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="8dp"
+                app:animDuration="2000"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.491" />
 
         </android.support.constraint.ConstraintLayout>
 

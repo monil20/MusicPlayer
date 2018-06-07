@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.example.monilandharia.musicplayer.R;
 import com.example.monilandharia.musicplayer.models.ArtistInfo;
 import com.ohoussein.playpause.PlayPauseView;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -59,10 +60,16 @@ public class ArtistsAdapter extends RecyclerView.Adapter<ArtistsAdapter.ViewHold
             if (artist != null) {
                 viewHolder.tvArtist.setText(artist.getArtistName());
                 viewHolder.tvArtistStats.setText(artist.getAlbumsCount() + " albums, "+artist.getTracksCount()+" songs");
-//                Uri albumArtUri = getAlbumArtUri(album.getAlbumId());
-//                String datatoplay = s.getData();
+                Uri albumArtUris[] = new Uri[4];
+                for(int n=0;n<4;n++)
+                {
+                    albumArtUris[n] = getAlbumArtUri(artist.getSongIds()[n]);
+                }
+                Picasso.with(context).load(albumArtUris[0]).placeholder(R.mipmap.ic_launcher).into(viewHolder.ivAlbumArt1);
+                Picasso.with(context).load(albumArtUris[1]).placeholder(R.mipmap.ic_launcher).into(viewHolder.ivAlbumArt2);
+                Picasso.with(context).load(albumArtUris[2]).placeholder(R.mipmap.ic_launcher).into(viewHolder.ivAlbumArt3);
+                Picasso.with(context).load(albumArtUris[3]).placeholder(R.mipmap.ic_launcher).into(viewHolder.ivAlbumArt4);
 //                Picasso.with(context).load(album.getAlbumArt()).placeholder(R.mipmap.ic_launcher).into(viewHolder.ivAlbumArt);
-//                viewHolder.ivAlbumArt.setImageBitmap(BitmapFactory.decodeFile(artist.getAlbumArt()));
             }
 
             viewHolder.bind(artist, listener);

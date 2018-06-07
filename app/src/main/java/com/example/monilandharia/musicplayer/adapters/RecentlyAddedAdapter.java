@@ -32,8 +32,8 @@ public class RecentlyAddedAdapter extends RecyclerView.Adapter<RecentlyAddedAdap
     @Override
     public RecentlyAddedAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view;
-        if (i == R.layout.item_track) {
-            view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_track, viewGroup, false);
+        if (i == R.layout.item_recently_added) {
+            view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_recently_added, viewGroup, false);
             return new ViewHolder(view);
         } else {
             view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_seemore, viewGroup, false);
@@ -110,7 +110,7 @@ public class RecentlyAddedAdapter extends RecyclerView.Adapter<RecentlyAddedAdap
 
     @Override
     public int getItemViewType(int position) {
-        return (position == songs.size()) ? R.layout.layout_seemore : R.layout.item_track;
+        return (position == songs.size()) ? R.layout.layout_seemore : R.layout.item_recently_added;
     }
 
     public Uri getAlbumArtUri(long param) {
