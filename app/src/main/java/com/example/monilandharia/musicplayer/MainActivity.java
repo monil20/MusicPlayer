@@ -40,6 +40,9 @@ public class MainActivity extends AppCompatActivity {
     private SeekBar seekBar;
     private SlidingUpPanelLayout slidingLayout;
     private RelativeLayout relativeLayout;
+    private Fragment fraggy, fraggy2, fraggy3, fraggy4;
+    private FragmentManager fragmentManager;
+    private FragmentTransaction fragmentTransaction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,12 +66,22 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigation.setTitleState(AHBottomNavigation.TitleState.SHOW_WHEN_ACTIVE);
         bottomNavigation.setCurrentItem(0);
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
 
-        Fragment fraggy = new HomeFragment();
+        fraggy = new HomeFragment();
+        fraggy2 = new MeFragment();
+        fraggy3 = new CloudFragment();
+        fraggy4 = new SearchFragment();
         fragmentTransaction.add(R.id.fragment_home, fraggy);
+        fragmentTransaction.add(R.id.fragment_home, fraggy2);
+        fragmentTransaction.add(R.id.fragment_home, fraggy3);
+        fragmentTransaction.add(R.id.fragment_home, fraggy4);
+        fragmentTransaction.hide(fraggy2);
+        fragmentTransaction.hide(fraggy3);
+        fragmentTransaction.hide(fraggy4);
         fragmentTransaction.commit();
+
 
         bottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
             @Override
@@ -76,41 +89,50 @@ public class MainActivity extends AppCompatActivity {
                 switch (position) {
                     case 0: {
                         if (!wasSelected) {
-                            Fragment fragment = new HomeFragment();
+//                            Fragment fragment = new HomeFragment();
                             FragmentManager fragmentManager = getSupportFragmentManager();
-                            fragmentManager.beginTransaction()
-                                    .replace(R.id.fragment_home, fragment)
-                                    .commit();
+                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                            fragmentTransaction.show(fraggy);
+                            fragmentTransaction.hide(fraggy2);
+                            fragmentTransaction.hide(fraggy3);
+                            fragmentTransaction.hide(fraggy4);
+                            fragmentTransaction.commit();
                         }
                         break;
                     }
                     case 1: {
                         if (!wasSelected) {
-                            Fragment fragment = new MeFragment();
                             FragmentManager fragmentManager = getSupportFragmentManager();
-                            fragmentManager.beginTransaction()
-                                    .replace(R.id.fragment_home, fragment)
-                                    .commit();
+                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                            fragmentTransaction.show(fraggy2);
+                            fragmentTransaction.hide(fraggy);
+                            fragmentTransaction.hide(fraggy3);
+                            fragmentTransaction.hide(fraggy4);
+                            fragmentTransaction.commit();
                         }
                         break;
                     }
                     case 2: {
                         if (!wasSelected) {
-                            Fragment fragment = new CloudFragment();
                             FragmentManager fragmentManager = getSupportFragmentManager();
-                            fragmentManager.beginTransaction()
-                                    .replace(R.id.fragment_home, fragment)
-                                    .commit();
+                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                            fragmentTransaction.show(fraggy3);
+                            fragmentTransaction.hide(fraggy);
+                            fragmentTransaction.hide(fraggy2);
+                            fragmentTransaction.hide(fraggy4);
+                            fragmentTransaction.commit();
                         }
                         break;
                     }
                     case 3: {
                         if (!wasSelected) {
-                            Fragment fragment = new SearchFragment();
                             FragmentManager fragmentManager = getSupportFragmentManager();
-                            fragmentManager.beginTransaction()
-                                    .replace(R.id.fragment_home, fragment)
-                                    .commit();
+                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                            fragmentTransaction.show(fraggy4);
+                            fragmentTransaction.hide(fraggy);
+                            fragmentTransaction.hide(fraggy2);
+                            fragmentTransaction.hide(fraggy3);
+                            fragmentTransaction.commit();
                         }
                         break;
                     }
