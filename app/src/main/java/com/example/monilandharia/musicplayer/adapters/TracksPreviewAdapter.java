@@ -65,7 +65,7 @@ public class TracksPreviewAdapter extends RecyclerView.Adapter<TracksPreviewAdap
 //            viewHolder.sdur.setText(Utility.getTime(s.getSong_duration()));
                 Uri albart = getAlbumArtUri(s.getAlbum_id());
                 String datatoplay = s.getData();
-                Picasso.with(context).load(albart.toString()).placeholder(R.mipmap.ic_launcher).into(viewHolder.simg);
+                Picasso.with(context).load(albart.toString()).placeholder(R.drawable.placeholder1).into(viewHolder.simg);
             }
 
             viewHolder.bind(s, listener);
