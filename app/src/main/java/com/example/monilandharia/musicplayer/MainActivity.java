@@ -82,12 +82,14 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.hide(fraggy4);
         fragmentTransaction.commit();
 
+
         bottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
             @Override
             public boolean onTabSelected(int position, boolean wasSelected) {
                 switch (position) {
                     case 0: {
                         if (!wasSelected) {
+//                            Fragment fragment = new HomeFragment();
                             FragmentManager fragmentManager = getSupportFragmentManager();
                             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                             fragmentTransaction.show(fraggy);
@@ -115,8 +117,8 @@ public class MainActivity extends AppCompatActivity {
                             FragmentManager fragmentManager = getSupportFragmentManager();
                             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                             fragmentTransaction.show(fraggy3);
-                            fragmentTransaction.hide(fraggy2);
                             fragmentTransaction.hide(fraggy);
+                            fragmentTransaction.hide(fraggy2);
                             fragmentTransaction.hide(fraggy4);
                             fragmentTransaction.commit();
                         }
@@ -127,9 +129,9 @@ public class MainActivity extends AppCompatActivity {
                             FragmentManager fragmentManager = getSupportFragmentManager();
                             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                             fragmentTransaction.show(fraggy4);
+                            fragmentTransaction.hide(fraggy);
                             fragmentTransaction.hide(fraggy2);
                             fragmentTransaction.hide(fraggy3);
-                            fragmentTransaction.hide(fraggy);
                             fragmentTransaction.commit();
                         }
                         break;
