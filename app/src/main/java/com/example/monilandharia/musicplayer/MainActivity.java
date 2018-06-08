@@ -90,7 +90,6 @@ public class MainActivity extends AppCompatActivity {
                 switch (position) {
                     case 0: {
                         if (!wasSelected) {
-                            Fragment fragment = new HomeFragment();
                             FragmentManager fragmentManager = getSupportFragmentManager();
                             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                             fragmentTransaction.show(fraggy);

@@ -48,16 +48,16 @@ public class TracksPreviewAdapter extends RecyclerView.Adapter<TracksPreviewAdap
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
 
-        if(i == songs.size()){
+        if (i == songs.size()) {
             viewHolder.seemore.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.fragment_home,new TracksFragment());
+                    fragmentTransaction.replace(R.id.fragment_home, new TracksFragment());
                     fragmentTransaction.commit();
                 }
             });
-        }else{
+        } else {
             SongInfo s = songs.get(i);
             if (s != null) {
                 viewHolder.sname.setText(s.getSong_name());
@@ -76,7 +76,7 @@ public class TracksPreviewAdapter extends RecyclerView.Adapter<TracksPreviewAdap
 
     @Override
     public int getItemCount() {
-        return songs.size()+1;
+        return songs.size() + 1;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
