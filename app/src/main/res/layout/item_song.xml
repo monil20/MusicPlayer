@@ -3,86 +3,93 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="125dp"
+    android:layout_height="70dp"
     android:orientation="horizontal">
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/songCardView"
+
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:layout_margin="5dp"
-        app:cardCornerRadius="2dp"
-        app:contentPadding="10dp">
+        android:orientation="horizontal">
 
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/songImage"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.03"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/songImage"
-                android:layout_width="74dp"
-                android:layout_height="69dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.03"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <com.example.monilandharia.musicplayer.customViews.RalewayTextView
+            android:id="@+id/songTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:maxLines="1"
+            android:text="Title"
+            android:textColor="@android:color/black"
+            android:textSize="14dp"
+            android:ellipsize="end"
+            android:maxEms="16"
+            app:customFont="fonts/Raleway-Regular.ttf"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/songEqualizer"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/songImage"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.292" />
 
-            <com.example.monilandharia.musicplayer.customViews.RalewayTextView
-                android:id="@+id/songTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
-                android:maxLines="1"
-                android:text="Title"
-                android:textSize="20dp"
-                app:customFont="fonts/Raleway-Regular.ttf"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/songEqualizer"
-                app:layout_constraintHorizontal_bias="0.154"
-                app:layout_constraintStart_toEndOf="@+id/songImage"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0" />
+        <com.example.monilandharia.musicplayer.customViews.RalewayTextView
+            android:id="@+id/songArtist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Artist Name"
+            android:textSize="12dp"
+            android:maxEms="12"
+            app:customFont="fonts/Raleway-Regular.ttf"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/songEqualizer"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/songTitle"
+            app:layout_constraintTop_toBottomOf="@+id/songTitle"
+            app:layout_constraintVertical_bias="0.333" />
 
-            <com.example.monilandharia.musicplayer.customViews.RalewayTextView
-                android:id="@+id/songArtistDuration"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="8dp"
-                android:text="Artist \u2022 02:20"
-                app:customFont="fonts/Raleway-Regular.ttf"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/songEqualizer"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/songTitle"
-                app:layout_constraintTop_toBottomOf="@+id/songTitle"
-                app:layout_constraintVertical_bias="0.68" />
+        <es.claucookie.miniequalizerlibrary.EqualizerView
+            android:id="@+id/songEqualizer"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="8dp"
+            app:animDuration="2000"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.491" />
 
-            <es.claucookie.miniequalizerlibrary.EqualizerView
-                android:id="@+id/songEqualizer"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginTop="8dp"
-                app:animDuration="2000"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.491" />
+        <com.example.monilandharia.musicplayer.customViews.RalewayTextView
+            android:id="@+id/songDuration"
+            android:layout_width="38dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="\u2022 02:20"
+            android:textSize="12dp"
+            app:customFont="fonts/Raleway-Regular.ttf"
+            app:layout_constraintBottom_toBottomOf="@+id/songArtist"
+            app:layout_constraintStart_toEndOf="@+id/songArtist"
+            app:layout_constraintTop_toTopOf="@+id/songArtist"
+            app:layout_constraintVertical_bias="1.0" />
 
-        </android.support.constraint.ConstraintLayout>
+    </android.support.constraint.ConstraintLayout>
 
-    </android.support.v7.widget.CardView>
 
 </LinearLayout>

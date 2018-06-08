@@ -43,10 +43,11 @@ public class TracksAdapter extends RecyclerView.Adapter<TracksAdapter.ViewHolder
         SongInfo s = songs.get(i);
         if(s!=null) {
             viewHolder.sname.setText(s.getSong_name());
-            viewHolder.sartistdur.setText(s.getSong_artist()+" \u2022 "+Utility.getTime(s.getSong_duration()));
+            viewHolder.sartist.setText(s.getSong_artist()+" ");
+            viewHolder.sdur.setText("\u2022 "+Utility.getTime(s.getSong_duration()));
             Uri albart = getAlbumArtUri(s.getAlbum_id());
             String datatoplay = s.getData();
-            Picasso.with(context).load(albart.toString()).placeholder(R.drawable.placeholder).into(viewHolder.simg);
+            Picasso.with(context).load(albart.toString()).placeholder(R.drawable.placeholder1).into(viewHolder.simg);
         }
 
         viewHolder.bind(s,listener);
@@ -55,14 +56,15 @@ public class TracksAdapter extends RecyclerView.Adapter<TracksAdapter.ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder{
         TextView sname;
         ImageView simg;
-        TextView sartistdur;
+        TextView sartist, sdur;
         EqualizerView equalizerView;
         public ViewHolder(View view)
         {
             super(view);
             sname = view.findViewById(R.id.songTitle);
             simg = view.findViewById(R.id.songImage);
-            sartistdur = view.findViewById(R.id.songArtistDuration);
+            sartist = view.findViewById(R.id.songArtist);
+            sdur = view.findViewById(R.id.songDuration);
             equalizerView = view.findViewById(R.id.songEqualizer);
         }
 

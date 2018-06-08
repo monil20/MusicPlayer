@@ -66,7 +66,7 @@ public class AlbumsPreviewAdapter extends RecyclerView.Adapter<AlbumsPreviewAdap
 //                String datatoplay = s.getData();
                 Picasso.with(context).load(albumArtUri.toString()).placeholder(R.mipmap.ic_launcher).into(viewHolder.ivAlbumArt);
 
-//                Picasso.with(context).load(albumInfo.getAlbumArt()).placeholder(R.mipmap.ic_launcher).into(viewHolder.ivAlbumArt);
+//                Picasso.with(context).load(albumInfo.getAlbumArt()).placeholder1(R.mipmap.ic_launcher).into(viewHolder.ivAlbumArt);
 //                viewHolder.ivAlbumArt.setImageBitmap(BitmapFactory.decodeFile(albumInfo.getAlbumArt()));
             }
 

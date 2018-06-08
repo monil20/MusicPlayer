@@ -69,7 +69,7 @@ public class ArtistsPreviewAdapter extends RecyclerView.Adapter<ArtistsPreviewAd
                 Picasso.with(context).load(albumArtUris[1]).placeholder(R.mipmap.ic_launcher).into(viewHolder.ivAlbumArt2);
                 Picasso.with(context).load(albumArtUris[2]).placeholder(R.mipmap.ic_launcher).into(viewHolder.ivAlbumArt3);
                 Picasso.with(context).load(albumArtUris[3]).placeholder(R.mipmap.ic_launcher).into(viewHolder.ivAlbumArt4);
-//                Picasso.with(context).load(album.getAlbumArt()).placeholder(R.mipmap.ic_launcher).into(viewHolder.ivAlbumArt);
+//                Picasso.with(context).load(album.getAlbumArt()).placeholder1(R.mipmap.ic_launcher).into(viewHolder.ivAlbumArt);
             }
 
             viewHolder.bind(artist, listener);
