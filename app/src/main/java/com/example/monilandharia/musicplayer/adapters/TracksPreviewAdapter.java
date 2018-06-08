@@ -3,34 +3,37 @@ package com.example.monilandharia.musicplayer.adapters;
 import android.content.ContentUris;
 import android.content.Context;
 import android.net.Uri;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.monilandharia.musicplayer.R;
+import com.example.monilandharia.musicplayer.TracksFragment;
 import com.example.monilandharia.musicplayer.models.SongInfo;
 import com.ohoussein.playpause.PlayPauseView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class RecentlyAddedAdapter extends RecyclerView.Adapter<RecentlyAddedAdapter.ViewHolder> {
+public class TracksPreviewAdapter extends RecyclerView.Adapter<TracksPreviewAdapter.ViewHolder> {
     private ArrayList<SongInfo> songs;
     private Context context;
     private RecyclerItemClickListener listener;
+    private android.support.v4.app.FragmentManager fragmentManager;
 
-    public RecentlyAddedAdapter(Context context, ArrayList<SongInfo> songs, RecyclerItemClickListener listener) {
+    public TracksPreviewAdapter(Context context, ArrayList<SongInfo> songs, RecyclerItemClickListener listener, android.support.v4.app.FragmentManager fragmentManager) {
         this.context = context;
         this.songs = songs;
         this.listener = listener;
+        this.fragmentManager = fragmentManager;
     }
 
     @Override
-    public RecentlyAddedAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public TracksPreviewAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view;
         if (i == R.layout.item_recently_added) {
             view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_recently_added, viewGroup, false);
@@ -49,7 +52,9 @@ public class RecentlyAddedAdapter extends RecyclerView.Adapter<RecentlyAddedAdap
             viewHolder.seemore.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context, "Button Clicked", Toast.LENGTH_LONG).show();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.fragment_home,new TracksFragment());
+                    fragmentTransaction.commit();
                 }
             });
         }else{

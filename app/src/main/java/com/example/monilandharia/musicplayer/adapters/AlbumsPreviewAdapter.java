@@ -21,19 +21,19 @@ import com.squareup.picasso.Picasso;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
-public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.ViewHolder> {
+public class AlbumsPreviewAdapter extends RecyclerView.Adapter<AlbumsPreviewAdapter.ViewHolder> {
     private ArrayList<AlbumInfo> albumInfos;
     private Context context;
     private RecyclerItemClickListener listener;
 
-    public AlbumsAdapter(Context context, ArrayList<AlbumInfo> albumInfos, RecyclerItemClickListener listener) {
+    public AlbumsPreviewAdapter(Context context, ArrayList<AlbumInfo> albumInfos, RecyclerItemClickListener listener) {
         this.context = context;
         this.albumInfos = albumInfos;
         this.listener = listener;
     }
 
     @Override
-    public AlbumsAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public AlbumsPreviewAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view;
         if (i == R.layout.item_album) {
             view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_album, viewGroup, false);

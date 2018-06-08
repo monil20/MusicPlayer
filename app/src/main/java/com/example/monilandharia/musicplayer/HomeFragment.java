@@ -2,23 +2,19 @@ package com.example.monilandharia.musicplayer;
 
 import android.annotation.SuppressLint;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.example.monilandharia.musicplayer.adapters.AlbumsAdapter;
-import com.example.monilandharia.musicplayer.adapters.ArtistsAdapter;
-import com.example.monilandharia.musicplayer.adapters.RecentlyAddedAdapter;
+import com.example.monilandharia.musicplayer.adapters.AlbumsPreviewAdapter;
+import com.example.monilandharia.musicplayer.adapters.ArtistsPreviewAdapter;
+import com.example.monilandharia.musicplayer.adapters.TracksPreviewAdapter;
 import com.example.monilandharia.musicplayer.dataLoaders.AlbumLoader;
 import com.example.monilandharia.musicplayer.dataLoaders.ArtistLoader;
 import com.example.monilandharia.musicplayer.dataLoaders.TrackLoader;
@@ -32,17 +28,17 @@ import java.util.ArrayList;
 public class HomeFragment extends Fragment {
 
     private RecyclerView recyclerRecentlyAdded, recyclerArtists, recyclerAlbums, recyclerTracks, recyclerGenres;
-    private RecentlyAddedAdapter adapterRecentlyAdded;
-    private AlbumsAdapter adapterAlbums;
-    private ArtistsAdapter artistsAdapter;
+    private TracksPreviewAdapter adapterRecentlyAdded;
+    private AlbumsPreviewAdapter adapterAlbums;
+    private ArtistsPreviewAdapter artistsPreviewAdapter;
     private Cursor trackCursor, albumCursor, artistCursor, songsForArtistCursor;
     private ArrayList recentlyAdded, albums, tracks, genres, songs, artists;
     private RecyclerView.LayoutManager layoutManager, layoutManager1, layoutManager2;
-
 //    String[] genreProjection = {
 //            MediaStore.Audio.Genres._ID,
 //            MediaStore.Audio.Genres.NAME
 //    };
+
 
     @SuppressLint("DefaultLocale")
     @Nullable
@@ -117,7 +113,7 @@ public class HomeFragment extends Fragment {
         @Override
         protected String doInBackground(String... strings) {
             if (getActivity() != null)
-                adapterAlbums = new AlbumsAdapter(getActivity(), AlbumLoader.getAllAlbums(getActivity()), new AlbumsAdapter.RecyclerItemClickListener() {
+                adapterAlbums = new AlbumsPreviewAdapter(getActivity(), AlbumLoader.getAllAlbums(getActivity()), new AlbumsPreviewAdapter.RecyclerItemClickListener() {
                     @Override
                     public void onClickListener(AlbumInfo albumInfo, int position) {
 
@@ -137,7 +133,7 @@ public class HomeFragment extends Fragment {
         @Override
         protected String doInBackground(String... strings) {
             if (getActivity() != null)
-                artistsAdapter = new ArtistsAdapter(getActivity(), ArtistLoader.getAllArtists(getActivity().getApplicationContext()), new ArtistsAdapter.RecyclerItemClickListener(){
+                artistsPreviewAdapter = new ArtistsPreviewAdapter(getActivity(), ArtistLoader.getAllArtists(getActivity().getApplicationContext()), new ArtistsPreviewAdapter.RecyclerItemClickListener(){
                     @Override
                     public void onClickListener(ArtistInfo albumInfo, int position) {
 
@@ -147,8 +143,8 @@ public class HomeFragment extends Fragment {
 
         @Override
         protected void onPostExecute(String s) {
-            if(artistsAdapter!=null) {
-                recyclerArtists.setAdapter(artistsAdapter);
+            if(artistsPreviewAdapter !=null) {
+                recyclerArtists.setAdapter(artistsPreviewAdapter);
             }
         }
     }
@@ -157,12 +153,12 @@ public class HomeFragment extends Fragment {
         @Override
         protected String doInBackground(String... strings) {
             if (getActivity() != null)
-                adapterRecentlyAdded = new RecentlyAddedAdapter(getActivity(), TrackLoader.getAllTracks(getActivity().getApplicationContext()), new RecentlyAddedAdapter.RecyclerItemClickListener(){
+                adapterRecentlyAdded = new TracksPreviewAdapter(getActivity(), TrackLoader.getAllTracks(getActivity().getApplicationContext(),6), new TracksPreviewAdapter.RecyclerItemClickListener(){
                     @Override
                     public void onClickListener(SongInfo albumInfo, int position) {
 
                     }
-                });
+                }, getActivity().getSupportFragmentManager());
             return "Executed";        }
 
         @Override

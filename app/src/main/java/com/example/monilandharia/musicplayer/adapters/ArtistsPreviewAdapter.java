@@ -21,12 +21,12 @@ import com.squareup.picasso.Picasso;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
-public class ArtistsAdapter extends RecyclerView.Adapter<ArtistsAdapter.ViewHolder> {
+public class ArtistsPreviewAdapter extends RecyclerView.Adapter<ArtistsPreviewAdapter.ViewHolder> {
     private ArrayList<ArtistInfo> artists;
     private Context context;
     private RecyclerItemClickListener listener;
 
-    public ArtistsAdapter(Context context, ArrayList<ArtistInfo> artists, RecyclerItemClickListener listener) {
+    public ArtistsPreviewAdapter(Context context, ArrayList<ArtistInfo> artists, RecyclerItemClickListener listener) {
         this.context = context;
         this.artists = artists;
         this.listener = listener;
