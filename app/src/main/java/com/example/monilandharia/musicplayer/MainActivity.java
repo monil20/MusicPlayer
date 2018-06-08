@@ -67,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigation.setCurrentItem(0);
 
         fragmentManager = getSupportFragmentManager();
+
         fragmentTransaction = fragmentManager.beginTransaction();
 
         fraggy = new HomeFragment();
