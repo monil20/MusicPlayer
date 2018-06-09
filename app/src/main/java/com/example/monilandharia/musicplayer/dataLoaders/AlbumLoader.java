@@ -29,7 +29,7 @@ public class AlbumLoader {
     }
 
     public static Cursor makeAlbumCursor(Context context, String selection, String[] paramArrayOfString) {
-        Cursor cursor = context.getContentResolver().query(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI, new String[]{"_id", "album", "artist", "artist_id", "numsongs", "minyear"}, selection, paramArrayOfString, null);
+        Cursor cursor = context.getContentResolver().query(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI, new String[]{"_id", "album", "artist", "artist_id", "numsongs", "minyear"}, selection, paramArrayOfString, "album");
 
         return cursor;
     }

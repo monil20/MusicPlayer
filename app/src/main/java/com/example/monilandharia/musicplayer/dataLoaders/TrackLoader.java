@@ -54,7 +54,7 @@ public class TrackLoader {
                 MediaStore.Audio.Media.DATA,
                 MediaStore.Audio.Media.ALBUM,
         };
-        Cursor cursor = context.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, trackProjection, selection, paramArrayOfString, null);
+        Cursor cursor = context.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, trackProjection, selection, paramArrayOfString, MediaStore.Audio.Media.TITLE);
 
         return cursor;
     }

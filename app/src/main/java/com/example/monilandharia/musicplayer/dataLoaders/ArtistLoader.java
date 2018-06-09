@@ -47,7 +47,7 @@ public class ArtistLoader {
                 MediaStore.Audio.Artists.ARTIST,
                 MediaStore.Audio.Artists.ARTIST_KEY
         };
-        Cursor cursor = context.getContentResolver().query(MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI, artistProjection, selection, paramArrayOfString,null);
+        Cursor cursor = context.getContentResolver().query(MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI, artistProjection, selection, paramArrayOfString,MediaStore.Audio.Artists.ARTIST);
         return cursor;
     }
 
