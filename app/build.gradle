@@ -37,4 +37,5 @@ dependencies {
     implementation 'com.aurelhubert:ahbottomnavigation:2.1.0'
     implementation 'com.squareup.picasso:picasso:2.5.2'
     implementation 'com.github.claucookie.miniequalizer:library:1.0.0'
+    implementation 'com.karumi:dexter:4.2.0'
 }

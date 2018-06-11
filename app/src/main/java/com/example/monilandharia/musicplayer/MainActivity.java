@@ -1,6 +1,12 @@
 package com.example.monilandharia.musicplayer;
 
+import android.Manifest;
 import android.animation.ObjectAnimator;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
+import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -19,12 +25,24 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.app.AlertDialog.Builder;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.DexterError;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.PermissionRequestErrorListener;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.ohoussein.playpause.PlayPauseView;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState;
+
+import java.util.List;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private CardView cardView;
     private PlayPauseView playPauseView;
     private TextView trackName, album_artist, startTime, endTime;
-    //    private NowPlayingFragment nowPlayingFragment;
+    private NowPlayingFragment nowPlayingFragment;
     private float playPauseOriX, playPauseOriY, trackX, trackY, albumArtistX, albumArtistY, cardViewX, cardViewY, x, y, tempY, tempY1;
     private AHBottomNavigation bottomNavigation;
     private ImageView next, prev, repeat, shuffle;
@@ -47,10 +65,94 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestStorageAndMicroPhonePermissions();
+    }
+
+    private void requestStorageAndMicroPhonePermissions()
+    {
+        Dexter.withActivity(this)
+                .withPermissions(
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WAKE_LOCK,
+                        Manifest.permission.RECORD_AUDIO,
+                        Manifest.permission.MODIFY_AUDIO_SETTINGS)
+                .withListener(new MultiplePermissionsListener() {
+                    @Override
+                    public void onPermissionsChecked(MultiplePermissionsReport report) {
+                        if(report.areAllPermissionsGranted())
+                        {
+                            initComponents();
+                            initFragments();
+                        }
+
+                        if(report.isAnyPermissionPermanentlyDenied())
+                        {
+                            showSettingDialog();
+                        }
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                        token.continuePermissionRequest();
+                    }
+                }).withErrorListener(new PermissionRequestErrorListener() {
+            @Override
+            public void onError(DexterError error) {
+                Toast.makeText(getApplicationContext(),"Error Occured",Toast.LENGTH_SHORT).show();
+            }
+        }).onSameThread().check();
+    }
+
+    private void showSettingDialog()
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("Need Permissions");
+        builder.setMessage("This app needs permission to use this feature. You can grant them in app settings.");
+        builder.setPositiveButton("GOTO SETTINGS", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+                openSettings();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        builder.show();
+    }
+
+    private void openSettings() {
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        Uri uri = Uri.fromParts("package", getPackageName(), null);
+        intent.setData(uri);
+        startActivityForResult(intent, 101);
+    }
+
+    private void initComponents() {
         setContentView(R.layout.activity_main);
+        mLayout = findViewById(R.id.sliding_layout);
+        nowPlayingFragment = (NowPlayingFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_now_playing);
+        cardView = findViewById(R.id.songCardView);
+        playPauseView = findViewById(R.id.play_pause);
+        trackName = findViewById(R.id.album_track);
+        bottomNavigation = findViewById(R.id.bottom_navigation);
+        album_artist = findViewById(R.id.album_artist_name);
+        next = findViewById(R.id.next);
+        prev = findViewById(R.id.prev);
+        repeat = findViewById(R.id.repeat);
+        shuffle = findViewById(R.id.shuffle);
+        seekBar = findViewById(R.id.seekBar);
+        startTime = findViewById(R.id.start_time);
+        endTime = findViewById(R.id.end_time);
+//        slidingLayout = findViewById(R.id.sliding_layout);
+        relativeLayout = findViewById(R.id.relativelayout);
+    }
 
-        initComponents();
-
+    private void initFragments()
+    {
         AHBottomNavigationItem item1 = new AHBottomNavigationItem("Home", R.drawable.house_outline, android.R.color.white);
         AHBottomNavigationItem item2 = new AHBottomNavigationItem("Me", R.drawable.avatar, android.R.color.white);
         AHBottomNavigationItem item3 = new AHBottomNavigationItem("Cloud", R.drawable.cloud, android.R.color.white);
@@ -376,25 +478,6 @@ public class MainActivity extends AppCompatActivity {
                 mLayout.setPanelState(PanelState.COLLAPSED);
             }
         });
-    }
-
-    private void initComponents() {
-        mLayout = findViewById(R.id.sliding_layout);
-//        nowPlayingFragment = (NowPlayingFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_now_playing);
-        cardView = findViewById(R.id.songCardView);
-        playPauseView = findViewById(R.id.play_pause);
-        trackName = findViewById(R.id.album_track);
-        bottomNavigation = findViewById(R.id.bottom_navigation);
-        album_artist = findViewById(R.id.album_artist_name);
-        next = findViewById(R.id.next);
-        prev = findViewById(R.id.prev);
-        repeat = findViewById(R.id.repeat);
-        shuffle = findViewById(R.id.shuffle);
-        seekBar = findViewById(R.id.seekBar);
-        startTime = findViewById(R.id.start_time);
-        endTime = findViewById(R.id.end_time);
-//        slidingLayout = findViewById(R.id.sliding_layout);
-        relativeLayout = findViewById(R.id.relativelayout);
     }
 
     @Override

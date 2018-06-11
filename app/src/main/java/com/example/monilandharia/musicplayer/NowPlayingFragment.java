@@ -21,10 +21,6 @@ import java.util.Locale;
 
 public class NowPlayingFragment extends Fragment {
 
-    public static NowPlayingFragment newInstance() {
-        return new NowPlayingFragment();
-    }
-
     private AudioVisualization audioVisualization;
     private TextView album_track, album_artist_name, start_time, end_time;
     private SeekBar seekBar;
