@@ -68,8 +68,7 @@ public class MainActivity extends AppCompatActivity {
         requestStorageAndMicroPhonePermissions();
     }
 
-    private void requestStorageAndMicroPhonePermissions()
-    {
+    private void requestStorageAndMicroPhonePermissions() {
         Dexter.withActivity(this)
                 .withPermissions(
                         Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -79,8 +78,7 @@ public class MainActivity extends AppCompatActivity {
                 .withListener(new MultiplePermissionsListener() {
                     @Override
                     public void onPermissionsChecked(MultiplePermissionsReport report) {
-                        if(report.areAllPermissionsGranted())
-                        {
+                        if (report.areAllPermissionsGranted()) {
                             initComponents();
                             initFragments();
                         }
@@ -98,13 +96,12 @@ public class MainActivity extends AppCompatActivity {
                 }).withErrorListener(new PermissionRequestErrorListener() {
             @Override
             public void onError(DexterError error) {
-                Toast.makeText(getApplicationContext(),"Error Occured",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Error Occured", Toast.LENGTH_SHORT).show();
             }
         }).onSameThread().check();
     }
 
-    private void showSettingDialog()
-    {
+    private void showSettingDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle("Need Permissions");
         builder.setMessage("This app needs permission to use this feature. You can grant them in app settings.");
@@ -118,7 +115,6 @@ public class MainActivity extends AppCompatActivity {
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
             }
         });
         builder.show();
@@ -151,8 +147,7 @@ public class MainActivity extends AppCompatActivity {
         relativeLayout = findViewById(R.id.relativelayout);
     }
 
-    private void initFragments()
-    {
+    private void initFragments() {
         AHBottomNavigationItem item1 = new AHBottomNavigationItem("Home", R.drawable.house_outline, android.R.color.white);
         AHBottomNavigationItem item2 = new AHBottomNavigationItem("Me", R.drawable.avatar, android.R.color.white);
         AHBottomNavigationItem item3 = new AHBottomNavigationItem("Cloud", R.drawable.cloud, android.R.color.white);

@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -98,10 +99,12 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.ViewHolder
         ImageView ivAlbumArt;
         TextView tvAlbum, tvAlbumArtist;
         PlayPauseView playPauseView;
+        CardView cardView;
 
         //        TextView sdur;
         public ViewHolder(View view) {
             super(view);
+            cardView = view.findViewById(R.id.card_view);
             tvAlbum = view.findViewById(R.id.albumName);
             tvAlbum.setSelected(true);
             tvAlbumArtist = view.findViewById(R.id.albumArtist);

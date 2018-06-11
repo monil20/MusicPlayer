@@ -57,8 +57,8 @@ public class AlbumsPreviewAdapter extends RecyclerView.Adapter<AlbumsPreviewAdap
                 @Override
                 public void onClick(View v) {
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.fragment_home, new AlbumsFragment());
-                    fragmentTransaction.commit();
+                    fragmentTransaction.replace(R.id.fragment_home, new AlbumsFragment()).addToBackStack("HOME").commit();
+//                    fragmentTransaction.commit();
                 }
             });
         } else {

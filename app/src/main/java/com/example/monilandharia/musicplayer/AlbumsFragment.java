@@ -3,6 +3,8 @@ package com.example.monilandharia.musicplayer;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -45,7 +47,9 @@ public class AlbumsFragment extends Fragment {
         AlbumsAdapter rcAdapter = new AlbumsAdapter(getActivity(),AlbumLoader.getAllAlbums(getActivity()), new AlbumsAdapter.RecyclerItemClickListener() {
             @Override
             public void onClickListener(AlbumInfo albumInfo, int position) {
-                Toast.makeText(getActivity().getApplicationContext(),position+" clicked!",Toast.LENGTH_SHORT).show();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_home ,new AlbumDetailsFragment()).addToBackStack("ALBUMS").commit();
             }
         }, getActivity().getSupportFragmentManager());
         recyclerView.setAdapter(rcAdapter);

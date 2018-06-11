@@ -35,8 +35,8 @@
 
         <ImageView
             android:id="@+id/albumArt"
-            android:layout_width="170dp"
-            android:layout_height="165dp"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
             android:src="@mipmap/ic_launcher"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
