@@ -48,8 +48,7 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         initView(view);
-        if(getActivity()!=null)
-        {
+        if (getActivity() != null) {
             new loadAlbums().execute("");
             new loadArtists().execute("");
             new loadTracks().execute("");
@@ -109,61 +108,64 @@ public class HomeFragment extends Fragment {
         recyclerRecentlyAdded.setOverScrollMode(View.OVER_SCROLL_NEVER);
     }
 
-    private class loadAlbums extends AsyncTask<String,Void,String>{
+    private class loadAlbums extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... strings) {
             if (getActivity() != null)
-                adapterAlbums = new AlbumsPreviewAdapter(getActivity(), AlbumLoader.getAllAlbums(getActivity()), new AlbumsPreviewAdapter.RecyclerItemClickListener() {
+                adapterAlbums = new AlbumsPreviewAdapter(getActivity(), AlbumLoader.getAllAlbums(getActivity(),6), new AlbumsPreviewAdapter.RecyclerItemClickListener() {
                     @Override
                     public void onClickListener(AlbumInfo albumInfo, int position) {
 
                     }
-                });
-            return "Executed";        }
+                }, getActivity().getSupportFragmentManager());
+            return "Executed";
+        }
 
         @Override
         protected void onPostExecute(String s) {
-            if(adapterAlbums!=null) {
+            if (adapterAlbums != null) {
                 recyclerAlbums.setAdapter(adapterAlbums);
             }
         }
     }
 
-    private class loadArtists extends AsyncTask<String,Void,String>{
+    private class loadArtists extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... strings) {
             if (getActivity() != null)
-                artistsPreviewAdapter = new ArtistsPreviewAdapter(getActivity(), ArtistLoader.getAllArtists(getActivity().getApplicationContext()), new ArtistsPreviewAdapter.RecyclerItemClickListener(){
+                artistsPreviewAdapter = new ArtistsPreviewAdapter(getActivity(), ArtistLoader.getAllArtists(getActivity().getApplicationContext()), new ArtistsPreviewAdapter.RecyclerItemClickListener() {
                     @Override
                     public void onClickListener(ArtistInfo albumInfo, int position) {
 
                     }
                 });
-            return "Executed";        }
+            return "Executed";
+        }
 
         @Override
         protected void onPostExecute(String s) {
-            if(artistsPreviewAdapter !=null) {
+            if (artistsPreviewAdapter != null) {
                 recyclerArtists.setAdapter(artistsPreviewAdapter);
             }
         }
     }
 
-    private class loadTracks extends AsyncTask<String,Void,String>{
+    private class loadTracks extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... strings) {
             if (getActivity() != null)
-                adapterRecentlyAdded = new TracksPreviewAdapter(getActivity(), TrackLoader.getAllTracks(getActivity().getApplicationContext(),6), new TracksPreviewAdapter.RecyclerItemClickListener(){
+                adapterRecentlyAdded = new TracksPreviewAdapter(getActivity(), TrackLoader.getAllTracks(getActivity().getApplicationContext(), 6), new TracksPreviewAdapter.RecyclerItemClickListener() {
                     @Override
                     public void onClickListener(SongInfo albumInfo, int position) {
 
                     }
                 }, getActivity().getSupportFragmentManager());
-            return "Executed";        }
+            return "Executed";
+        }
 
         @Override
         protected void onPostExecute(String s) {
-            if(adapterRecentlyAdded!=null) {
+            if (adapterRecentlyAdded != null) {
                 recyclerRecentlyAdded.setAdapter(adapterRecentlyAdded);
             }
         }

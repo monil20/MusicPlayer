@@ -2,13 +2,13 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/songCard"
-    android:layout_width="120dp"
-    android:layout_height="172dp"
-    android:layout_gravity="center"
-    android:layout_margin="5dp"
-    android:elevation="3dp"
-    app:cardCornerRadius="4dp">
+    android:id="@+id/card_view"
+    android:layout_width="170dp"
+    android:layout_height="230dp"
+    android:layout_marginBottom="16dp"
+    app:cardCornerRadius="4dp"
+    app:cardElevation="3dp"
+    app:cardUseCompatPadding="true">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -17,7 +17,7 @@
         android:orientation="vertical">
 
         <com.ohoussein.playpause.PlayPauseView
-            android:id="@+id/songPlayPause"
+            android:id="@+id/albumPlayPause"
             android:layout_width="34dp"
             android:layout_height="251dp"
             android:layout_marginBottom="5dp"
@@ -35,11 +35,12 @@
 
         <ImageView
             android:id="@+id/albumArt"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="170dp"
+            android:layout_height="165dp"
             android:src="@mipmap/ic_launcher"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.555"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
@@ -51,11 +52,11 @@
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="4dp"
             android:ellipsize="marquee"
             android:marqueeRepeatLimit="marquee_forever"
             android:singleLine="true"
-            android:text="Song Name"
+            android:text="Album Name"
             android:textColor="@android:color/black"
             android:textSize="14dp"
             app:customFont="fonts/Raleway-Regular.ttf"
@@ -67,25 +68,23 @@
             app:layout_constraintVertical_bias="0.0" />
 
         <com.example.monilandharia.musicplayer.customViews.RalewayTextView
-            android:id="@+id/songArtist"
+            android:id="@+id/albumArtist"
             android:layout_width="112dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
             android:layout_marginEnd="8dp"
             android:layout_marginTop="4dp"
             android:singleLine="true"
-            android:text="Artist name"
+            android:text="15 songs"
             android:textColor="@color/colorAccent"
             android:textSize="12dp"
             app:customFont="fonts/Raleway-Regular.ttf"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/albumName"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/albumName"
-            app:layout_constraintTop_toBottomOf="@+id/albumName"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toBottomOf="@+id/albumName" />
 
 
     </android.support.constraint.ConstraintLayout>
+
 
 </android.support.v7.widget.CardView>

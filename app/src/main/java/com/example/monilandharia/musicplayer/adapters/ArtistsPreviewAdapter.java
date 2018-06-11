@@ -91,7 +91,7 @@ public class ArtistsPreviewAdapter extends RecyclerView.Adapter<ArtistsPreviewAd
         //        TextView sdur;
         public ViewHolder(View view) {
             super(view);
-            tvArtist = view.findViewById(R.id.genreName);
+            tvArtist = view.findViewById(R.id.albumName);
             tvArtist.setSelected(true);
             tvArtistStats = view.findViewById(R.id.songCount);
             ivAlbumArt1 = view.findViewById(R.id.albumArt1);

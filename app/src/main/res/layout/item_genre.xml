@@ -49,7 +49,7 @@
             app:layout_constraintVertical_bias="0.0" />
 
         <com.example.monilandharia.musicplayer.customViews.RalewayTextView
-            android:id="@+id/genreName"
+            android:id="@+id/albumName"
             android:layout_width="143dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -83,10 +83,10 @@
             android:textSize="12dp"
             app:customFont="fonts/Raleway-Regular.ttf"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/genreName"
+            app:layout_constraintEnd_toEndOf="@+id/albumName"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/genreName"
-            app:layout_constraintTop_toBottomOf="@+id/genreName"
+            app:layout_constraintStart_toStartOf="@+id/albumName"
+            app:layout_constraintTop_toBottomOf="@+id/albumName"
             app:layout_constraintVertical_bias="0.0" />
 
 

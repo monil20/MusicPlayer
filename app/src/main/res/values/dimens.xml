@@ -4,4 +4,6 @@
     <dimen name="wave_height">60dp</dimen>
     <dimen name="footer_height">120dp</dimen>
     <dimen name="card_padding">60dp</dimen>
+    <dimen name="page_content_width">200dp</dimen>
+    <dimen name="page_content_height">340dp</dimen>
 </resources>
