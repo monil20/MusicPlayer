@@ -1,5 +1,8 @@
 package com.example.monilandharia.musicplayer.utilities;
 
+import android.content.ContentUris;
+import android.net.Uri;
+
 import java.util.concurrent.TimeUnit;
 
 public class Utility {
@@ -24,5 +27,9 @@ public class Utility {
         }
 
         return time;
+    }
+
+    public static Uri getAlbumArtUri(long param) {
+        return ContentUris.withAppendedId(Uri.parse("content://media/external/audio/albumart"), param);
     }
 }

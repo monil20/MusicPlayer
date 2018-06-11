@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.example.monilandharia.musicplayer.AlbumsFragment;
 import com.example.monilandharia.musicplayer.R;
 import com.example.monilandharia.musicplayer.models.AlbumInfo;
+import com.example.monilandharia.musicplayer.utilities.Utility;
 import com.ohoussein.playpause.PlayPauseView;
 import com.squareup.picasso.Picasso;
 
@@ -78,7 +79,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.ViewHolder
         if (albumInfo != null) {
             viewHolder.tvAlbum.setText(albumInfo.getTitle());
             viewHolder.tvAlbumArtist.setText(albumInfo.getArtistName());
-            Uri albumArtUri = getAlbumArtUri(albumInfo.getId());
+            Uri albumArtUri = Utility.getAlbumArtUri(albumInfo.getId());
 //                String datatoplay = s.getData();
             Picasso.with(context).load(albumArtUri.toString()).placeholder(R.drawable.placeholder1).into(viewHolder.ivAlbumArt);
 
@@ -126,10 +127,6 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.ViewHolder
     @Override
     public int getItemViewType(int position) {
         return R.layout.item_all_albums;
-    }
-
-    public Uri getAlbumArtUri(long param) {
-        return ContentUris.withAppendedId(Uri.parse("content://media/external/audio/albumart"), param);
     }
 
     public interface RecyclerItemClickListener {

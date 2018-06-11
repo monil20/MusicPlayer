@@ -10,7 +10,7 @@
     <com.github.florent37.shapeofview.ShapeOfView
         android:id="@+id/albumArt"
         android:layout_width="match_parent"
-        android:layout_height="175dp"
+        android:layout_height="260dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -20,6 +20,7 @@
         app:shape_clip_drawable="@drawable/cutshape">
 
         <ImageView
+            android:id="@+id/realAlbumArt"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
