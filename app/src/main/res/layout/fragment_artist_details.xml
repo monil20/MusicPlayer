@@ -1,0 +1,79 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AlbumDetailsFragment">
+
+    <ImageView
+        android:id="@+id/albumArt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_launcher_background" />
+
+    <com.ohoussein.playpause.PlayPauseView
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_below="@id/albumArt"
+        android:layout_marginLeft="-65dp"
+        android:layout_marginTop="-45dp"
+        android:layout_toEndOf="@id/albumArt"
+        app:pause_bg="@color/colorPrimary"
+        app:play_bg="@color/colorPrimary" />
+
+
+    <com.example.monilandharia.musicplayer.customViews.RalewayTextView
+        android:id="@+id/albumName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/albumArt"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:padding="8dp"
+        android:text="Artist Name"
+        android:textColor="@android:color/black"
+        android:textSize="16dp"
+        android:textStyle="bold" />
+
+    <com.example.monilandharia.musicplayer.customViews.RalewayTextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/albumName"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:padding="8dp"
+        android:text="Albums"
+        android:textColor="@android:color/black"
+        android:textSize="14dp" />
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerArtistAlbums"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView"
+        android:layout_marginTop="8dp" />
+
+    <com.example.monilandharia.musicplayer.customViews.RalewayTextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/recyclerArtistAlbums"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:padding="8dp"
+        android:text="Songs"
+        android:textColor="@android:color/black"
+        android:textSize="14dp" />
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerArtistSongs"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/textView2"
+        android:layout_marginTop="8dp" />
+
+</RelativeLayout>

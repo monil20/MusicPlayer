@@ -1,41 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AlbumDetailsFragment">
+    android:scrollbars="none">
 
-    <com.github.florent37.shapeofview.ShapeOfView
-        android:id="@+id/shapeofview"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="230dp"
-        app:shape_clip_drawable="@drawable/cutshape">
+        android:layout_height="match_parent"
+        tools:context=".AlbumDetailsFragment">
+
 
         <ImageView
             android:id="@+id/albumArt"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="350dp"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_launcher_background" />
 
-    </com.github.florent37.shapeofview.ShapeOfView>
 
-    <com.ohoussein.playpause.PlayPauseView
-        android:layout_width="55dp"
-        android:layout_height="55dp"
-        android:layout_below="@id/shapeofview"
-        android:layout_marginLeft="-60dp"
-        android:layout_marginTop="-45dp"
-        android:layout_toEndOf="@id/shapeofview"
-        app:pause_bg="@color/colorPrimary"
-        app:play_bg="@color/colorPrimary" />
+        <com.ohoussein.playpause.PlayPauseView
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_below="@id/albumArt"
+            android:layout_marginLeft="-65dp"
+            android:layout_marginTop="-27.5dp"
+            android:layout_toEndOf="@id/albumArt"
+            app:pause_bg="@color/colorPrimary"
+            app:play_bg="@color/colorPrimary" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerAlbumSongs"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/shapeofview"
-        android:layout_marginTop="8dp" />
 
-</RelativeLayout>
+        <com.example.monilandharia.musicplayer.customViews.RalewayTextView
+            android:id="@+id/albumName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/albumArt"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:padding="8dp"
+            android:text="Album Name"
+            android:textColor="@android:color/black"
+            android:textSize="16dp"
+            android:textStyle="bold" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerAlbumSongs"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/albumName"
+            android:layout_marginTop="8dp" />
+    </RelativeLayout>
+</ScrollView>

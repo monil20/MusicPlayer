@@ -21,7 +21,6 @@ import com.example.monilandharia.musicplayer.adapters.AlbumsPreviewAdapter;
 import com.example.monilandharia.musicplayer.dataLoaders.AlbumLoader;
 import com.example.monilandharia.musicplayer.models.AlbumInfo;
 import com.example.monilandharia.musicplayer.utilities.Utility;
-import com.github.florent37.shapeofview.ShapeOfView;
 import com.squareup.picasso.Picasso;
 
 import java.io.FileNotFoundException;
@@ -60,7 +59,8 @@ public class AlbumsFragment extends Fragment {
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 Bundle bundle = new Bundle();
                 bundle.putLong("albumId",albumInfo.getId());
-
+                bundle.putString("albumName",albumInfo.getTitle());
+                bundle.putString("artistName",albumInfo.getArtistName());
                 AlbumDetailsFragment frag = new AlbumDetailsFragment();
                 frag.setArguments(bundle);
                 //ImageView albumImage = view2.findViewById(R.id.realAlbumArt);
