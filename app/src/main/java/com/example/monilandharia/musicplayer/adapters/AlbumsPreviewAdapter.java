@@ -37,7 +37,7 @@ public class AlbumsPreviewAdapter extends RecyclerView.Adapter<AlbumsPreviewAdap
     }
 
     @Override
-    public AlbumsPreviewAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view;
         if (i == R.layout.item_album) {
             view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_album, viewGroup, false);

@@ -112,7 +112,7 @@ public class HomeFragment extends Fragment {
         @Override
         protected String doInBackground(String... strings) {
             if (getActivity() != null)
-                adapterAlbums = new AlbumsPreviewAdapter(getActivity(), AlbumLoader.getAllAlbums(getActivity(),6), new AlbumsPreviewAdapter.RecyclerItemClickListener() {
+                adapterAlbums = new AlbumsPreviewAdapter(getActivity(), AlbumLoader.getAllAlbums(getActivity(), 6), new AlbumsPreviewAdapter.RecyclerItemClickListener() {
                     @Override
                     public void onClickListener(AlbumInfo albumInfo, int position) {
 
@@ -133,12 +133,12 @@ public class HomeFragment extends Fragment {
         @Override
         protected String doInBackground(String... strings) {
             if (getActivity() != null)
-                artistsPreviewAdapter = new ArtistsPreviewAdapter(getActivity(), ArtistLoader.getAllArtists(getActivity().getApplicationContext(),6), new ArtistsPreviewAdapter.RecyclerItemClickListener() {
+                artistsPreviewAdapter = new ArtistsPreviewAdapter(getActivity(), ArtistLoader.getAllArtists(getActivity().getApplicationContext(), 6), new ArtistsPreviewAdapter.RecyclerItemClickListener() {
                     @Override
                     public void onClickListener(ArtistInfo albumInfo, int position) {
 
                     }
-                });
+                }, getActivity().getSupportFragmentManager());
             return "Executed";
         }
 

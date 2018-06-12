@@ -42,7 +42,6 @@ public class ArtistLoader {
     //Overrided method to retreive all the artist list
     public static ArrayList<ArtistInfo> getArtistsForCursor(Cursor cursor,Context context) {
         ArrayList arrayList = new ArrayList();
-        int n=0;
         if ((cursor != null) && (cursor.moveToFirst()))
             do {
                 int _id = cursor.getInt(0);
@@ -56,9 +55,8 @@ public class ArtistLoader {
                     songArt[i] = aSong.getAlbum_id();
                 }
                 arrayList.add(new ArtistInfo(cursor.getInt(0), cursor.getInt(1), cursor.getInt(2), cursor.getString(3), cursor.getString(4),songArt));
-                n++;
             }
-            while (cursor.moveToNext()&&n<6);
+            while (cursor.moveToNext());
         if (cursor != null)
             cursor.close();
         return arrayList;

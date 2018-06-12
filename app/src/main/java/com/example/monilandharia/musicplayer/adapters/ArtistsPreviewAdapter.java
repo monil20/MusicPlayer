@@ -5,6 +5,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.monilandharia.musicplayer.AlbumsFragment;
+import com.example.monilandharia.musicplayer.ArtistsFragment;
 import com.example.monilandharia.musicplayer.R;
 import com.example.monilandharia.musicplayer.models.ArtistInfo;
 import com.ohoussein.playpause.PlayPauseView;
@@ -25,11 +29,13 @@ public class ArtistsPreviewAdapter extends RecyclerView.Adapter<ArtistsPreviewAd
     private ArrayList<ArtistInfo> artists;
     private Context context;
     private RecyclerItemClickListener listener;
+    private FragmentManager fragmentManager;
 
-    public ArtistsPreviewAdapter(Context context, ArrayList<ArtistInfo> artists, RecyclerItemClickListener listener) {
+    public ArtistsPreviewAdapter(Context context, ArrayList<ArtistInfo> artists, RecyclerItemClickListener listener,FragmentManager fragmentManager) {
         this.context = context;
         this.artists = artists;
         this.listener = listener;
+        this.fragmentManager = fragmentManager;
     }
 
     @Override
@@ -52,7 +58,8 @@ public class ArtistsPreviewAdapter extends RecyclerView.Adapter<ArtistsPreviewAd
             viewHolder.seemore.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context, "See more artists", Toast.LENGTH_LONG).show();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.fragment_home, new ArtistsFragment()).addToBackStack("HOME").commit();
                 }
             });
         } else {
@@ -91,7 +98,7 @@ public class ArtistsPreviewAdapter extends RecyclerView.Adapter<ArtistsPreviewAd
         //        TextView sdur;
         public ViewHolder(View view) {
             super(view);
-            tvArtist = view.findViewById(R.id.albumName);
+            tvArtist = view.findViewById(R.id.artitstName);
             tvArtist.setSelected(true);
             tvArtistStats = view.findViewById(R.id.songCount);
             ivAlbumArt1 = view.findViewById(R.id.albumArt1);

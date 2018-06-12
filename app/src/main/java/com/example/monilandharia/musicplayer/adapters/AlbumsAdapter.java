@@ -1,12 +1,8 @@
 package com.example.monilandharia.musicplayer.adapters;
 
-import android.content.ContentUris;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.net.Uri;
-import android.provider.MediaStore;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,14 +11,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.monilandharia.musicplayer.AlbumsFragment;
 import com.example.monilandharia.musicplayer.R;
 import com.example.monilandharia.musicplayer.models.AlbumInfo;
 import com.example.monilandharia.musicplayer.utilities.Utility;
 import com.ohoussein.playpause.PlayPauseView;
 import com.squareup.picasso.Picasso;
 
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.ViewHolder> {
@@ -106,10 +100,10 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.ViewHolder
         public ViewHolder(View view) {
             super(view);
             cardView = view.findViewById(R.id.card_view);
-            tvAlbum = view.findViewById(R.id.albumName);
+            tvAlbum = view.findViewById(R.id.artitstName);
             tvAlbum.setSelected(true);
             tvAlbumArtist = view.findViewById(R.id.albumArtist);
-            ivAlbumArt = view.findViewById(R.id.albumArt);
+            ivAlbumArt = view.findViewById(R.id.artistImageArt);
             playPauseView = view.findViewById(R.id.albumPlayPause);
             playPauseView.bringToFront();
         }

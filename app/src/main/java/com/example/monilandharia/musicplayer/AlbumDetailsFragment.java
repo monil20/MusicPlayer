@@ -60,8 +60,8 @@ public class AlbumDetailsFragment extends Fragment {
     private void initView(View view)
     {
 
-        ivAlbumImage = view.findViewById(R.id.albumArt);
-        tvAlbumName = view.findViewById(R.id.albumName);
+        ivAlbumImage = view.findViewById(R.id.artistImage);
+        tvAlbumName = view.findViewById(R.id.artitstName);
 
         layoutManager = new LinearLayoutManager(getActivity().getApplicationContext(),LinearLayoutManager.VERTICAL,false);
 

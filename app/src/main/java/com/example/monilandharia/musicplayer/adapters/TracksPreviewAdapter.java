@@ -87,9 +87,9 @@ public class TracksPreviewAdapter extends RecyclerView.Adapter<TracksPreviewAdap
         //        TextView sdur;
         public ViewHolder(View view) {
             super(view);
-            sname = view.findViewById(R.id.albumName);
+            sname = view.findViewById(R.id.artitstName);
             sname.setSelected(true);
-            simg = view.findViewById(R.id.albumArt);
+            simg = view.findViewById(R.id.artistImageArt);
             sartist = view.findViewById(R.id.songArtist);
             playPauseView = view.findViewById(R.id.songPlayPause);
             playPauseView.bringToFront();
