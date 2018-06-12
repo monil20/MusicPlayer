@@ -53,8 +53,7 @@ public class TracksPreviewAdapter extends RecyclerView.Adapter<TracksPreviewAdap
                 @Override
                 public void onClick(View v) {
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.fragment_home, new TracksFragment());
-                    fragmentTransaction.commit();
+                    fragmentTransaction.replace(R.id.fragment_home, new TracksFragment()).addToBackStack("TRACKS").commit();
                 }
             });
         } else {
