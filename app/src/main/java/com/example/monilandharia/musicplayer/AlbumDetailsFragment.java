@@ -34,7 +34,7 @@ public class AlbumDetailsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_album_details, container, false);
         Bundle bundle = getArguments();
         Long albumId = bundle.getLong("albumId");
-        ImageView albumImage = view.findViewById(R.id.realAlbumArt);
+        ImageView albumImage = view.findViewById(R.id.albumArt);
         Uri albumArtUri = Utility.getAlbumArtUri(albumId);
         Picasso.with(getContext()).load(albumArtUri.toString()).placeholder(R.drawable.placeholder1).into(albumImage);
 //        shapeOfView.setClipPathCreator(new ClipPathManager.ClipPathCreator() {
