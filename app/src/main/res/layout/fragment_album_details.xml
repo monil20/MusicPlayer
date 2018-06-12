@@ -24,16 +24,18 @@
     <com.ohoussein.playpause.PlayPauseView
         android:layout_width="55dp"
         android:layout_height="55dp"
-        app:pause_bg="@color/colorPrimary"
-        app:play_bg="@color/colorPrimary"
         android:layout_below="@id/shapeofview"
-        android:layout_toEndOf="@id/shapeofview"
         android:layout_marginLeft="-60dp"
-        android:layout_marginTop="-45dp"/>
+        android:layout_marginTop="-45dp"
+        android:layout_toEndOf="@id/shapeofview"
+        app:pause_bg="@color/colorPrimary"
+        app:play_bg="@color/colorPrimary" />
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerAlbumSongs"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/shapeofview" />
+        android:layout_below="@id/shapeofview"
+        android:layout_marginTop="8dp" />
 
 </RelativeLayout>
