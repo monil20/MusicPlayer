@@ -4,6 +4,7 @@ package com.example.monilandharia.musicplayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -74,6 +75,10 @@ public class TracksFragment extends Fragment {
         recyclerTracks.setHasFixedSize(true);
         recyclerTracks.setLayoutManager(layoutManager);
         recyclerTracks.setOverScrollMode(View.OVER_SCROLL_NEVER);
+
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerTracks.getContext(),
+                layoutManager.getOrientation());
+        recyclerTracks.addItemDecoration(dividerItemDecoration);
     }
 
     private class loadTracks extends AsyncTask<String,Void,String> {
