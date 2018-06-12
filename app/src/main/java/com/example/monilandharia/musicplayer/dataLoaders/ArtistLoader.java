@@ -11,6 +11,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ArtistLoader {
+    public static ArrayList<ArtistInfo> getArtistsForCursor(Cursor cursor,Context context,int m) {
+        ArrayList arrayList = new ArrayList();
+        int n=0;
+        if ((cursor != null) && (cursor.moveToFirst()))
+            do {
+                int _id = cursor.getInt(0);
+
+                ArrayList artistSongs = getArtistSongs(_id,context);
+                int songArt[] = new int[4];
+                for(int i=0;i<4;i++)
+                {
+                    int index =(int)(Math.random()*artistSongs.size());
+                    SongInfo aSong = (SongInfo)artistSongs.get(index);
+                    songArt[i] = aSong.getAlbum_id();
+                }
+                arrayList.add(new ArtistInfo(cursor.getInt(0), cursor.getInt(1), cursor.getInt(2), cursor.getString(3), cursor.getString(4),songArt));
+                n++;
+            }
+            while (cursor.moveToNext()&&n<m);
+        if (cursor != null)
+            cursor.close();
+        return arrayList;
+    }
+
+    public static ArrayList<ArtistInfo> getAllArtists(Context context,int n) {
+        return getArtistsForCursor(makeArtistCursor(context, null, null),context,n);
+    }
+
+    //Overrided method to retreive all the artist list
     public static ArrayList<ArtistInfo> getArtistsForCursor(Cursor cursor,Context context) {
         ArrayList arrayList = new ArrayList();
         int n=0;

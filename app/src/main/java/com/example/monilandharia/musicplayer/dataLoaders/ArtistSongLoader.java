@@ -10,36 +10,33 @@ import com.example.monilandharia.musicplayer.models.SongInfo;
 
 import java.util.ArrayList;
 
-public class AlbumSongLoader {
-
-    public static ArrayList<SongInfo> getSongsForAlbum(Context context, long albumID) {
-
-        Cursor cursor = makeAlbumSongCursor(context, albumID);
-        ArrayList arrayList = new ArrayList();
+public class ArtistSongLoader {
+    public static ArrayList<SongInfo> getSongsForArtist(Context context, long artistID) {
+        Cursor cursor = makeArtistSongCursor(context, artistID);
+        ArrayList songsList = new ArrayList();
         if ((cursor != null) && (cursor.moveToFirst()))
             do {
                 int id = cursor.getInt(0);
                 String title = cursor.getString(1);
                 String artist = cursor.getString(2);
                 int duration = cursor.getInt(3);
+                int albumId = cursor.getInt(4);
                 String data = cursor.getString(5);
                 String album = cursor.getString(6);
 //                while (trackNumber >= 1000) {
 //                    trackNumber -= 1000; //When error occurs the track numbers have an extra 1000 or 2000 added, so decrease till normal.
 //                }
-                int albumId =(int) albumID;
-                arrayList.add(new SongInfo(id, title, artist, duration, albumId, data, album));
+                songsList.add(new SongInfo(id, title, artist, duration, albumId, data, album));
             }
             while (cursor.moveToNext());
         if (cursor != null)
             cursor.close();
-        return arrayList;
+        return songsList;
     }
 
-    public static Cursor makeAlbumSongCursor(Context context, long albumID) {
+    public static Cursor makeArtistSongCursor(Context context, long artistID) {
         ContentResolver contentResolver = context.getContentResolver();
         Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
-        String string = "is_music=1 AND title != '' AND album_id=" + albumID;
         String[] trackProjection = {
                 MediaStore.Audio.Media._ID,
                 MediaStore.Audio.Media.TITLE,
@@ -49,7 +46,7 @@ public class AlbumSongLoader {
                 MediaStore.Audio.Media.DATA,
                 MediaStore.Audio.Media.ALBUM,
         };
-        Cursor cursor = contentResolver.query(uri, trackProjection, string, null, MediaStore.Audio.Media.TITLE);
-        return cursor;
+        String string = "is_music=1 AND title != '' AND artist_id=" + artistID;
+        return contentResolver.query(uri,trackProjection, string, null, MediaStore.Audio.Media.TITLE);
     }
 }
