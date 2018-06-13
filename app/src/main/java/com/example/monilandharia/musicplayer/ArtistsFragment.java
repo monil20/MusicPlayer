@@ -17,6 +17,7 @@ import com.example.monilandharia.musicplayer.dataLoaders.AlbumLoader;
 import com.example.monilandharia.musicplayer.dataLoaders.ArtistLoader;
 import com.example.monilandharia.musicplayer.models.AlbumInfo;
 import com.example.monilandharia.musicplayer.models.ArtistInfo;
+import com.example.monilandharia.musicplayer.models.SongInfo;
 
 
 /**
@@ -50,7 +51,7 @@ public class ArtistsFragment extends Fragment {
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 Bundle bundle = new Bundle();
-                bundle.putInt("artistAlbumId",artistInfo.getSongIds()[0]);
+                bundle.putInt("artistAlbumId",artistInfo.getSongId());
                 bundle.putLong("artistId",artistInfo.get_id());
                 bundle.putString("artistName",artistInfo.getArtistName());
                 ArtistDetailsFragment frag = new ArtistDetailsFragment();

@@ -61,7 +61,7 @@ public class AlbumDetailsFragment extends Fragment {
     {
 
         ivAlbumImage = view.findViewById(R.id.artistImage);
-        tvAlbumName = view.findViewById(R.id.artitstName);
+        tvAlbumName = view.findViewById(R.id.albumName);
 
         layoutManager = new LinearLayoutManager(getActivity().getApplicationContext(),LinearLayoutManager.VERTICAL,false);
 

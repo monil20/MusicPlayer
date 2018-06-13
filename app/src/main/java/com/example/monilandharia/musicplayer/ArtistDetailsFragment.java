@@ -14,7 +14,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.monilandharia.musicplayer.adapters.AlbumsAdapter;
+import com.example.monilandharia.musicplayer.adapters.AlbumsPreviewAdapter;
 import com.example.monilandharia.musicplayer.adapters.TracksAdapter;
+import com.example.monilandharia.musicplayer.dataLoaders.AlbumLoader;
 import com.example.monilandharia.musicplayer.dataLoaders.ArtistAlbumLoader;
 import com.example.monilandharia.musicplayer.dataLoaders.ArtistSongLoader;
 import com.example.monilandharia.musicplayer.models.AlbumInfo;
@@ -33,7 +35,7 @@ public class ArtistDetailsFragment extends Fragment {
     private String artistName;
     private RecyclerView artistAlbumsRecycler,artistSongsRecycler;
     private TracksAdapter tracksAdapter;
-    private AlbumsAdapter albumsAdapter;
+    private AlbumsPreviewAdapter albumsPreviewAdapter;
     private ImageView artistImage;
     private TextView artistNameTextview;
     private RecyclerView.LayoutManager songLayoutManager,albumLayoutManager;
@@ -66,8 +68,8 @@ public class ArtistDetailsFragment extends Fragment {
 
     private void initViews(View view)
     {
-        artistNameTextview = view.findViewById(R.id.artitstName);
-        artistImage = view.findViewById(R.id.artistImageArt);
+        artistNameTextview = view.findViewById(R.id.albumName);
+        artistImage = view.findViewById(R.id.albumArt);
         songLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext(),LinearLayoutManager.VERTICAL,false);
         albumLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext(),LinearLayoutManager.HORIZONTAL,false);
 
@@ -86,12 +88,12 @@ public class ArtistDetailsFragment extends Fragment {
         @Override
         protected String doInBackground(String... strings) {
             if (getActivity() != null) {
-                albumsAdapter = new AlbumsAdapter(getActivity(), ArtistAlbumLoader.getAlbumsForArtist(getActivity(), artistId), new AlbumsAdapter.RecyclerItemClickListener() {
+                albumsPreviewAdapter = new AlbumsPreviewAdapter(getActivity(), ArtistAlbumLoader.getAlbumsForArtist(getActivity(), artistId), new AlbumsPreviewAdapter.RecyclerItemClickListener() {
                     @Override
                     public void onClickListener(AlbumInfo albumInfo, int position) {
 
                     }
-                }, getActivity().getSupportFragmentManager());
+                }, getActivity().getSupportFragmentManager(), false);
 
                 tracksAdapter = new TracksAdapter(ArtistSongLoader.getSongsForArtist(getActivity().getApplicationContext(),artistId),getActivity(), new TracksAdapter.RecyclerItemClickListener(){
                     @Override
@@ -105,8 +107,8 @@ public class ArtistDetailsFragment extends Fragment {
 
         @Override
         protected void onPostExecute(String s) {
-            if(albumsAdapter !=null) {
-                artistAlbumsRecycler.setAdapter(albumsAdapter);
+            if(albumsPreviewAdapter !=null) {
+                artistAlbumsRecycler.setAdapter(albumsPreviewAdapter);
             }
             if(tracksAdapter !=null) {
                 artistSongsRecycler.setAdapter(tracksAdapter);

@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.example.monilandharia.musicplayer.R;
 import com.example.monilandharia.musicplayer.TracksFragment;
+import com.example.monilandharia.musicplayer.TracksFragment;
 import com.example.monilandharia.musicplayer.models.SongInfo;
 import com.ohoussein.playpause.PlayPauseView;
 import com.squareup.picasso.Picasso;
@@ -87,9 +88,9 @@ public class TracksPreviewAdapter extends RecyclerView.Adapter<TracksPreviewAdap
         //        TextView sdur;
         public ViewHolder(View view) {
             super(view);
-            sname = view.findViewById(R.id.artitstName);
+            sname = view.findViewById(R.id.albumName);
             sname.setSelected(true);
-            simg = view.findViewById(R.id.artistImageArt);
+            simg = view.findViewById(R.id.albumArt);
             sartist = view.findViewById(R.id.songArtist);
             playPauseView = view.findViewById(R.id.songPlayPause);
             playPauseView.bringToFront();

@@ -24,7 +24,7 @@
             android:layout_marginEnd="5dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/artistImageArt"
+            app:layout_constraintBottom_toBottomOf="@+id/albumArt"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -34,7 +34,7 @@
             app:play_bg="@color/colorAccent" />
 
         <ImageView
-            android:id="@+id/artistImageArt"
+            android:id="@+id/albumArt"
             android:layout_width="200dp"
             android:layout_height="200dp"
             android:src="@mipmap/ic_launcher"
@@ -46,7 +46,7 @@
             app:layout_constraintVertical_bias="0.0" />
 
         <com.example.monilandharia.musicplayer.customViews.RalewayTextView
-            android:id="@+id/artitstName"
+            android:id="@+id/albumName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -61,10 +61,10 @@
             android:textSize="14dp"
             app:customFont="fonts/Raleway-Regular.ttf"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/artistImageArt"
+            app:layout_constraintEnd_toEndOf="@+id/albumArt"
             app:layout_constraintHorizontal_bias="0.583"
-            app:layout_constraintStart_toStartOf="@+id/artistImageArt"
-            app:layout_constraintTop_toBottomOf="@+id/artistImageArt"
+            app:layout_constraintStart_toStartOf="@+id/albumArt"
+            app:layout_constraintTop_toBottomOf="@+id/albumArt"
             app:layout_constraintVertical_bias="0.0" />
 
         <com.example.monilandharia.musicplayer.customViews.RalewayTextView
@@ -75,14 +75,14 @@
             android:layout_marginEnd="8dp"
             android:layout_marginTop="4dp"
             android:singleLine="true"
-            android:text="15 songs"
+            android:text="Artist"
             android:textSize="12dp"
             app:customFont="fonts/Raleway-Regular.ttf"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/artitstName"
+            app:layout_constraintEnd_toEndOf="@+id/albumName"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/artitstName"
-            app:layout_constraintTop_toBottomOf="@+id/artitstName" />
+            app:layout_constraintStart_toStartOf="@+id/albumName"
+            app:layout_constraintTop_toBottomOf="@+id/albumName" />
 
 
     </android.support.constraint.ConstraintLayout>

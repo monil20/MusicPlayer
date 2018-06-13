@@ -33,7 +33,7 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
 
     @Override
     public ArtistAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View layoutView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_artist, null);
+        View layoutView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_all_artists, null);
         ViewHolder rcv = new ViewHolder(layoutView);
         return rcv;
     }
@@ -42,17 +42,11 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
         ArtistInfo artist = artistInfos.get(i);
         if (artist != null) {
-            viewHolder.tvArtist.setText(artist.getArtistName());
+            viewHolder.tvArtistName.setText(artist.getArtistName());
             viewHolder.tvArtistStats.setText(artist.getAlbumsCount() + " albums, "+artist.getTracksCount()+" songs");
-            Uri albumArtUris[] = new Uri[4];
-            for(int n=0;n<4;n++)
-            {
-                albumArtUris[n] = Utility.getAlbumArtUri(artist.getSongIds()[n]);
-            }
-            Picasso.with(context).load(albumArtUris[0]).placeholder(R.drawable.placeholder).into(viewHolder.ivAlbumArt1);
-            Picasso.with(context).load(albumArtUris[1]).placeholder(R.drawable.placeholder).into(viewHolder.ivAlbumArt2);
-            Picasso.with(context).load(albumArtUris[2]).placeholder(R.drawable.placeholder).into(viewHolder.ivAlbumArt3);
-            Picasso.with(context).load(albumArtUris[3]).placeholder(R.drawable.placeholder).into(viewHolder.ivAlbumArt4);
+            Uri albumArtUri = Utility.getAlbumArtUri(artist.getSongId());
+//                String datatoplay = s.getData();
+            Picasso.with(context).load(albumArtUri.toString()).placeholder(R.drawable.placeholder1).into(viewHolder.ivArtistArt);
 //                Picasso.with(context).load(album.getAlbumArt()).placeholder1(R.mipmap.ic_launcher).into(viewHolder.ivAlbumArt);
         }
 
@@ -66,21 +60,18 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView ivAlbumArt1, ivAlbumArt2, ivAlbumArt3, ivAlbumArt4, seemore;
-        TextView tvArtist, tvArtistStats;
+        ImageView ivArtistArt, seemore;
+        TextView tvArtistName, tvArtistStats;
         PlayPauseView playPauseView;
 
         //        TextView sdur;
         public ViewHolder(View view) {
             super(view);
-            tvArtist = view.findViewById(R.id.artitstName);
-            tvArtist.setSelected(true);
-            tvArtistStats = view.findViewById(R.id.songCount);
-            ivAlbumArt1 = view.findViewById(R.id.albumArt1);
-            ivAlbumArt2 = view.findViewById(R.id.albumArt2);
-            ivAlbumArt3 = view.findViewById(R.id.albumArt3);
-            ivAlbumArt4 = view.findViewById(R.id.albumArt4);
-            playPauseView = view.findViewById(R.id.songPlayPause);
+            tvArtistName = view.findViewById(R.id.albumName);
+            tvArtistName.setSelected(true);
+            tvArtistStats = view.findViewById(R.id.artistStats);
+            ivArtistArt = view.findViewById(R.id.albumArt);
+            playPauseView = view.findViewById(R.id.artistPlayPause);
             playPauseView.bringToFront();
         }
 

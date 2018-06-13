@@ -19,14 +19,8 @@ public class ArtistLoader {
                 int _id = cursor.getInt(0);
 
                 ArrayList artistSongs = getArtistSongs(_id,context);
-                int songArt[] = new int[4];
-                for(int i=0;i<4;i++)
-                {
-                    int index =(int)(Math.random()*artistSongs.size());
-                    SongInfo aSong = (SongInfo)artistSongs.get(index);
-                    songArt[i] = aSong.getAlbum_id();
-                }
-                arrayList.add(new ArtistInfo(cursor.getInt(0), cursor.getInt(1), cursor.getInt(2), cursor.getString(3), cursor.getString(4),songArt));
+                SongInfo songInfo = (SongInfo) artistSongs.get(0);
+                arrayList.add(new ArtistInfo(cursor.getInt(0), cursor.getInt(1), cursor.getInt(2), cursor.getString(3), cursor.getString(4),songInfo.getAlbum_id()));
                 n++;
             }
             while (cursor.moveToNext()&&n<m);
@@ -47,14 +41,8 @@ public class ArtistLoader {
                 int _id = cursor.getInt(0);
 
                 ArrayList artistSongs = getArtistSongs(_id,context);
-                int songArt[] = new int[4];
-                for(int i=0;i<4;i++)
-                {
-                    int index =(int)(Math.random()*artistSongs.size());
-                    SongInfo aSong = (SongInfo)artistSongs.get(index);
-                    songArt[i] = aSong.getAlbum_id();
-                }
-                arrayList.add(new ArtistInfo(cursor.getInt(0), cursor.getInt(1), cursor.getInt(2), cursor.getString(3), cursor.getString(4),songArt));
+                SongInfo songInfo = (SongInfo) artistSongs.get(0);
+                arrayList.add(new ArtistInfo(cursor.getInt(0), cursor.getInt(1), cursor.getInt(2), cursor.getString(3), cursor.getString(4),songInfo.getAlbum_id()));
             }
             while (cursor.moveToNext());
         if (cursor != null)

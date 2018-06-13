@@ -76,9 +76,9 @@ public class TracksFragment extends Fragment {
         recyclerTracks.setLayoutManager(layoutManager);
         recyclerTracks.setOverScrollMode(View.OVER_SCROLL_NEVER);
 
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerTracks.getContext(),
-                layoutManager.getOrientation());
-        recyclerTracks.addItemDecoration(dividerItemDecoration);
+//        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerTracks.getContext(),
+//                layoutManager.getOrientation());
+//        recyclerTracks.addItemDecoration(dividerItemDecoration);
     }
 
     private class loadTracks extends AsyncTask<String,Void,String> {

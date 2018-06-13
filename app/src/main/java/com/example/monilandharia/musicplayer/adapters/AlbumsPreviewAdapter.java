@@ -28,23 +28,30 @@ public class AlbumsPreviewAdapter extends RecyclerView.Adapter<AlbumsPreviewAdap
     private Context context;
     private RecyclerItemClickListener listener;
     private FragmentManager fragmentManager;
+    private boolean isHome;
 
-    public AlbumsPreviewAdapter(Context context, ArrayList<AlbumInfo> albumInfos, RecyclerItemClickListener listener, FragmentManager fragmentManager) {
+    public AlbumsPreviewAdapter(Context context, ArrayList<AlbumInfo> albumInfos, RecyclerItemClickListener listener, FragmentManager fragmentManager, boolean isHome) {
         this.context = context;
         this.albumInfos = albumInfos;
         this.listener = listener;
         this.fragmentManager = fragmentManager;
+        this.isHome = isHome;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view;
-        if (i == R.layout.item_album) {
+        if (isHome) {
+            if (i == R.layout.item_album) {
+                view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_album, viewGroup, false);
+                return new ViewHolder(view);
+            } else {
+                view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_seemore, viewGroup, false);
+                return new ViewHolder(view, 1);
+            }
+        } else {
             view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_album, viewGroup, false);
             return new ViewHolder(view);
-        } else {
-            view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_seemore, viewGroup, false);
-            return new ViewHolder(view, 1);
         }
 
     }
@@ -52,15 +59,33 @@ public class AlbumsPreviewAdapter extends RecyclerView.Adapter<AlbumsPreviewAdap
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
 
-        if (i == albumInfos.size()) {
-            viewHolder.seemore.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.fragment_home, new AlbumsFragment()).addToBackStack("HOME").commit();
-//                    fragmentTransaction.commit();
+        if (isHome) {
+            if (i == albumInfos.size()) {
+                viewHolder.seemore.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.replace(R.id.fragment_home, new AlbumsFragment()).addToBackStack("HOME").commit();
+                        //                    fragmentTransaction.commit();
+                    }
+                });
+            } else {
+                AlbumInfo albumInfo = albumInfos.get(i);
+                if (albumInfo != null) {
+                    viewHolder.tvAlbum.setText(albumInfo.getTitle());
+                    int songCount = albumInfo.getSongCount();
+                    String s = songCount > 1 ? " songs" : " song";
+                    viewHolder.tvSongCount.setText(songCount + s);
+                    Uri albumArtUri = getAlbumArtUri(albumInfo.getId());
+                    //                String datatoplay = s.getData();
+                    Picasso.with(context).load(albumArtUri.toString()).placeholder(R.drawable.placeholder1).into(viewHolder.ivAlbumArt);
+
+                    //                Picasso.with(context).load(albumInfo.getAlbumArt()).placeholder1(R.mipmap.ic_launcher).into(viewHolder.ivAlbumArt);
+                    //                viewHolder.ivAlbumArt.setImageBitmap(BitmapFactory.decodeFile(albumInfo.getAlbumArt()));
                 }
-            });
+
+                viewHolder.bind(albumInfo, listener);
+            }
         } else {
             AlbumInfo albumInfo = albumInfos.get(i);
             if (albumInfo != null) {
@@ -69,11 +94,11 @@ public class AlbumsPreviewAdapter extends RecyclerView.Adapter<AlbumsPreviewAdap
                 String s = songCount > 1 ? " songs" : " song";
                 viewHolder.tvSongCount.setText(songCount + s);
                 Uri albumArtUri = getAlbumArtUri(albumInfo.getId());
-//                String datatoplay = s.getData();
+                //                String datatoplay = s.getData();
                 Picasso.with(context).load(albumArtUri.toString()).placeholder(R.drawable.placeholder1).into(viewHolder.ivAlbumArt);
 
-//                Picasso.with(context).load(albumInfo.getAlbumArt()).placeholder1(R.mipmap.ic_launcher).into(viewHolder.ivAlbumArt);
-//                viewHolder.ivAlbumArt.setImageBitmap(BitmapFactory.decodeFile(albumInfo.getAlbumArt()));
+                //                Picasso.with(context).load(albumInfo.getAlbumArt()).placeholder1(R.mipmap.ic_launcher).into(viewHolder.ivAlbumArt);
+                //                viewHolder.ivAlbumArt.setImageBitmap(BitmapFactory.decodeFile(albumInfo.getAlbumArt()));
             }
 
             viewHolder.bind(albumInfo, listener);
@@ -84,7 +109,11 @@ public class AlbumsPreviewAdapter extends RecyclerView.Adapter<AlbumsPreviewAdap
 
     @Override
     public int getItemCount() {
-        return albumInfos.size() + 1;
+        if (isHome) {
+            return albumInfos.size() + 1;
+        } else {
+            return albumInfos.size();
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -97,7 +126,7 @@ public class AlbumsPreviewAdapter extends RecyclerView.Adapter<AlbumsPreviewAdap
             super(view);
             tvAlbum = view.findViewById(R.id.albumName);
             tvAlbum.setSelected(true);
-            tvSongCount = view.findViewById(R.id.albumSongCount);
+            tvSongCount = view.findViewById(R.id.albumStats);
             ivAlbumArt = view.findViewById(R.id.albumArt);
             playPauseView = view.findViewById(R.id.albumPlayPause);
             playPauseView.bringToFront();
@@ -120,7 +149,11 @@ public class AlbumsPreviewAdapter extends RecyclerView.Adapter<AlbumsPreviewAdap
 
     @Override
     public int getItemViewType(int position) {
-        return (position == albumInfos.size()) ? R.layout.layout_seemore : R.layout.item_album;
+        if (isHome) {
+            return (position == albumInfos.size()) ? R.layout.layout_seemore : R.layout.item_album;
+        } else {
+            return R.layout.item_album;
+        }
     }
 
     public Uri getAlbumArtUri(long param) {

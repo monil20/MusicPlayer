@@ -61,12 +61,12 @@ public class TracksAdapter extends RecyclerView.Adapter<TracksAdapter.ViewHolder
                             @Override
                             public boolean onMenuItemClick(MenuItem item) {
                                 switch (item.getItemId()) {
-                                    case R.id.item1:
-                                        Toast.makeText(context, "Item 1 clikced", Toast.LENGTH_SHORT).show();
-                                    case R.id.item2:
+                                    case R.id.playlist:
+                                        Toast.makeText(context, item.getTitle(), Toast.LENGTH_SHORT).show();
+                                        break;
+                                    case R.id.fav:
                                         Toast.makeText(context, "Item 2 clikced", Toast.LENGTH_SHORT).show();
-                                    case R.id.item3:
-                                        Toast.makeText(context, "Item 3 clikced", Toast.LENGTH_SHORT).show();
+                                        break;
                                 }
                                 return true;
                             }

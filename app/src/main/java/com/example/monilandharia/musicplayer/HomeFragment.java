@@ -117,7 +117,7 @@ public class HomeFragment extends Fragment {
                     public void onClickListener(AlbumInfo albumInfo, int position) {
 
                     }
-                }, getActivity().getSupportFragmentManager());
+                }, getActivity().getSupportFragmentManager(), true);
             return "Executed";
         }
 

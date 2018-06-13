@@ -3,23 +3,19 @@ package com.example.monilandharia.musicplayer.models;
 public class ArtistInfo {
     private int _id, albumsCount, tracksCount;
     private String artistName, artistKey;
-    private int[] songIds;
+    private int songId;
 
-    public int[] getSongIds() {
-        return songIds;
+    public int getSongId() {
+        return songId;
     }
 
-    public void setSongIds(int[] songIds) {
-        this.songIds = songIds;
-    }
-
-    public ArtistInfo(int _id, int albumsCount, int tracksCount, String artistName, String artistKey, int[] songIds) {
+    public ArtistInfo(int _id, int albumsCount, int tracksCount, String artistName, String artistKey, int songId) {
         this._id = _id;
         this.albumsCount = albumsCount;
         this.tracksCount = tracksCount;
         this.artistName = artistName;
         this.artistKey = artistKey;
-        this.songIds = songIds;
+        this.songId = songId;
 
     }
 

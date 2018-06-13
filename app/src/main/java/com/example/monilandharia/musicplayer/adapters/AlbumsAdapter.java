@@ -33,7 +33,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.ViewHolder
     }
 
     @Override
-    public AlbumsAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View layoutView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_all_albums, null);
         ViewHolder rcv = new ViewHolder(layoutView);
         return rcv;
@@ -100,10 +100,10 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.ViewHolder
         public ViewHolder(View view) {
             super(view);
             cardView = view.findViewById(R.id.card_view);
-            tvAlbum = view.findViewById(R.id.artitstName);
+            tvAlbum = view.findViewById(R.id.albumName);
             tvAlbum.setSelected(true);
             tvAlbumArtist = view.findViewById(R.id.albumArtist);
-            ivAlbumArt = view.findViewById(R.id.artistImageArt);
+            ivAlbumArt = view.findViewById(R.id.albumArt);
             playPauseView = view.findViewById(R.id.albumPlayPause);
             playPauseView.bringToFront();
         }

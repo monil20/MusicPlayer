@@ -31,7 +31,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:ellipsize="end"
-            android:maxEms="16"
+            android:maxEms="15"
             android:maxLines="1"
             android:text="Title"
             android:textColor="@android:color/black"
