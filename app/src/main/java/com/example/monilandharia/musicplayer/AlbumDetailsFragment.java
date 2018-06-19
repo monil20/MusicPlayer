@@ -17,7 +17,10 @@ import com.example.monilandharia.musicplayer.adapters.TracksAdapter;
 import com.example.monilandharia.musicplayer.dataLoaders.AlbumSongLoader;
 import com.example.monilandharia.musicplayer.models.SongInfo;
 import com.example.monilandharia.musicplayer.utilities.Utility;
+import com.ohoussein.playpause.PlayPauseView;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 
 /**
@@ -32,6 +35,8 @@ public class AlbumDetailsFragment extends Fragment {
     private String albumName;
     private ImageView ivAlbumImage;
     private TextView tvAlbumName;
+    private PlayPauseView playPauseView;
+    private ArrayList<SongInfo> songList;
 
     public AlbumDetailsFragment() {
         // Required empty public constructor
@@ -54,6 +59,12 @@ public class AlbumDetailsFragment extends Fragment {
         {
             new loadAlbumTracks().execute("");
         }
+        playPauseView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
         return view;
     }
 
@@ -69,13 +80,15 @@ public class AlbumDetailsFragment extends Fragment {
         albumSongsRecycler.setHasFixedSize(true);
         albumSongsRecycler.setLayoutManager(layoutManager);
         albumSongsRecycler.setOverScrollMode(View.OVER_SCROLL_NEVER);
+        playPauseView = view.findViewById(R.id.playPauseView);
+
     }
 
     private class loadAlbumTracks extends AsyncTask<String,Void,String> {
         @Override
         protected String doInBackground(String... strings) {
             if (getActivity() != null)
-                adapter = new TracksAdapter(AlbumSongLoader.getSongsForAlbum(getActivity().getApplicationContext(),albumId),getActivity(), new TracksAdapter.RecyclerItemClickListener(){
+                adapter = new TracksAdapter(songList = AlbumSongLoader.getSongsForAlbum(getActivity().getApplicationContext(),albumId),getActivity(), new TracksAdapter.RecyclerItemClickListener(){
                     @Override
                     public void onClickListener(SongInfo song, int position) {
 

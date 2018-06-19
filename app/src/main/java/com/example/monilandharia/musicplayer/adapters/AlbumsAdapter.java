@@ -10,7 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.monilandharia.musicplayer.MainActivity;
 import com.example.monilandharia.musicplayer.R;
 import com.example.monilandharia.musicplayer.models.AlbumInfo;
 import com.example.monilandharia.musicplayer.utilities.Utility;
@@ -40,7 +42,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(final ViewHolder viewHolder, int i) {
 
 //        if (i == albumInfos.size()) {
 //            viewHolder.seemore.setOnClickListener(new View.OnClickListener() {
@@ -76,6 +78,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.ViewHolder
             Uri albumArtUri = Utility.getAlbumArtUri(albumInfo.getId());
 //                String datatoplay = s.getData();
             Picasso.with(context).load(albumArtUri.toString()).placeholder(R.drawable.placeholder1).into(viewHolder.ivAlbumArt);
+
 
 //                Picasso.with(context).load(albumInfo.getAlbumArt()).placeholder1(R.mipmap.ic_launcher).into(viewHolder.ivAlbumArt);
 //                viewHolder.ivAlbumArt.setImageBitmap(BitmapFactory.decodeFile(albumInfo.getAlbumArt()));

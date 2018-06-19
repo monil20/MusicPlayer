@@ -65,7 +65,7 @@ public class TracksAdapter extends RecyclerView.Adapter<TracksAdapter.ViewHolder
                                         Toast.makeText(context, item.getTitle(), Toast.LENGTH_SHORT).show();
                                         break;
                                     case R.id.fav:
-                                        Toast.makeText(context, "Item 2 clikced", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(context, item.getTitle(), Toast.LENGTH_SHORT).show();
                                         break;
                                 }
                                 return true;
@@ -118,5 +118,11 @@ public class TracksAdapter extends RecyclerView.Adapter<TracksAdapter.ViewHolder
 
     public interface RecyclerItemClickListener {
         void onClickListener(SongInfo song, int position);
+    }
+
+    public void filterSongs(ArrayList<SongInfo> filteredSongs) {
+        songs.clear();
+        songs.addAll(filteredSongs);
+        this.notifyDataSetChanged();
     }
 }

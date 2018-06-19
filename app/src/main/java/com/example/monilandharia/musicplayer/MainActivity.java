@@ -10,10 +10,8 @@ import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.content.Context;
 import android.graphics.Path;
 import android.os.Handler;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -26,7 +24,6 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.app.AlertDialog.Builder;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
@@ -74,7 +71,9 @@ public class MainActivity extends AppCompatActivity {
                         Manifest.permission.READ_EXTERNAL_STORAGE,
                         Manifest.permission.WAKE_LOCK,
                         Manifest.permission.RECORD_AUDIO,
-                        Manifest.permission.MODIFY_AUDIO_SETTINGS)
+                        Manifest.permission.MODIFY_AUDIO_SETTINGS,
+                        Manifest.permission.READ_PHONE_STATE,
+                        Manifest.permission.INTERNET)
                 .withListener(new MultiplePermissionsListener() {
                     @Override
                     public void onPermissionsChecked(MultiplePermissionsReport report) {
@@ -83,8 +82,7 @@ public class MainActivity extends AppCompatActivity {
                             initFragments();
                         }
 
-                        if(report.isAnyPermissionPermanentlyDenied())
-                        {
+                        if (report.isAnyPermissionPermanentlyDenied()) {
                             showSettingDialog();
                         }
                     }
@@ -152,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
         AHBottomNavigationItem item1 = new AHBottomNavigationItem("Home", R.drawable.house_outline, android.R.color.white);
         AHBottomNavigationItem item2 = new AHBottomNavigationItem("Me", R.drawable.avatar, android.R.color.white);
         AHBottomNavigationItem item3 = new AHBottomNavigationItem("Cloud", R.drawable.cloud, android.R.color.white);
-        AHBottomNavigationItem item4 = new AHBottomNavigationItem("Search", R.drawable.search, android.R.color.white);
+        AHBottomNavigationItem item4 = new AHBottomNavigationItem("Search", R.drawable.search_white, android.R.color.white);
 
         bottomNavigation.addItem(item1);
         bottomNavigation.addItem(item2);
@@ -486,9 +484,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
+
 
 }
