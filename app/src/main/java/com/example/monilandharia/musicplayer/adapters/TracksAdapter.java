@@ -121,8 +121,7 @@ public class TracksAdapter extends RecyclerView.Adapter<TracksAdapter.ViewHolder
     }
 
     public void filterSongs(ArrayList<SongInfo> filteredSongs) {
-        songs.clear();
-        songs.addAll(filteredSongs);
+        songs = filteredSongs;
         this.notifyDataSetChanged();
     }
 }

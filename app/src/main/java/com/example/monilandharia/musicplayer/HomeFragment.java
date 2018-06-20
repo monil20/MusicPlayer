@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.example.monilandharia.musicplayer.adapters.AlbumsPreviewAdapter;
 import com.example.monilandharia.musicplayer.adapters.ArtistsPreviewAdapter;
+import com.example.monilandharia.musicplayer.adapters.TracksAdapter;
 import com.example.monilandharia.musicplayer.adapters.TracksPreviewAdapter;
 import com.example.monilandharia.musicplayer.dataLoaders.AlbumLoader;
 import com.example.monilandharia.musicplayer.dataLoaders.ArtistLoader;
@@ -31,8 +32,6 @@ public class HomeFragment extends Fragment {
     private TracksPreviewAdapter adapterRecentlyAdded;
     private AlbumsPreviewAdapter adapterAlbums;
     private ArtistsPreviewAdapter artistsPreviewAdapter;
-    private Cursor trackCursor, albumCursor, artistCursor, songsForArtistCursor;
-    private ArrayList recentlyAdded, albums, tracks, genres, songs, artists;
     private RecyclerView.LayoutManager layoutManager, layoutManager1, layoutManager2;
 //    String[] genreProjection = {
 //            MediaStore.Audio.Genres._ID,
@@ -46,7 +45,6 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-
         initView(view);
         if (getActivity() != null) {
             new loadAlbums().execute("");
@@ -111,13 +109,14 @@ public class HomeFragment extends Fragment {
     private class loadAlbums extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... strings) {
-            if (getActivity() != null)
+            if (getActivity() != null) {
                 adapterAlbums = new AlbumsPreviewAdapter(getActivity(), AlbumLoader.getAllAlbums(getActivity(), 6), new AlbumsPreviewAdapter.RecyclerItemClickListener() {
                     @Override
                     public void onClickListener(AlbumInfo albumInfo, int position) {
 
                     }
                 }, getActivity().getSupportFragmentManager(), true);
+            }
             return "Executed";
         }
 
@@ -138,7 +137,7 @@ public class HomeFragment extends Fragment {
                     public void onClickListener(ArtistInfo albumInfo, int position) {
 
                     }
-                }, getActivity().getSupportFragmentManager());
+                }, getActivity().getSupportFragmentManager(), true);
             return "Executed";
         }
 
@@ -153,13 +152,14 @@ public class HomeFragment extends Fragment {
     private class loadTracks extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... strings) {
-            if (getActivity() != null)
+            if (getActivity() != null) {
                 adapterRecentlyAdded = new TracksPreviewAdapter(getActivity(), TrackLoader.getAllTracks(getActivity().getApplicationContext(), 6), new TracksPreviewAdapter.RecyclerItemClickListener() {
                     @Override
                     public void onClickListener(SongInfo albumInfo, int position) {
 
                     }
                 }, getActivity().getSupportFragmentManager());
+            }
             return "Executed";
         }
 

@@ -28,23 +28,30 @@ public class ArtistsPreviewAdapter extends RecyclerView.Adapter<ArtistsPreviewAd
     private Context context;
     private RecyclerItemClickListener listener;
     private FragmentManager fragmentManager;
+    private boolean isHome;
 
-    public ArtistsPreviewAdapter(Context context, ArrayList<ArtistInfo> artists, RecyclerItemClickListener listener,FragmentManager fragmentManager) {
+    public ArtistsPreviewAdapter(Context context, ArrayList<ArtistInfo> artists, RecyclerItemClickListener listener,FragmentManager fragmentManager, boolean isHome) {
         this.context = context;
         this.artists = artists;
         this.listener = listener;
         this.fragmentManager = fragmentManager;
+        this.isHome = isHome;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view;
-        if (i == R.layout.item_artist) {
+        if (isHome) {
+            if (i == R.layout.item_artist) {
+                view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_artist, viewGroup, false);
+                return new ViewHolder(view);
+            } else {
+                view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_seemore, viewGroup, false);
+                return new ViewHolder(view, 1);
+            }
+        } else {
             view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_artist, viewGroup, false);
             return new ViewHolder(view);
-        } else {
-            view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_seemore, viewGroup, false);
-            return new ViewHolder(view, 1);
         }
 
     }
@@ -52,24 +59,39 @@ public class ArtistsPreviewAdapter extends RecyclerView.Adapter<ArtistsPreviewAd
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
 
-        if (i == artists.size()) {
-            viewHolder.seemore.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.fragment_home, new ArtistsFragment()).addToBackStack("HOME").commit();
+        if (isHome) {
+            if (i == artists.size()) {
+                viewHolder.seemore.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.replace(R.id.fragment_home, new ArtistsFragment()).addToBackStack("HOME").commit();
+                    }
+                });
+            } else {
+                ArtistInfo artist = artists.get(i);
+                if (artist != null) {
+                    viewHolder.tvArtistName.setText(artist.getArtistName());
+                    viewHolder.tvArtistStats.setText(artist.getAlbumsCount() + " albums, "+artist.getTracksCount()+" songs");
+                    Uri albumArtUri = getAlbumArtUri(artist.getSongId());
+    //                String datatoplay = s.getData();
+                    Picasso.with(context).load(albumArtUri.toString()).placeholder(R.drawable.placeholder1).into(viewHolder.ivArtistArt);
+
+    //                Picasso.with(context).load(album.getAlbumArt()).placeholder1(R.mipmap.ic_launcher).into(viewHolder.ivAlbumArt);
                 }
-            });
+
+                viewHolder.bind(artist, listener);
+            }
         } else {
             ArtistInfo artist = artists.get(i);
             if (artist != null) {
                 viewHolder.tvArtistName.setText(artist.getArtistName());
                 viewHolder.tvArtistStats.setText(artist.getAlbumsCount() + " albums, "+artist.getTracksCount()+" songs");
                 Uri albumArtUri = getAlbumArtUri(artist.getSongId());
-//                String datatoplay = s.getData();
+                //                String datatoplay = s.getData();
                 Picasso.with(context).load(albumArtUri.toString()).placeholder(R.drawable.placeholder1).into(viewHolder.ivArtistArt);
 
-//                Picasso.with(context).load(album.getAlbumArt()).placeholder1(R.mipmap.ic_launcher).into(viewHolder.ivAlbumArt);
+                //                Picasso.with(context).load(album.getAlbumArt()).placeholder1(R.mipmap.ic_launcher).into(viewHolder.ivAlbumArt);
             }
 
             viewHolder.bind(artist, listener);
@@ -80,7 +102,11 @@ public class ArtistsPreviewAdapter extends RecyclerView.Adapter<ArtistsPreviewAd
 
     @Override
     public int getItemCount() {
-        return artists.size() + 1;
+        if (isHome) {
+            return artists.size() + 1;
+        } else {
+            return artists.size();
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -116,7 +142,11 @@ public class ArtistsPreviewAdapter extends RecyclerView.Adapter<ArtistsPreviewAd
 
     @Override
     public int getItemViewType(int position) {
-        return (position == artists.size()) ? R.layout.layout_seemore : R.layout.item_artist;
+        if (isHome) {
+            return (position == artists.size()) ? R.layout.layout_seemore : R.layout.item_artist;
+        } else {
+            return R.layout.item_artist;
+        }
     }
 
     public Uri getAlbumArtUri(long param) {
@@ -132,5 +162,10 @@ public class ArtistsPreviewAdapter extends RecyclerView.Adapter<ArtistsPreviewAd
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
         String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
         return Uri.parse(path);
+    }
+
+    public void filterArtists(ArrayList<ArtistInfo> filteredArtists) {
+        artists = filteredArtists;
+        this.notifyDataSetChanged();
     }
 }

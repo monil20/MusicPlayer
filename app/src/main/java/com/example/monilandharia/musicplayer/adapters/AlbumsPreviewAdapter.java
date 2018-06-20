@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.example.monilandharia.musicplayer.AlbumsFragment;
 import com.example.monilandharia.musicplayer.R;
 import com.example.monilandharia.musicplayer.models.AlbumInfo;
+import com.example.monilandharia.musicplayer.models.SongInfo;
 import com.ohoussein.playpause.PlayPauseView;
 import com.squareup.picasso.Picasso;
 
@@ -170,4 +171,10 @@ public class AlbumsPreviewAdapter extends RecyclerView.Adapter<AlbumsPreviewAdap
         String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
         return Uri.parse(path);
     }
+
+    public void filterAlbums(ArrayList<AlbumInfo> filteredAlbums) {
+        albumInfos = filteredAlbums;
+        this.notifyDataSetChanged();
+    }
+
 }

@@ -27,6 +27,12 @@ import android.widget.Toast;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
+import com.example.monilandharia.musicplayer.dataLoaders.AlbumLoader;
+import com.example.monilandharia.musicplayer.dataLoaders.ArtistLoader;
+import com.example.monilandharia.musicplayer.dataLoaders.TrackLoader;
+import com.example.monilandharia.musicplayer.models.AlbumInfo;
+import com.example.monilandharia.musicplayer.models.ArtistInfo;
+import com.example.monilandharia.musicplayer.models.SongInfo;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -38,6 +44,7 @@ import com.ohoussein.playpause.PlayPauseView;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -59,6 +66,10 @@ public class MainActivity extends AppCompatActivity {
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
 
+    public static ArrayList<SongInfo> songs;
+    public static ArrayList<AlbumInfo> albums;
+    public static ArrayList<ArtistInfo> artists;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +89,9 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onPermissionsChecked(MultiplePermissionsReport report) {
                         if (report.areAllPermissionsGranted()) {
+                            albums = AlbumLoader.getAllAlbums(MainActivity.this);
+                            songs = TrackLoader.getAllTracks(MainActivity.this);
+                            artists = ArtistLoader.getAllArtists(MainActivity.this);
                             initComponents();
                             initFragments();
                         }

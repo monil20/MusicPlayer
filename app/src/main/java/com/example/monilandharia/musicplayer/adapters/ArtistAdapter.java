@@ -60,11 +60,12 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+
         ImageView ivArtistArt, seemore;
         TextView tvArtistName, tvArtistStats;
         PlayPauseView playPauseView;
-
         //        TextView sdur;
+
         public ViewHolder(View view) {
             super(view);
             tvArtistName = view.findViewById(R.id.albumName);
@@ -74,7 +75,6 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
             playPauseView = view.findViewById(R.id.artistPlayPause);
             playPauseView.bringToFront();
         }
-
         public void bind(final ArtistInfo artist, final RecyclerItemClickListener listener) {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -83,14 +83,15 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
                 }
             });
         }
-    }
 
+    }
     @Override
     public int getItemViewType(int position) {
         return R.layout.item_all_albums;
     }
 
     public interface RecyclerItemClickListener {
+
         void onClickListener(ArtistInfo artistInfo, int position);
     }
 }
