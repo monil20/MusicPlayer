@@ -30,6 +30,7 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.example.monilandharia.musicplayer.dataLoaders.AlbumLoader;
 import com.example.monilandharia.musicplayer.dataLoaders.ArtistLoader;
 import com.example.monilandharia.musicplayer.dataLoaders.TrackLoader;
+import com.example.monilandharia.musicplayer.database.DatabaseHelper;
 import com.example.monilandharia.musicplayer.models.AlbumInfo;
 import com.example.monilandharia.musicplayer.models.ArtistInfo;
 import com.example.monilandharia.musicplayer.models.SongInfo;
@@ -70,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
     public static ArrayList<AlbumInfo> albums;
     public static ArrayList<ArtistInfo> artists;
 
+    public static DatabaseHelper db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,6 +95,11 @@ public class MainActivity extends AppCompatActivity {
                             albums = AlbumLoader.getAllAlbums(MainActivity.this);
                             songs = TrackLoader.getAllTracks(MainActivity.this);
                             artists = ArtistLoader.getAllArtists(MainActivity.this);
+                            db = new DatabaseHelper(getApplicationContext());
+                            for (String s :
+                                    db.getPlaylists()) {
+                                Log.i("ZZZ",s);
+                            }
                             initComponents();
                             initFragments();
                         }

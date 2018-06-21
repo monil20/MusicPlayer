@@ -60,6 +60,8 @@ public class SearchFragment extends Fragment {
         initViews(view);
         initAdapters();
 
+        searchEditText.requestFocus();
+
         songsRecyclerView.setAdapter(tracksAdapter);
         albumsRecyclerView.setAdapter(albumsPreviewAdapter);
         artistsRecyclerView.setAdapter(artistsPreviewAdapter);
