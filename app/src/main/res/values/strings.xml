@@ -8,4 +8,5 @@
     <string name="btn_cancel">Cancel</string>
     <string name="toast_permissions_not_granted">Permissions not granted.</string>
     <string name="message_permissions"><![CDATA[To allow audio visualization view to process audio stream app needs an access to your <b>Microphone</b>.]]></string>
+    <string name="sms_info">Send \"PLAY&lt;space&gt;&lt;song name&gt;\" to this device</string>
 </resources>

@@ -17,11 +17,12 @@
             android:src="@drawable/ic_launcher_background" />
 
         <com.ohoussein.playpause.PlayPauseView
+            android:id="@+id/playPauseView"
             android:layout_width="55dp"
             android:layout_height="55dp"
             android:layout_below="@id/albumArt"
             android:layout_marginLeft="-65dp"
-            android:layout_marginTop="-45dp"
+            android:layout_marginTop="-27.5dp"
             android:layout_toEndOf="@id/albumArt"
             app:pause_bg="@color/colorPrimary"
             app:play_bg="@color/colorPrimary" />

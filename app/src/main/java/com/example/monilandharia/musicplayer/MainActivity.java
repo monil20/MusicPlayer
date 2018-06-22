@@ -5,6 +5,7 @@ import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
@@ -86,8 +87,7 @@ public class MainActivity extends AppCompatActivity {
                         Manifest.permission.WAKE_LOCK,
                         Manifest.permission.RECORD_AUDIO,
                         Manifest.permission.MODIFY_AUDIO_SETTINGS,
-                        Manifest.permission.READ_PHONE_STATE,
-                        Manifest.permission.INTERNET)
+                        Manifest.permission.READ_PHONE_STATE)
                 .withListener(new MultiplePermissionsListener() {
                     @Override
                     public void onPermissionsChecked(MultiplePermissionsReport report) {
@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
                             db = new DatabaseHelper(getApplicationContext());
                             for (String s :
                                     db.getPlaylists()) {
-                                Log.i("ZZZ",s);
+                                Log.i("ZZZ", s);
                             }
                             initComponents();
                             initFragments();
@@ -179,8 +179,9 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigation.addItem(item3);
         bottomNavigation.addItem(item4);
 
-        bottomNavigation.setTranslucentNavigationEnabled(true);
-        bottomNavigation.setAccentColor(R.color.colorPrimaryDark);
+//        bottomNavigation.setTranslucentNavigationEnabled(true);
+        bottomNavigation.setAccentColor(Color.parseColor("#8f367c"));
+        bottomNavigation.setInactiveColor(Color.parseColor("#747474"));
         bottomNavigation.setTitleState(AHBottomNavigation.TitleState.SHOW_WHEN_ACTIVE);
         bottomNavigation.setCurrentItem(0);
 
