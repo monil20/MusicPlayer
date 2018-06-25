@@ -9,7 +9,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".AlbumDetailsFragment">
+        tools:context=".PlaylistDetailsFragment">
 
 
         <ImageView
@@ -40,13 +40,13 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:padding="8dp"
-            android:text="Album Name"
+            android:text="Playlist Name"
             android:textColor="@android:color/black"
             android:textSize="16dp"
             android:textStyle="bold" />
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerAlbumSongs"
+            android:id="@+id/playlistRecycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/playlistName"

@@ -17,7 +17,6 @@ import android.widget.TextView;
 import com.example.monilandharia.musicplayer.AlbumsFragment;
 import com.example.monilandharia.musicplayer.R;
 import com.example.monilandharia.musicplayer.models.AlbumInfo;
-import com.example.monilandharia.musicplayer.models.SongInfo;
 import com.ohoussein.playpause.PlayPauseView;
 import com.squareup.picasso.Picasso;
 
@@ -125,10 +124,10 @@ public class AlbumsPreviewAdapter extends RecyclerView.Adapter<AlbumsPreviewAdap
         //        TextView sdur;
         public ViewHolder(View view) {
             super(view);
-            tvAlbum = view.findViewById(R.id.albumName);
+            tvAlbum = view.findViewById(R.id.playlistName);
             tvAlbum.setSelected(true);
             tvSongCount = view.findViewById(R.id.albumStats);
-            ivAlbumArt = view.findViewById(R.id.albumArt);
+            ivAlbumArt = view.findViewById(R.id.playlistArt);
             playPauseView = view.findViewById(R.id.albumPlayPause);
             playPauseView.bringToFront();
         }

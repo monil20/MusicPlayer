@@ -10,9 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.monilandharia.musicplayer.MainActivity;
 import com.example.monilandharia.musicplayer.R;
 import com.example.monilandharia.musicplayer.models.AlbumInfo;
 import com.example.monilandharia.musicplayer.utilities.Utility;
@@ -103,10 +101,10 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.ViewHolder
         public ViewHolder(View view) {
             super(view);
             cardView = view.findViewById(R.id.card_view);
-            tvAlbum = view.findViewById(R.id.albumName);
+            tvAlbum = view.findViewById(R.id.playlistName);
             tvAlbum.setSelected(true);
             tvAlbumArtist = view.findViewById(R.id.albumArtist);
-            ivAlbumArt = view.findViewById(R.id.albumArt);
+            ivAlbumArt = view.findViewById(R.id.playlistArt);
             playPauseView = view.findViewById(R.id.albumPlayPause);
             playPauseView.bringToFront();
         }

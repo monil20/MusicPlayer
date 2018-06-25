@@ -71,8 +71,8 @@ public class AlbumDetailsFragment extends Fragment {
     private void initView(View view)
     {
 
-        ivAlbumImage = view.findViewById(R.id.artistImage);
-        tvAlbumName = view.findViewById(R.id.albumName);
+        ivAlbumImage = view.findViewById(R.id.playlistArt);
+        tvAlbumName = view.findViewById(R.id.playlistName);
 
         layoutManager = new LinearLayoutManager(getActivity().getApplicationContext(),LinearLayoutManager.VERTICAL,false);
 
@@ -93,7 +93,7 @@ public class AlbumDetailsFragment extends Fragment {
                     public void onClickListener(SongInfo song, int position) {
 
                     }
-                });
+                }, false, null);
             return "Executed";        }
 
         @Override

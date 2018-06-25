@@ -96,10 +96,7 @@ public class MainActivity extends AppCompatActivity {
                             songs = TrackLoader.getAllTracks(MainActivity.this);
                             artists = ArtistLoader.getAllArtists(MainActivity.this);
                             db = new DatabaseHelper(getApplicationContext());
-                            for (String s :
-                                    db.getPlaylists()) {
-                                Log.i("ZZZ", s);
-                            }
+                            
                             initComponents();
                             initFragments();
                         }

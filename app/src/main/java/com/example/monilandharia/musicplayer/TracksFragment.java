@@ -75,9 +75,8 @@ public class TracksFragment extends Fragment {
                 tracksAdapter = new TracksAdapter(TrackLoader.getAllTracks(getActivity().getApplicationContext()), getActivity(), new TracksAdapter.RecyclerItemClickListener() {
                     @Override
                     public void onClickListener(SongInfo song, int position) {
-
                     }
-                });
+                }, false, null);
             return "Executed";
         }
 

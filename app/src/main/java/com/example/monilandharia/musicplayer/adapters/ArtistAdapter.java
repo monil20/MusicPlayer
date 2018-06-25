@@ -68,10 +68,10 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
 
         public ViewHolder(View view) {
             super(view);
-            tvArtistName = view.findViewById(R.id.albumName);
+            tvArtistName = view.findViewById(R.id.playlistName);
             tvArtistName.setSelected(true);
             tvArtistStats = view.findViewById(R.id.artistStats);
-            ivArtistArt = view.findViewById(R.id.albumArt);
+            ivArtistArt = view.findViewById(R.id.playlistArt);
             playPauseView = view.findViewById(R.id.artistPlayPause);
             playPauseView.bringToFront();
         }

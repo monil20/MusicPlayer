@@ -13,10 +13,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.monilandharia.musicplayer.adapters.AlbumsAdapter;
 import com.example.monilandharia.musicplayer.adapters.AlbumsPreviewAdapter;
 import com.example.monilandharia.musicplayer.adapters.TracksAdapter;
-import com.example.monilandharia.musicplayer.dataLoaders.AlbumLoader;
 import com.example.monilandharia.musicplayer.dataLoaders.ArtistAlbumLoader;
 import com.example.monilandharia.musicplayer.dataLoaders.ArtistSongLoader;
 import com.example.monilandharia.musicplayer.models.AlbumInfo;
@@ -68,8 +66,8 @@ public class ArtistDetailsFragment extends Fragment {
 
     private void initViews(View view)
     {
-        artistNameTextview = view.findViewById(R.id.albumName);
-        artistImage = view.findViewById(R.id.albumArt);
+        artistNameTextview = view.findViewById(R.id.playlistName);
+        artistImage = view.findViewById(R.id.playlistArt);
         songLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext(),LinearLayoutManager.VERTICAL,false);
         albumLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext(),LinearLayoutManager.HORIZONTAL,false);
 
@@ -100,7 +98,7 @@ public class ArtistDetailsFragment extends Fragment {
                     public void onClickListener(SongInfo song, int position) {
 
                     }
-                });
+                }, false, null);
                 }
             return "Executed";
         }

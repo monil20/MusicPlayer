@@ -32,7 +32,8 @@ public class MeFragment extends Fragment {
         ivPlaylist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_home, new PlaylistsFragment()).addToBackStack("PLAYLISTS").commit();
             }
         });
 
@@ -47,14 +48,16 @@ public class MeFragment extends Fragment {
         ivStats.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_home, new StatsFragment()).addToBackStack("STATS").commit();
             }
         });
 
         ivFavs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_home, new FavoritesFragment()).addToBackStack("FAVORITES").commit();
             }
         });
 

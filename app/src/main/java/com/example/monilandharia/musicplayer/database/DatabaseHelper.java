@@ -7,6 +7,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.example.monilandharia.musicplayer.MainActivity;
+import com.example.monilandharia.musicplayer.database.model.PlaylistSongs;
+import com.example.monilandharia.musicplayer.database.model.Playlists;
 import com.example.monilandharia.musicplayer.models.SongInfo;
 
 import java.util.ArrayList;
@@ -116,7 +119,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Playlist CRUD
 
-    public ArrayList<String> getPlaylists(){
+    public ArrayList<Playlists> getPlaylists() {
         SQLiteDatabase db = this.getReadableDatabase();
 
         String selectQuery = "SELECT * FROM " + TABLE_PLAYLISTS;
@@ -125,15 +128,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         Cursor c = db.rawQuery(selectQuery, null);
 
-        ArrayList<String> titles = new ArrayList<>();
+        ArrayList<Playlists> playlists = new ArrayList<>();
 
         if (c.moveToFirst()) {
             do {
-                titles.add(c.getString(c.getColumnIndex(COLUMN_PLAYLIST_TITLE)));
+                playlists.add(new Playlists(c.getInt(c.getColumnIndex(COLUMN_PLAYLIST_ID)), c.getString(c.getColumnIndex(COLUMN_PLAYLIST_TITLE))));
             } while (c.moveToNext());
         }
 
-        return titles;
+        return playlists;
     }
 
     public int addPlaylist(String title) {
@@ -178,6 +181,38 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result;
     }
 
+    public ArrayList<SongInfo> getSongsForPlaylist(int playlistId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String selectQuery = "SELECT " + COLUMN_SONG_ID + " FROM " + TABLE_PLAYLIST_SONGS + " WHERE " + COLUMN_PLAYLIST_ID + " = "+playlistId;
+
+        Log.e(LOG, selectQuery);
+
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        ArrayList<Integer> playlistSongIds = new ArrayList<>();
+
+        if (c.moveToFirst()) {
+            do {
+                playlistSongIds.add(c.getInt(c.getColumnIndex(COLUMN_SONG_ID)));
+            } while (c.moveToNext());
+            Log.e("XXX",playlistSongIds.size()+"");
+        }
+
+        ArrayList<SongInfo> playlistSongs = new ArrayList<>();
+
+        for (int j = 0; j < playlistSongIds.size(); j++) {
+            for (int i = 0; i < MainActivity.songs.size(); i++) {
+                if(playlistSongIds.get(j) == MainActivity.songs.get(i).getSong_id()){
+                    playlistSongs.add(MainActivity.songs.get(i));
+                    break;
+                }
+            }
+        }
+
+        return playlistSongs;
+    }
+
     public long addSongToPlaylist(String title, int songId) {
         SQLiteDatabase dbW = this.getWritableDatabase();
         SQLiteDatabase dbR = this.getReadableDatabase();
@@ -209,7 +244,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public void removePlaylist(String title){
+    public void removePlaylist(String title) {
         SQLiteDatabase dbW = this.getWritableDatabase();
         SQLiteDatabase dbR = this.getReadableDatabase();
         int playlistId = 0;
@@ -235,7 +270,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 new String[]{String.valueOf(playlistId)});
     }
 
-    public void removeSongFromPlaylist(int sondId, String title){
+    public void removeSongFromPlaylist(int sondId, String title) {
         SQLiteDatabase dbW = this.getWritableDatabase();
         SQLiteDatabase dbR = this.getReadableDatabase();
         int playlistId = 0;
@@ -248,6 +283,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor c = dbR.rawQuery(selectQuery, null);
         if (c.moveToFirst()) {
             do {
+//                Log.i("HERE", title+"XXX"+c.getString(c.getColumnIndex(COLUMN_PLAYLIST_TITLE)));
                 if (title.equals(c.getString(c.getColumnIndex(COLUMN_PLAYLIST_TITLE)))) {
                     playlistId = c.getInt(c.getColumnIndex(COLUMN_PLAYLIST_ID));
                     break;
@@ -255,7 +291,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             } while (c.moveToNext());
         }
 
-        dbW.delete(TABLE_PLAYLIST_SONGS, COLUMN_PLAYLIST_ID + " = ? AND "+ COLUMN_SONG_ID + " = ?",
+//        Log.i("HERE", playlistId+" "+sondId);
+        dbW.delete(TABLE_PLAYLIST_SONGS, COLUMN_PLAYLIST_ID + " = ? AND " + COLUMN_SONG_ID + " = ?",
                 new String[]{String.valueOf(playlistId), String.valueOf(sondId)});
     }
 

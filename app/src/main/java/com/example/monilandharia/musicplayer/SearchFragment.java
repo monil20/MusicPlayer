@@ -88,7 +88,7 @@ public class SearchFragment extends Fragment {
                     hasAlbums = false;
                     hasArtists = false;
                     filter(s.toString());
-                }else{
+                } else {
                     artistsTextView.setVisibility(View.GONE);
                     albumsTextView.setVisibility(View.GONE);
                     songsTextView.setVisibility(View.GONE);
@@ -110,7 +110,7 @@ public class SearchFragment extends Fragment {
             public void onClickListener(SongInfo song, int position) {
 
             }
-        });
+        }, false, null);
 
         albumsPreviewAdapter = new AlbumsPreviewAdapter(getActivity(), MainActivity.albums,
                 new AlbumsPreviewAdapter.RecyclerItemClickListener() {
