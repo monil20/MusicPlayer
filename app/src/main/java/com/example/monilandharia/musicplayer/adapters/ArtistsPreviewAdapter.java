@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.monilandharia.musicplayer.ArtistsFragment;
+import com.example.monilandharia.musicplayer.MainActivity;
 import com.example.monilandharia.musicplayer.R;
 import com.example.monilandharia.musicplayer.models.ArtistInfo;
 import com.ohoussein.playpause.PlayPauseView;
@@ -27,14 +28,13 @@ public class ArtistsPreviewAdapter extends RecyclerView.Adapter<ArtistsPreviewAd
     private ArrayList<ArtistInfo> artists;
     private Context context;
     private RecyclerItemClickListener listener;
-    private FragmentManager fragmentManager;
+    private FragmentTransaction fragmentTransaction;
     private boolean isHome;
 
-    public ArtistsPreviewAdapter(Context context, ArrayList<ArtistInfo> artists, RecyclerItemClickListener listener,FragmentManager fragmentManager, boolean isHome) {
+    public ArtistsPreviewAdapter(Context context, ArrayList<ArtistInfo> artists, RecyclerItemClickListener listener, boolean isHome) {
         this.context = context;
         this.artists = artists;
         this.listener = listener;
-        this.fragmentManager = fragmentManager;
         this.isHome = isHome;
     }
 
@@ -64,8 +64,11 @@ public class ArtistsPreviewAdapter extends RecyclerView.Adapter<ArtistsPreviewAd
                 viewHolder.seemore.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                        fragmentTransaction.replace(R.id.fragment_home, new ArtistsFragment()).addToBackStack("HOME").commit();
+                        fragmentTransaction = MainActivity.fragmentManager.beginTransaction();
+                        fragmentTransaction.addToBackStack("HOME");
+                        fragmentTransaction.show(MainActivity.fragmentArtists);
+                        fragmentTransaction.hide(MainActivity.fragmentHome);
+                        fragmentTransaction.commit();
                     }
                 });
             } else {

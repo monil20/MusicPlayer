@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.monilandharia.musicplayer.MainActivity;
 import com.example.monilandharia.musicplayer.R;
 import com.example.monilandharia.musicplayer.models.AlbumInfo;
 import com.example.monilandharia.musicplayer.utilities.Utility;
@@ -76,10 +77,28 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.ViewHolder
             Uri albumArtUri = Utility.getAlbumArtUri(albumInfo.getId());
 //                String datatoplay = s.getData();
             Picasso.with(context).load(albumArtUri.toString()).placeholder(R.drawable.placeholder1).into(viewHolder.ivAlbumArt);
+            viewHolder.playPauseView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!viewHolder.playPauseView.isPlay()) {
+                        viewHolder.playPauseView.toggle();
+                        MainActivity.myService.pauseSong();
+                        MainActivity.myService.togglePlayPauseNotification(1);
+                    } else {
+                        viewHolder.playPauseView.toggle();
+                        MainActivity.myService.resumeSong();
+//                    if(MainActivity.myService.isNotifvisible()) {
+                        MainActivity.myService.togglePlayPauseNotification(2);
+//                    }
+//                    else
+//                    {
+//                        Intent intent = new Intent(getActivity(),MyService.class);
+//                        getActivity().startService(intent);
+//                    }
+                    }
 
-
-//                Picasso.with(context).load(albumInfo.getAlbumArt()).placeholder1(R.mipmap.ic_launcher).into(viewHolder.ivAlbumArt);
-//                viewHolder.ivAlbumArt.setImageBitmap(BitmapFactory.decodeFile(albumInfo.getAlbumArt()));
+                }
+            });
         }
 
         viewHolder.bind(albumInfo, listener);

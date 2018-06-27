@@ -45,7 +45,7 @@ public class ArtistsFragment extends Fragment {
         gridLayoutManager = new GridLayoutManager(getActivity(),2);
         artistRecycler.setLayoutManager(gridLayoutManager);
 
-        artistAdapter = new ArtistAdapter(getActivity(), ArtistLoader.getAllArtists(getActivity()), new ArtistAdapter.RecyclerItemClickListener() {
+        artistAdapter = new ArtistAdapter(getActivity(), MainActivity.artists, new ArtistAdapter.RecyclerItemClickListener() {
             @Override
             public void onClickListener(ArtistInfo artistInfo, int position) {
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();

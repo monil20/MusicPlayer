@@ -91,7 +91,7 @@ public class ArtistDetailsFragment extends Fragment {
                     public void onClickListener(AlbumInfo albumInfo, int position) {
 
                     }
-                }, getActivity().getSupportFragmentManager(), false);
+                }, false);
 
                 tracksAdapter = new TracksAdapter(ArtistSongLoader.getSongsForArtist(getActivity().getApplicationContext(),artistId),getActivity(), new TracksAdapter.RecyclerItemClickListener(){
                     @Override

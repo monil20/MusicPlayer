@@ -3,6 +3,7 @@ package com.example.monilandharia.musicplayer;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import android.widget.ImageView;
 public class MeFragment extends Fragment {
 
     private ImageView ivPlaylist, ivFavs, ivStats, ivSetings;
+    private FragmentTransaction fragmentTransaction = MainActivity.fragmentTransaction;
 
     public MeFragment() {
         // Required empty public constructor
@@ -32,32 +34,44 @@ public class MeFragment extends Fragment {
         ivPlaylist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_home, new PlaylistsFragment()).addToBackStack("PLAYLISTS").commit();
+                fragmentTransaction = MainActivity.fragmentManager.beginTransaction();
+                fragmentTransaction.addToBackStack("ME");
+                fragmentTransaction.show(MainActivity.fragmentPlaylists);
+                fragmentTransaction.hide(MainActivity.fragmentMe);
+                fragmentTransaction.commit();
             }
         });
 
         ivSetings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_home, new SettingsFragment()).addToBackStack("SETTINGS").commit();
+                fragmentTransaction = MainActivity.fragmentManager.beginTransaction();
+                fragmentTransaction.addToBackStack("ME");
+                fragmentTransaction.show(MainActivity.fragmentSettings);
+                fragmentTransaction.hide(MainActivity.fragmentMe);
+                fragmentTransaction.commit();
             }
         });
 
         ivStats.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_home, new StatsFragment()).addToBackStack("STATS").commit();
+                fragmentTransaction = MainActivity.fragmentManager.beginTransaction();
+                fragmentTransaction.addToBackStack("ME");
+                fragmentTransaction.show(MainActivity.fragmentStats);
+                fragmentTransaction.hide(MainActivity.fragmentMe);
+                fragmentTransaction.commit();
             }
         });
 
         ivFavs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_home, new FavoritesFragment()).addToBackStack("FAVORITES").commit();
+                fragmentTransaction = MainActivity.fragmentManager.beginTransaction();
+                fragmentTransaction.addToBackStack("ME");
+                fragmentTransaction.show(MainActivity.fragmentFavorites);
+                fragmentTransaction.hide(MainActivity.fragmentMe);
+                fragmentTransaction.commit();
             }
         });
 
@@ -65,12 +79,10 @@ public class MeFragment extends Fragment {
     }
 
     private void initViews(View view) {
-
         ivPlaylist = view.findViewById(R.id.imageViewPlaylist);
         ivFavs = view.findViewById(R.id.imageViewFavs);
         ivStats = view.findViewById(R.id.imageViewStats);
         ivSetings = view.findViewById(R.id.imageViewSettings);
-
     }
 
 }

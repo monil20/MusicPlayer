@@ -1,11 +1,12 @@
 package com.example.monilandharia.musicplayer;
 
 import android.annotation.SuppressLint;
-import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,7 +15,6 @@ import android.view.ViewGroup;
 
 import com.example.monilandharia.musicplayer.adapters.AlbumsPreviewAdapter;
 import com.example.monilandharia.musicplayer.adapters.ArtistsPreviewAdapter;
-import com.example.monilandharia.musicplayer.adapters.TracksAdapter;
 import com.example.monilandharia.musicplayer.adapters.TracksPreviewAdapter;
 import com.example.monilandharia.musicplayer.dataLoaders.AlbumLoader;
 import com.example.monilandharia.musicplayer.dataLoaders.ArtistLoader;
@@ -23,15 +23,13 @@ import com.example.monilandharia.musicplayer.models.AlbumInfo;
 import com.example.monilandharia.musicplayer.models.ArtistInfo;
 import com.example.monilandharia.musicplayer.models.SongInfo;
 
-import java.util.ArrayList;
-
 
 public class HomeFragment extends Fragment {
 
-    private RecyclerView recyclerRecentlyAdded, recyclerArtists, recyclerAlbums, recyclerTracks, recyclerGenres;
-    private TracksPreviewAdapter adapterRecentlyAdded;
-    private AlbumsPreviewAdapter adapterAlbums;
-    private ArtistsPreviewAdapter artistsPreviewAdapter;
+    public static RecyclerView recyclerRecentlyAdded, recyclerArtists, recyclerAlbums, recyclerGenres;
+    public static TracksPreviewAdapter tracksPreviewAdapter;
+    public static AlbumsPreviewAdapter albumsPreviewAdapter;
+    public static ArtistsPreviewAdapter artistsPreviewAdapter;
     private RecyclerView.LayoutManager layoutManager, layoutManager1, layoutManager2;
 //    String[] genreProjection = {
 //            MediaStore.Audio.Genres._ID,
@@ -110,20 +108,31 @@ public class HomeFragment extends Fragment {
         @Override
         protected String doInBackground(String... strings) {
             if (getActivity() != null) {
-                adapterAlbums = new AlbumsPreviewAdapter(getActivity(), AlbumLoader.getAllAlbums(getActivity(), 6), new AlbumsPreviewAdapter.RecyclerItemClickListener() {
+                albumsPreviewAdapter = new AlbumsPreviewAdapter(getActivity(), MainActivity.albumsPreview, new AlbumsPreviewAdapter.RecyclerItemClickListener() {
                     @Override
                     public void onClickListener(AlbumInfo albumInfo, int position) {
 
+                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        Bundle bundle = new Bundle();
+                        bundle.putLong("albumId", albumInfo.getId());
+                        bundle.putString("albumName", albumInfo.getTitle());
+                        bundle.putString("artistName", albumInfo.getArtistName());
+                        AlbumDetailsFragment frag = new AlbumDetailsFragment();
+                        frag.setArguments(bundle);
+                        fragmentTransaction.replace(R.id.fragment_home, frag).addToBackStack("ALBUMS").commit();
+
                     }
-                }, getActivity().getSupportFragmentManager(), true);
+
+                }, true);
             }
             return "Executed";
         }
 
         @Override
         protected void onPostExecute(String s) {
-            if (adapterAlbums != null) {
-                recyclerAlbums.setAdapter(adapterAlbums);
+            if (albumsPreviewAdapter != null) {
+                recyclerAlbums.setAdapter(albumsPreviewAdapter);
             }
         }
     }
@@ -132,12 +141,22 @@ public class HomeFragment extends Fragment {
         @Override
         protected String doInBackground(String... strings) {
             if (getActivity() != null)
-                artistsPreviewAdapter = new ArtistsPreviewAdapter(getActivity(), ArtistLoader.getAllArtists(getActivity().getApplicationContext(), 6), new ArtistsPreviewAdapter.RecyclerItemClickListener() {
+                artistsPreviewAdapter = new ArtistsPreviewAdapter(getActivity(), MainActivity.artistsPreview, new ArtistsPreviewAdapter.RecyclerItemClickListener() {
                     @Override
-                    public void onClickListener(ArtistInfo albumInfo, int position) {
+                    public void onClickListener(ArtistInfo artistInfo, int position) {
+
+                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("artistAlbumId", artistInfo.getSongId());
+                        bundle.putLong("artistId", artistInfo.get_id());
+                        bundle.putString("artistName", artistInfo.getArtistName());
+                        ArtistDetailsFragment frag = new ArtistDetailsFragment();
+                        frag.setArguments(bundle);
+                        fragmentTransaction.replace(R.id.fragment_home, frag).addToBackStack("ALBUMS").commit();
 
                     }
-                }, getActivity().getSupportFragmentManager(), true);
+                }, true);
             return "Executed";
         }
 
@@ -153,20 +172,20 @@ public class HomeFragment extends Fragment {
         @Override
         protected String doInBackground(String... strings) {
             if (getActivity() != null) {
-                adapterRecentlyAdded = new TracksPreviewAdapter(getActivity(), TrackLoader.getAllTracks(getActivity().getApplicationContext(), 6), new TracksPreviewAdapter.RecyclerItemClickListener() {
+                tracksPreviewAdapter = new TracksPreviewAdapter(getActivity(), MainActivity.songsPreview, new TracksPreviewAdapter.RecyclerItemClickListener() {
                     @Override
                     public void onClickListener(SongInfo albumInfo, int position) {
 
                     }
-                }, getActivity().getSupportFragmentManager());
+                });
             }
             return "Executed";
         }
 
         @Override
         protected void onPostExecute(String s) {
-            if (adapterRecentlyAdded != null) {
-                recyclerRecentlyAdded.setAdapter(adapterRecentlyAdded);
+            if (tracksPreviewAdapter != null) {
+                recyclerRecentlyAdded.setAdapter(tracksPreviewAdapter);
             }
         }
     }

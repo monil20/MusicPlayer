@@ -11,8 +11,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.monilandharia.musicplayer.MainActivity;
 import com.example.monilandharia.musicplayer.R;
 import com.example.monilandharia.musicplayer.TracksFragment;
+import com.example.monilandharia.musicplayer.models.ArtistInfo;
 import com.example.monilandharia.musicplayer.models.SongInfo;
 import com.ohoussein.playpause.PlayPauseView;
 import com.squareup.picasso.Picasso;
@@ -23,13 +25,12 @@ public class TracksPreviewAdapter extends RecyclerView.Adapter<TracksPreviewAdap
     private ArrayList<SongInfo> songs;
     private Context context;
     private RecyclerItemClickListener listener;
-    private android.support.v4.app.FragmentManager fragmentManager;
+    private FragmentTransaction fragmentTransaction;
 
-    public TracksPreviewAdapter(Context context, ArrayList<SongInfo> songs, RecyclerItemClickListener listener, android.support.v4.app.FragmentManager fragmentManager) {
+    public TracksPreviewAdapter(Context context, ArrayList<SongInfo> songs, RecyclerItemClickListener listener) {
         this.context = context;
         this.songs = songs;
         this.listener = listener;
-        this.fragmentManager = fragmentManager;
     }
 
     @Override
@@ -52,8 +53,11 @@ public class TracksPreviewAdapter extends RecyclerView.Adapter<TracksPreviewAdap
             viewHolder.seemore.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.fragment_home, new TracksFragment()).addToBackStack("TRACKS").commit();
+                    fragmentTransaction = MainActivity.fragmentManager.beginTransaction();
+                    fragmentTransaction.addToBackStack("HOME");
+                    fragmentTransaction.show(MainActivity.fragmentTracks);
+                    fragmentTransaction.hide(MainActivity.fragmentHome);
+                    fragmentTransaction.commit();
                 }
             });
         } else {
@@ -123,5 +127,10 @@ public class TracksPreviewAdapter extends RecyclerView.Adapter<TracksPreviewAdap
 
     public interface RecyclerItemClickListener {
         void onClickListener(SongInfo song, int position);
+    }
+
+    public void filterTracks(ArrayList<SongInfo> filteredSongs) {
+        songs = filteredSongs;
+        this.notifyDataSetChanged();
     }
 }

@@ -46,26 +46,25 @@ public class AlbumsFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_albums, container, false);
         //final View view2 = inflater.inflate(R.layout.fragment_album_details,container,false);
-        RecyclerView recyclerView = view.findViewById(R.id.recyclerAlbums   );
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerAlbums);
         recyclerView.setHasFixedSize(true);
 
-        gridLayoutManager = new GridLayoutManager(getActivity(),2);
+        gridLayoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(gridLayoutManager);
 
-        AlbumsAdapter rcAdapter = new AlbumsAdapter(getActivity(),AlbumLoader.getAllAlbums(getActivity()), new AlbumsAdapter.RecyclerItemClickListener() {
+        AlbumsAdapter rcAdapter = new AlbumsAdapter(getActivity(), MainActivity.albums, new AlbumsAdapter.RecyclerItemClickListener() {
             @Override
             public void onClickListener(AlbumInfo albumInfo, int position) {
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                FragmentTransaction fragmentTransaction = MainActivity.fragmentManager.beginTransaction();
                 Bundle bundle = new Bundle();
-                bundle.putLong("albumId",albumInfo.getId());
-                bundle.putString("albumName",albumInfo.getTitle());
-                bundle.putString("artistName",albumInfo.getArtistName());
+                bundle.putLong("albumId", albumInfo.getId());
+                bundle.putString("albumName", albumInfo.getTitle());
+                bundle.putString("artistName", albumInfo.getArtistName());
                 AlbumDetailsFragment frag = new AlbumDetailsFragment();
                 frag.setArguments(bundle);
                 //ImageView albumImage = view2.findViewById(R.id.realAlbumArt);
                 //Uri albumArtUri = Utility.getAlbumArtUri(albumInfo.getId());
-                fragmentTransaction.replace(R.id.fragment_home ,frag).addToBackStack("ALBUMS").commit();
+                fragmentTransaction.replace(R.id.fragment_home, frag).addToBackStack("ALBUMS").commit();
                 //Picasso.with(getContext()).load(albumArtUri.toString()).placeholder(R.drawable.placeholder1).into(albumImage);
             }
         }, getActivity().getSupportFragmentManager());

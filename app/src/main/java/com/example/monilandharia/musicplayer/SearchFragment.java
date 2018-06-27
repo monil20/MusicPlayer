@@ -118,7 +118,7 @@ public class SearchFragment extends Fragment {
                     public void onClickListener(AlbumInfo albumInfo, int position) {
 
                     }
-                }, getActivity().getSupportFragmentManager(), false);
+                }, false);
 
         artistsPreviewAdapter = new ArtistsPreviewAdapter(getActivity(), MainActivity.artists, new ArtistsPreviewAdapter.RecyclerItemClickListener() {
             @Override
@@ -136,7 +136,7 @@ public class SearchFragment extends Fragment {
                 fragmentTransaction.replace(R.id.fragment_home, frag).addToBackStack("ALBUMS").commit();
                 //Picasso.with(getContext()).load(albumArtUri.toString()).placeholder(R.drawable.placeholder1).into(albumImage);
             }
-        }, getActivity().getSupportFragmentManager(), false);
+        }, false);
     }
 
     private void filter(String text) {

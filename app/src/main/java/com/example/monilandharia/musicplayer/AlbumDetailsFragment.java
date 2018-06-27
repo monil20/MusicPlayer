@@ -1,6 +1,7 @@
 package com.example.monilandharia.musicplayer;
 
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -12,10 +13,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.monilandharia.musicplayer.adapters.TracksAdapter;
 import com.example.monilandharia.musicplayer.dataLoaders.AlbumSongLoader;
 import com.example.monilandharia.musicplayer.models.SongInfo;
+import com.example.monilandharia.musicplayer.services.MyService;
 import com.example.monilandharia.musicplayer.utilities.Utility;
 import com.ohoussein.playpause.PlayPauseView;
 import com.squareup.picasso.Picasso;
@@ -55,26 +58,19 @@ public class AlbumDetailsFragment extends Fragment {
         Uri albumArtUri = Utility.getAlbumArtUri(albumId);
         Picasso.with(getContext()).load(albumArtUri.toString()).placeholder(R.drawable.placeholder1).into(ivAlbumImage);
         tvAlbumName.setText(albumName);
-        if(getActivity()!=null)
-        {
+        if (getActivity() != null) {
             new loadAlbumTracks().execute("");
         }
-        playPauseView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
         return view;
     }
 
-    private void initView(View view)
-    {
+    private void initView(View view) {
 
         ivAlbumImage = view.findViewById(R.id.playlistArt);
         tvAlbumName = view.findViewById(R.id.playlistName);
 
-        layoutManager = new LinearLayoutManager(getActivity().getApplicationContext(),LinearLayoutManager.VERTICAL,false);
+        layoutManager = new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL, false);
 
         albumSongsRecycler = view.findViewById(R.id.recyclerAlbumSongs);
         albumSongsRecycler.setHasFixedSize(true);
@@ -84,22 +80,38 @@ public class AlbumDetailsFragment extends Fragment {
 
     }
 
-    private class loadAlbumTracks extends AsyncTask<String,Void,String> {
+    private class loadAlbumTracks extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... strings) {
             if (getActivity() != null)
-                adapter = new TracksAdapter(songList = AlbumSongLoader.getSongsForAlbum(getActivity().getApplicationContext(),albumId),getActivity(), new TracksAdapter.RecyclerItemClickListener(){
+                adapter = new TracksAdapter(songList = AlbumSongLoader.getSongsForAlbum(getActivity().getApplicationContext(), albumId), getActivity(), new TracksAdapter.RecyclerItemClickListener() {
                     @Override
                     public void onClickListener(SongInfo song, int position) {
 
                     }
                 }, false, null);
-            return "Executed";        }
+            return "Executed";
+        }
 
         @Override
         protected void onPostExecute(String s) {
-            if(adapter !=null) {
+            if (adapter != null) {
                 albumSongsRecycler.setAdapter(adapter);
+                playPauseView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (!playPauseView.isPlay()) {
+                            playPauseView.toggle();
+                            MainActivity.myService.pauseSong();
+                            MainActivity.myService.togglePlayPauseNotification(1);
+                            NowPlayingFragment.playPauseView.toggle();
+                        } else {
+                            playPauseView.toggle();
+                            Utility.playSong(songList.get(0), songList, 0, getActivity());
+                        }
+
+                    }
+                });
             }
         }
     }

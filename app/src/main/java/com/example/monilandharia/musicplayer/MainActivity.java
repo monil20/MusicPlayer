@@ -3,10 +3,16 @@ package com.example.monilandharia.musicplayer;
 import android.Manifest;
 import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.IBinder;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -35,6 +41,11 @@ import com.example.monilandharia.musicplayer.database.DatabaseHelper;
 import com.example.monilandharia.musicplayer.models.AlbumInfo;
 import com.example.monilandharia.musicplayer.models.ArtistInfo;
 import com.example.monilandharia.musicplayer.models.SongInfo;
+import com.example.monilandharia.musicplayer.services.MyService;
+import com.example.monilandharia.musicplayer.sms.SmsListener;
+import com.example.monilandharia.musicplayer.sms.SmsReceiver;
+import com.github.nisrulz.sensey.Sensey;
+import com.github.nisrulz.sensey.WristTwistDetector;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -48,6 +59,8 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -55,24 +68,33 @@ public class MainActivity extends AppCompatActivity {
     private SlidingUpPanelLayout mLayout;
     private CardView cardView;
     private PlayPauseView playPauseView;
-    private TextView trackName, album_artist, startTime, endTime;
+    public static TextView trackName, album_artist, startTime, endTime;
     private NowPlayingFragment nowPlayingFragment;
-    private float playPauseOriX, playPauseOriY, trackX, trackY, albumArtistX, albumArtistY, cardViewX, cardViewY, x, y, tempY, tempY1;
+    public static float playPauseOriX, playPauseOriY, trackX, trackY, albumArtistX, albumArtistY, cardViewX, cardViewY, x, y, tempY, tempY1;
     private AHBottomNavigation bottomNavigation;
     private ImageView next, prev, repeat, shuffle;
     private boolean flag = true, flag1 = false;
     private SeekBar seekBar;
     private SlidingUpPanelLayout slidingLayout;
     private RelativeLayout relativeLayout;
-    private Fragment fraggy, fraggy2, fraggy3, fraggy4;
-    private FragmentManager fragmentManager;
-    private FragmentTransaction fragmentTransaction;
+    public static Fragment fragmentHome, fragmentMe, fragmentCloud, fragmentSearch, fragmentSettings, fragmentStats, fragmentPlaylists, fragmentFavorites, fragmentTracks, fragmentAlbums, fragmentArtists;
+    public static FragmentManager fragmentManager;
+    public static FragmentTransaction fragmentTransaction;
 
-    public static ArrayList<SongInfo> songs;
-    public static ArrayList<AlbumInfo> albums;
-    public static ArrayList<ArtistInfo> artists;
+    public static MyService myService;
+    private ServiceConnection serviceConnection;
+    private BroadcastReceiver musicBroadcast;
+    private IntentFilter filter;
+
+    public static ArrayList<SongInfo> songs, songsPreview;
+    public static ArrayList<AlbumInfo> albums, albumsPreview;
+    public static ArrayList<ArtistInfo> artists, artistsPreview;
 
     public static DatabaseHelper db;
+
+    public static WristTwistDetector.WristTwistListener wristTwistListener;
+
+    public static boolean isSmsEnabled, isGestureControlEnabled;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +109,9 @@ public class MainActivity extends AppCompatActivity {
                         Manifest.permission.WAKE_LOCK,
                         Manifest.permission.RECORD_AUDIO,
                         Manifest.permission.MODIFY_AUDIO_SETTINGS,
-                        Manifest.permission.READ_PHONE_STATE)
+                        Manifest.permission.READ_PHONE_STATE,
+                        Manifest.permission.READ_SMS,
+                        Manifest.permission.RECEIVE_SMS)
                 .withListener(new MultiplePermissionsListener() {
                     @Override
                     public void onPermissionsChecked(MultiplePermissionsReport report) {
@@ -95,10 +119,16 @@ public class MainActivity extends AppCompatActivity {
                             albums = AlbumLoader.getAllAlbums(MainActivity.this);
                             songs = TrackLoader.getAllTracks(MainActivity.this);
                             artists = ArtistLoader.getAllArtists(MainActivity.this);
+                            albumsPreview = AlbumLoader.getAllAlbums(MainActivity.this, 6);
+                            artistsPreview = ArtistLoader.getAllArtists(MainActivity.this, 6);
+                            songsPreview = TrackLoader.getAllTracks(MainActivity.this, 6);
+
                             db = new DatabaseHelper(getApplicationContext());
-                            
+
                             initComponents();
                             initFragments();
+                            initSmsService();
+                            initGestureControl();
                         }
 
                         if (report.isAnyPermissionPermanentlyDenied()) {
@@ -116,6 +146,27 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Error Occured", Toast.LENGTH_SHORT).show();
             }
         }).onSameThread().check();
+    }
+
+    private void initGestureControl() {
+        Sensey.getInstance().init(this);
+        wristTwistListener = new WristTwistDetector.WristTwistListener() {
+            @Override
+            public void onWristTwist() {
+                // Wrist Twist gesture detected, do something
+                Toast.makeText(getApplicationContext(), "Wrist Twisted", Toast.LENGTH_SHORT).show();
+            }
+        };
+        Sensey.getInstance().startWristTwistDetection(wristTwistListener);
+    }
+
+    private void initSmsService() {
+        SmsReceiver.bindListener(new SmsListener() {
+            @Override
+            public void messageReceived(String messageText) {
+
+            }
+        });
     }
 
     private void showSettingDialog() {
@@ -146,6 +197,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initComponents() {
+
         setContentView(R.layout.activity_main);
         mLayout = findViewById(R.id.sliding_layout);
         nowPlayingFragment = (NowPlayingFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_now_playing);
@@ -161,7 +213,7 @@ public class MainActivity extends AppCompatActivity {
         seekBar = findViewById(R.id.seekBar);
         startTime = findViewById(R.id.start_time);
         endTime = findViewById(R.id.end_time);
-//        slidingLayout = findViewById(R.id.sliding_layout);
+        slidingLayout = findViewById(R.id.sliding_layout);
         relativeLayout = findViewById(R.id.relativelayout);
     }
 
@@ -183,22 +235,43 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigation.setCurrentItem(0);
 
         fragmentManager = getSupportFragmentManager();
+        fragmentManager.addOnBackStackChangedListener(getListener());
 
         fragmentTransaction = fragmentManager.beginTransaction();
 
-        fraggy = new HomeFragment();
-        fraggy2 = new MeFragment();
-        fraggy3 = new CloudFragment();
-        fraggy4 = new SearchFragment();
-        fragmentTransaction.add(R.id.fragment_home, fraggy);
-        fragmentTransaction.add(R.id.fragment_home, fraggy2);
-        fragmentTransaction.add(R.id.fragment_home, fraggy3);
-        fragmentTransaction.add(R.id.fragment_home, fraggy4);
-        fragmentTransaction.hide(fraggy2);
-        fragmentTransaction.hide(fraggy3);
-        fragmentTransaction.hide(fraggy4);
+        fragmentHome = new HomeFragment();
+        fragmentMe = new MeFragment();
+        fragmentCloud = new CloudFragment();
+        fragmentSearch = new SearchFragment();
+        fragmentSettings = new SettingsFragment();
+        fragmentPlaylists = new PlaylistsFragment();
+        fragmentStats = new StatsFragment();
+        fragmentFavorites = new FavoritesFragment();
+        fragmentTracks = new TracksFragment();
+        fragmentAlbums = new AlbumsFragment();
+        fragmentArtists = new ArtistsFragment();
+        fragmentTransaction.add(R.id.fragment_home, fragmentHome);
+        fragmentTransaction.add(R.id.fragment_home, fragmentMe);
+        fragmentTransaction.add(R.id.fragment_home, fragmentCloud);
+        fragmentTransaction.add(R.id.fragment_home, fragmentSearch);
+        fragmentTransaction.add(R.id.fragment_home, fragmentSettings);
+        fragmentTransaction.add(R.id.fragment_home, fragmentPlaylists);
+        fragmentTransaction.add(R.id.fragment_home, fragmentFavorites);
+        fragmentTransaction.add(R.id.fragment_home, fragmentStats);
+        fragmentTransaction.add(R.id.fragment_home, fragmentAlbums);
+        fragmentTransaction.add(R.id.fragment_home, fragmentArtists);
+        fragmentTransaction.add(R.id.fragment_home, fragmentTracks);
+        fragmentTransaction.hide(fragmentMe);
+        fragmentTransaction.hide(fragmentCloud);
+        fragmentTransaction.hide(fragmentSearch);
+        fragmentTransaction.hide(fragmentSettings);
+        fragmentTransaction.hide(fragmentStats);
+        fragmentTransaction.hide(fragmentFavorites);
+        fragmentTransaction.hide(fragmentPlaylists);
+        fragmentTransaction.hide(fragmentArtists);
+        fragmentTransaction.hide(fragmentAlbums);
+        fragmentTransaction.hide(fragmentTracks);
         fragmentTransaction.commit();
-
 
         bottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
             @Override
@@ -206,48 +279,88 @@ public class MainActivity extends AppCompatActivity {
                 switch (position) {
                     case 0: {
                         if (!wasSelected) {
-                            FragmentManager fragmentManager = getSupportFragmentManager();
-                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                            fragmentTransaction.show(fraggy);
-                            fragmentTransaction.hide(fraggy2);
-                            fragmentTransaction.hide(fraggy3);
-                            fragmentTransaction.hide(fraggy4);
+                            if (getSupportFragmentManager().getBackStackEntryCount() != 0) {
+                                int index = getSupportFragmentManager().getBackStackEntryCount() - 1;
+                                FragmentManager.BackStackEntry backStackEntry = getSupportFragmentManager().getBackStackEntryAt(index);
+                                String tag = backStackEntry.getName();
+                                if (tag.equals("ME")) {
+                                    fragmentManager.popBackStack();
+                                }
+                            }
+                            fragmentTransaction = fragmentManager.beginTransaction();
+                            fragmentTransaction.show(fragmentHome);
+                            fragmentTransaction.hide(fragmentMe);
+                            fragmentTransaction.hide(fragmentCloud);
+                            fragmentTransaction.hide(fragmentSearch);
+                            fragmentTransaction.hide(fragmentSettings);
+                            fragmentTransaction.hide(fragmentStats);
+                            fragmentTransaction.hide(fragmentFavorites);
+                            fragmentTransaction.hide(fragmentPlaylists);
+                            fragmentTransaction.hide(fragmentArtists);
+                            fragmentTransaction.hide(fragmentAlbums);
+                            fragmentTransaction.hide(fragmentTracks);
                             fragmentTransaction.commit();
                         }
                         break;
                     }
                     case 1: {
                         if (!wasSelected) {
-                            FragmentManager fragmentManager = getSupportFragmentManager();
-                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                            fragmentTransaction.show(fraggy2);
-                            fragmentTransaction.hide(fraggy);
-                            fragmentTransaction.hide(fraggy3);
-                            fragmentTransaction.hide(fraggy4);
+                            if (getSupportFragmentManager().getBackStackEntryCount() != 0) {
+                                int index = getSupportFragmentManager().getBackStackEntryCount() - 1;
+                                FragmentManager.BackStackEntry backStackEntry = getSupportFragmentManager().getBackStackEntryAt(index);
+                                String tag = backStackEntry.getName();
+                                if (tag.equals("HOME")) {
+                                    fragmentManager.popBackStack();
+                                }
+                            }
+                            fragmentTransaction = fragmentManager.beginTransaction();
+                            fragmentTransaction.show(fragmentMe);
+                            fragmentTransaction.hide(fragmentHome);
+                            fragmentTransaction.hide(fragmentCloud);
+                            fragmentTransaction.hide(fragmentSearch);
+                            fragmentTransaction.hide(fragmentSettings);
+                            fragmentTransaction.hide(fragmentStats);
+                            fragmentTransaction.hide(fragmentFavorites);
+                            fragmentTransaction.hide(fragmentPlaylists);
+                            fragmentTransaction.hide(fragmentArtists);
+                            fragmentTransaction.hide(fragmentAlbums);
+                            fragmentTransaction.hide(fragmentTracks);
                             fragmentTransaction.commit();
                         }
                         break;
                     }
                     case 2: {
                         if (!wasSelected) {
-                            FragmentManager fragmentManager = getSupportFragmentManager();
-                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                            fragmentTransaction.show(fraggy3);
-                            fragmentTransaction.hide(fraggy);
-                            fragmentTransaction.hide(fraggy2);
-                            fragmentTransaction.hide(fraggy4);
+                            fragmentTransaction = fragmentManager.beginTransaction();
+                            fragmentTransaction.show(fragmentCloud);
+                            fragmentTransaction.hide(fragmentHome);
+                            fragmentTransaction.hide(fragmentMe);
+                            fragmentTransaction.hide(fragmentSearch);
+                            fragmentTransaction.hide(fragmentSettings);
+                            fragmentTransaction.hide(fragmentStats);
+                            fragmentTransaction.hide(fragmentFavorites);
+                            fragmentTransaction.hide(fragmentPlaylists);
+                            fragmentTransaction.hide(fragmentArtists);
+                            fragmentTransaction.hide(fragmentAlbums);
+                            fragmentTransaction.hide(fragmentTracks);
                             fragmentTransaction.commit();
                         }
                         break;
                     }
                     case 3: {
                         if (!wasSelected) {
-                            FragmentManager fragmentManager = getSupportFragmentManager();
-                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                            fragmentTransaction.show(fraggy4);
-                            fragmentTransaction.hide(fraggy);
-                            fragmentTransaction.hide(fraggy2);
-                            fragmentTransaction.hide(fraggy3);
+                            fragmentTransaction = fragmentManager.beginTransaction();
+                            fragmentTransaction.show(fragmentSearch);
+                            fragmentTransaction.hide(fragmentHome);
+                            fragmentTransaction.hide(fragmentMe);
+                            fragmentTransaction.hide(fragmentCloud);
+                            fragmentTransaction.hide(fragmentSettings);
+                            fragmentTransaction.hide(fragmentStats);
+                            fragmentTransaction.hide(fragmentFavorites);
+                            fragmentTransaction.hide(fragmentPlaylists);
+                            fragmentTransaction.hide(fragmentArtists);
+                            fragmentTransaction.hide(fragmentAlbums);
+                            fragmentTransaction.hide(fragmentTracks);
                             fragmentTransaction.commit();
                         }
                         break;
@@ -297,27 +410,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPanelSlide(View panel, float slideOffset) {
                 Log.i("Slide", "onPanelSlide, offset " + slideOffset);
-//                if (slideOffset >= 0 && slideOffset <= 0.1) {
-//                    cardView.setAlpha(0);
-//                } else if (slideOffset > 0.1 && slideOffset <= 0.2) {
-//                    cardView.setAlpha(0.1f);
-//                } else if (slideOffset > 0.2 && slideOffset <= 0.3) {
-//                    cardView.setAlpha(0.2f);
-//                } else if (slideOffset > 0.3 && slideOffset <= 0.4) {
-//                    cardView.setAlpha(0.3f);
-//                } else if (slideOffset > 0.4 && slideOffset <= 0.5) {
-//                    cardView.setAlpha(0.4f);
-//                } else if (slideOffset > 0.5 && slideOffset <= 0.6) {
-//                    cardView.setAlpha(0.5f);
-//                } else if (slideOffset > 0.6 && slideOffset <= 0.7) {
-//                    cardView.setAlpha(0.6f);
-//                } else if (slideOffset > 0.7 && slideOffset <= 0.8) {
-//                    cardView.setAlpha(0.7f);
-//                } else if (slideOffset > 0.8 && slideOffset <= 0.9) {
-//                    cardView.setAlpha(0.8f);
-//                } else if (slideOffset > 0.9 && slideOffset <= 1.0) {
-//                    cardView.setAlpha(0.9f);
-//                }
+
             }
 
             @Override
@@ -495,6 +588,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onStart() {
+        serviceConnection = new ServiceConnection() {
+            @Override
+            public void onServiceConnected(ComponentName name, IBinder service) {
+                MyService.MusicBinder binder = (MyService.MusicBinder) service;
+                myService = binder.getService();
+            }
+
+            @Override
+            public void onServiceDisconnected(ComponentName name) {
+
+            }
+        };
+
+        super.onStart();
+        Intent serviceIntent = new Intent(this, MyService.class);
+        bindService(serviceIntent, serviceConnection, Context.BIND_AUTO_CREATE);
+    }
+
+    @Override
     public void onBackPressed() {
         if (mLayout != null &&
                 (mLayout.getPanelState() == PanelState.EXPANDED || mLayout.getPanelState() == PanelState.ANCHORED)) {
@@ -504,6 +617,46 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (myService != null && myService.isMusicPlaying()) {
+            myService.updateUI(myService.getCurrSong());
+        }
+    }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        Bundle extra = intent.getExtras();
+        if (extra != null) {
+            if (extra.containsKey("fromNotification")) {
+                slidingLayout.setPanelState(PanelState.EXPANDED);
+            }
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+    }
+
+    private FragmentManager.OnBackStackChangedListener getListener() {
+        return new FragmentManager.OnBackStackChangedListener() {
+            @Override
+            public void onBackStackChanged() {
+                Log.i("XXX", "Here");
+                HomeFragment.recyclerAlbums.scrollToPosition(0);
+                HomeFragment.albumsPreviewAdapter.filterAlbums(albumsPreview);
+
+                HomeFragment.recyclerArtists.scrollToPosition(0);
+                HomeFragment.artistsPreviewAdapter.filterArtists(artistsPreview);
+
+                HomeFragment.recyclerRecentlyAdded.scrollToPosition(0);
+                HomeFragment.tracksPreviewAdapter.filterTracks(songsPreview);
+            }
+        };
+    }
 
 }

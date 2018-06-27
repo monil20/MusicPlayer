@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.monilandharia.musicplayer.AlbumsFragment;
+import com.example.monilandharia.musicplayer.MainActivity;
 import com.example.monilandharia.musicplayer.R;
 import com.example.monilandharia.musicplayer.models.AlbumInfo;
 import com.ohoussein.playpause.PlayPauseView;
@@ -27,14 +28,13 @@ public class AlbumsPreviewAdapter extends RecyclerView.Adapter<AlbumsPreviewAdap
     private ArrayList<AlbumInfo> albumInfos;
     private Context context;
     private RecyclerItemClickListener listener;
-    private FragmentManager fragmentManager;
+    private FragmentTransaction fragmentTransaction;
     private boolean isHome;
 
-    public AlbumsPreviewAdapter(Context context, ArrayList<AlbumInfo> albumInfos, RecyclerItemClickListener listener, FragmentManager fragmentManager, boolean isHome) {
+    public AlbumsPreviewAdapter(Context context, ArrayList<AlbumInfo> albumInfos, RecyclerItemClickListener listener, boolean isHome) {
         this.context = context;
         this.albumInfos = albumInfos;
         this.listener = listener;
-        this.fragmentManager = fragmentManager;
         this.isHome = isHome;
     }
 
@@ -64,9 +64,11 @@ public class AlbumsPreviewAdapter extends RecyclerView.Adapter<AlbumsPreviewAdap
                 viewHolder.seemore.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                        fragmentTransaction.replace(R.id.fragment_home, new AlbumsFragment()).addToBackStack("HOME").commit();
-                        //                    fragmentTransaction.commit();
+                        fragmentTransaction = MainActivity.fragmentManager.beginTransaction();
+                        fragmentTransaction.addToBackStack("HOME");
+                        fragmentTransaction.show(MainActivity.fragmentAlbums);
+                        fragmentTransaction.hide(MainActivity.fragmentHome);
+                        fragmentTransaction.commit();
                     }
                 });
             } else {

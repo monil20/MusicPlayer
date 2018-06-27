@@ -1,21 +1,26 @@
 package com.example.monilandharia.musicplayer;
 
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.SeekBar;
+import android.widget.Toast;
 
 import com.example.monilandharia.musicplayer.adapters.TracksAdapter;
 import com.example.monilandharia.musicplayer.customViews.RalewayTextView;
 import com.example.monilandharia.musicplayer.dataLoaders.TrackLoader;
 import com.example.monilandharia.musicplayer.models.SongInfo;
+import com.example.monilandharia.musicplayer.services.MyService;
+import com.example.monilandharia.musicplayer.utilities.Utility;
 import com.ohoussein.playpause.PlayPauseView;
 
 import java.util.ArrayList;
@@ -26,16 +31,9 @@ import java.util.ArrayList;
  */
 public class TracksFragment extends Fragment {
 
-
     private LinearLayoutManager layoutManager;
     private RecyclerView recyclerTracks;
     private TracksAdapter tracksAdapter;
-
-    //instances of toolbar
-    private SeekBar seekBar;
-    private ImageView songArt, prev, next, repeat, shuffle;
-    private RalewayTextView album_track, start_time, end_time, album_artist_name;
-    private PlayPauseView play_pause;
 
     public TracksFragment() {
         // Required empty public constructor
@@ -72,9 +70,15 @@ public class TracksFragment extends Fragment {
         @Override
         protected String doInBackground(String... strings) {
             if (getActivity() != null)
-                tracksAdapter = new TracksAdapter(TrackLoader.getAllTracks(getActivity().getApplicationContext()), getActivity(), new TracksAdapter.RecyclerItemClickListener() {
+                tracksAdapter = new TracksAdapter(MainActivity.songs, getActivity(), new TracksAdapter.RecyclerItemClickListener() {
                     @Override
                     public void onClickListener(SongInfo song, int position) {
+                        if (MainActivity.songs.size() != 0) {
+                            Log.i("SONG", "Yes songs");
+                            Utility.playSong(song,MainActivity.songs,position,getActivity());
+                        } else {
+                            Log.i("SONG", "No songs");
+                        }
                     }
                 }, false, null);
             return "Executed";
@@ -87,7 +91,6 @@ public class TracksFragment extends Fragment {
             }
         }
     }
-
 
 
 }

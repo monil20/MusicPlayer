@@ -38,4 +38,6 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.5.2'
     implementation 'com.github.claucookie.miniequalizer:library:1.0.0'
     implementation 'com.karumi:dexter:4.2.0'
+    implementation 'com.github.nisrulz:sensey:1.8.0'
+    implementation 'com.google.code.gson:gson:2.7'
 }
