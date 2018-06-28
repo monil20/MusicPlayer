@@ -10,9 +10,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -44,8 +46,10 @@ import com.example.monilandharia.musicplayer.models.SongInfo;
 import com.example.monilandharia.musicplayer.services.MyService;
 import com.example.monilandharia.musicplayer.sms.SmsListener;
 import com.example.monilandharia.musicplayer.sms.SmsReceiver;
+import com.example.monilandharia.musicplayer.utilities.ObjectSerializer;
 import com.github.nisrulz.sensey.Sensey;
 import com.github.nisrulz.sensey.WristTwistDetector;
+import com.google.gson.Gson;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -57,6 +61,7 @@ import com.ohoussein.playpause.PlayPauseView;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -95,6 +100,11 @@ public class MainActivity extends AppCompatActivity {
     public static WristTwistDetector.WristTwistListener wristTwistListener;
 
     public static boolean isSmsEnabled, isGestureControlEnabled;
+
+    private SharedPreferences sharedpreferences;
+    private Gson gson;
+    public static SongInfo lastSong;
+    public static ArrayList<SongInfo> queue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -215,6 +225,24 @@ public class MainActivity extends AppCompatActivity {
         endTime = findViewById(R.id.end_time);
         slidingLayout = findViewById(R.id.sliding_layout);
         relativeLayout = findViewById(R.id.relativelayout);
+
+
+        sharedpreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        if(sharedpreferences.contains("lastSong"))
+        {
+            gson = new Gson();
+            String json = sharedpreferences.getString("lastSong","");
+            lastSong = gson.fromJson(json,SongInfo.class);
+        }
+        if(sharedpreferences.contains("lastqueue"))
+        {
+            try {
+                queue = (ArrayList<SongInfo>) ObjectSerializer.deserialize(sharedpreferences.getString("lastqueue",ObjectSerializer.serialize(new ArrayList<SongInfo>())));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
     private void initFragments() {
@@ -594,11 +622,15 @@ public class MainActivity extends AppCompatActivity {
             public void onServiceConnected(ComponentName name, IBinder service) {
                 MyService.MusicBinder binder = (MyService.MusicBinder) service;
                 myService = binder.getService();
+                if(lastSong!=null) {
+                    myService.updateUI(lastSong);
+                    myService.setCurrSong(lastSong);
+                    myService.setList(queue);
+                }
             }
 
             @Override
             public void onServiceDisconnected(ComponentName name) {
-
             }
         };
 

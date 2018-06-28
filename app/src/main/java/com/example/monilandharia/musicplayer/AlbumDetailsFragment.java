@@ -39,7 +39,7 @@ public class AlbumDetailsFragment extends Fragment {
     private ImageView ivAlbumImage;
     private TextView tvAlbumName;
     private PlayPauseView playPauseView;
-    private ArrayList<SongInfo> songList;
+    public static ArrayList<SongInfo> songList;
 
     public AlbumDetailsFragment() {
         // Required empty public constructor
@@ -103,8 +103,8 @@ public class AlbumDetailsFragment extends Fragment {
                         if (!playPauseView.isPlay()) {
                             playPauseView.toggle();
                             MainActivity.myService.pauseSong();
-                            MainActivity.myService.togglePlayPauseNotification(1);
-                            NowPlayingFragment.playPauseView.toggle();
+                            //MainActivity.myService.togglePlayPauseNotification(1);
+                            NowPlayingFragment.playPauseView.toggle(true);
                         } else {
                             playPauseView.toggle();
                             Utility.playSong(songList.get(0), songList, 0, getActivity());

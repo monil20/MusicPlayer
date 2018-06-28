@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.media.AudioManager;
 import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.os.Binder;
@@ -36,7 +37,7 @@ import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class MyService extends Service {
+public class MyService extends Service implements AudioManager.OnAudioFocusChangeListener {
 
     private static MediaPlayer mediaPlayer;
     private ArrayList queueToPlay;
@@ -169,7 +170,6 @@ public class MyService extends Service {
         }
         prefedit.commit();
 
-        updateUI(song);
         NowPlayingFragment.playPauseView.change(false, true);
         if (mediaPlayer == null) {
             mediaPlayer = new MediaPlayer();
@@ -180,7 +180,7 @@ public class MyService extends Service {
                         mediaPlayer.stop();
                     }
                     mediaPlayer.start();
-                    HandleSeekBar();
+//                    HandleSeekBar();
                     final Handler mHandler = new Handler();
                     mHandler.postDelayed(new Runnable() {
                         @Override
@@ -216,6 +216,7 @@ public class MyService extends Service {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        updateUI(song);
     }
 
     public void pauseSong() {
@@ -394,12 +395,14 @@ public class MyService extends Service {
     }
 
     public void updateUI(SongInfo currSong) {
+        NowPlayingFragment.playPauseView.change(false,true);
         NowPlayingFragment.album_track.setText(currSong.getSong_name());
         NowPlayingFragment.album_artist_name.setText(currSong.getSong_artist());
         NowPlayingFragment.end_time.setText(Utility.getTime(currSong.getSong_duration()));
 
         Bitmap img = Utility.getAlbumArtFromData(currSong, getApplicationContext());
         NowPlayingFragment.songArt.setImageBitmap(img);
+        HandleSeekBar();
 
 //        NowPlayingFragment.playPauseView.change(false,true);
     }
@@ -412,4 +415,8 @@ public class MyService extends Service {
         }
     }
 
+    @Override
+    public void onAudioFocusChange(int i) {
+
+    }
 }
