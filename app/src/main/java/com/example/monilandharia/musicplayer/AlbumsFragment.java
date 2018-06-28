@@ -21,6 +21,7 @@ import com.example.monilandharia.musicplayer.adapters.AlbumsPreviewAdapter;
 import com.example.monilandharia.musicplayer.dataLoaders.AlbumLoader;
 import com.example.monilandharia.musicplayer.models.AlbumInfo;
 import com.example.monilandharia.musicplayer.utilities.Utility;
+import com.l4digital.fastscroll.FastScroller;
 import com.squareup.picasso.Picasso;
 
 import java.io.FileNotFoundException;

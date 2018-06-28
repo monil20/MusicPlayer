@@ -14,7 +14,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:background="@drawable/rounded_corners"
+        android:background="@drawable/rounded_corners_light"
         android:hint="Search"
         android:inputType="text"
         android:paddingEnd="16dp"

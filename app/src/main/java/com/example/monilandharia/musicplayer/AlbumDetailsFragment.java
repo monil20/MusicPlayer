@@ -87,7 +87,7 @@ public class AlbumDetailsFragment extends Fragment {
                 adapter = new TracksAdapter(songList = AlbumSongLoader.getSongsForAlbum(getActivity().getApplicationContext(), albumId), getActivity(), new TracksAdapter.RecyclerItemClickListener() {
                     @Override
                     public void onClickListener(SongInfo song, int position) {
-
+                        Utility.playSong(song, songList, position, getActivity());
                     }
                 }, false, null);
             return "Executed";

@@ -40,4 +40,5 @@ dependencies {
     implementation 'com.karumi:dexter:4.2.0'
     implementation 'com.github.nisrulz:sensey:1.8.0'
     implementation 'com.google.code.gson:gson:2.7'
+    implementation 'com.l4digital.fastscroll:fastscroll:1.1.2'
 }

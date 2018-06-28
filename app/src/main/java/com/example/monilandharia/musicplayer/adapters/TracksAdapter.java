@@ -30,13 +30,14 @@ import com.example.monilandharia.musicplayer.database.DatabaseHelper;
 import com.example.monilandharia.musicplayer.database.model.Playlists;
 import com.example.monilandharia.musicplayer.models.SongInfo;
 import com.example.monilandharia.musicplayer.utilities.Utility;
+import com.l4digital.fastscroll.FastScroller;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 import es.claucookie.miniequalizerlibrary.EqualizerView;
 
-public class TracksAdapter extends RecyclerView.Adapter<TracksAdapter.ViewHolder> {
+public class TracksAdapter extends RecyclerView.Adapter<TracksAdapter.ViewHolder> implements FastScroller.SectionIndexer {
 
     private ArrayList<SongInfo> songs;
     private Context context;
@@ -122,11 +123,12 @@ public class TracksAdapter extends RecyclerView.Adapter<TracksAdapter.ViewHolder
                             subMenu.add(1, itemId, itemPos, "Add new").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                                 @Override
                                 public boolean onMenuItemClick(final MenuItem item) {
-                                    final Dialog dialog = new Dialog(context);
+                                    final Dialog dialog = new Dialog(context, R.style.dialogTheme);
                                     dialog.setContentView(R.layout.dialog_layout);
                                     dialog.setCanceledOnTouchOutside(true);
+                                    dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
                                     final EditText editText = dialog.findViewById(R.id.addPlaylistEditText);
-                                    Button button = dialog.findViewById(R.id.addPlaylistButton);
+                                    TextView button = dialog.findViewById(R.id.addPlaylistButton);
                                     button.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
@@ -143,10 +145,17 @@ public class TracksAdapter extends RecyclerView.Adapter<TracksAdapter.ViewHolder
                                             }
                                         }
                                     });
+                                    TextView button1 = dialog.findViewById(R.id.cancelPlaylistButton);
+                                    button1.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            dialog.dismiss();
+                                        }
+                                    });
                                     dialog.show();
                                     Window window = dialog.getWindow();
-                                    window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
-                                    window.setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                                    window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+//                                    window.setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
                                     return false;
                                 }
                             });
@@ -232,6 +241,11 @@ public class TracksAdapter extends RecyclerView.Adapter<TracksAdapter.ViewHolder
 
     public Uri getAlbumArtUri(long param) {
         return ContentUris.withAppendedId(Uri.parse("content://media/external/audio/albumart"), param);
+    }
+
+    @Override
+    public String getSectionText(int position) {
+        return String.valueOf(songs.get(position).getSong_name().charAt(0));
     }
 
     public interface RecyclerItemClickListener {

@@ -22,6 +22,7 @@ import com.example.monilandharia.musicplayer.dataLoaders.TrackLoader;
 import com.example.monilandharia.musicplayer.models.AlbumInfo;
 import com.example.monilandharia.musicplayer.models.ArtistInfo;
 import com.example.monilandharia.musicplayer.models.SongInfo;
+import com.example.monilandharia.musicplayer.utilities.Utility;
 
 
 public class HomeFragment extends Fragment {
@@ -111,9 +112,7 @@ public class HomeFragment extends Fragment {
                 albumsPreviewAdapter = new AlbumsPreviewAdapter(getActivity(), MainActivity.albumsPreview, new AlbumsPreviewAdapter.RecyclerItemClickListener() {
                     @Override
                     public void onClickListener(AlbumInfo albumInfo, int position) {
-
-                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        FragmentTransaction fragmentTransaction = MainActivity.fragmentManager.beginTransaction();
                         Bundle bundle = new Bundle();
                         bundle.putLong("albumId", albumInfo.getId());
                         bundle.putString("albumName", albumInfo.getTitle());
@@ -144,9 +143,7 @@ public class HomeFragment extends Fragment {
                 artistsPreviewAdapter = new ArtistsPreviewAdapter(getActivity(), MainActivity.artistsPreview, new ArtistsPreviewAdapter.RecyclerItemClickListener() {
                     @Override
                     public void onClickListener(ArtistInfo artistInfo, int position) {
-
-                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        FragmentTransaction fragmentTransaction = MainActivity.fragmentManager.beginTransaction();
                         Bundle bundle = new Bundle();
                         bundle.putInt("artistAlbumId", artistInfo.getSongId());
                         bundle.putLong("artistId", artistInfo.get_id());
@@ -174,8 +171,8 @@ public class HomeFragment extends Fragment {
             if (getActivity() != null) {
                 tracksPreviewAdapter = new TracksPreviewAdapter(getActivity(), MainActivity.songsPreview, new TracksPreviewAdapter.RecyclerItemClickListener() {
                     @Override
-                    public void onClickListener(SongInfo albumInfo, int position) {
-
+                    public void onClickListener(SongInfo song, int position) {
+                        Utility.playSong(song, MainActivity.songs, position, getActivity());
                     }
                 });
             }

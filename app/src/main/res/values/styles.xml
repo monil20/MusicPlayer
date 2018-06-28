@@ -23,4 +23,9 @@
         <item name="android:maxHeight">20dip</item>
     </style>
 
+    <style name="dialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:background">@color/colorPrimaryAlpha</item>
+    </style>
+
+
 </resources>

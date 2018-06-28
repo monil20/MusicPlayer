@@ -28,6 +28,7 @@ import com.example.monilandharia.musicplayer.dataLoaders.TrackLoader;
 import com.example.monilandharia.musicplayer.models.AlbumInfo;
 import com.example.monilandharia.musicplayer.models.ArtistInfo;
 import com.example.monilandharia.musicplayer.models.SongInfo;
+import com.example.monilandharia.musicplayer.utilities.Utility;
 
 import java.util.ArrayList;
 
@@ -48,6 +49,7 @@ public class SearchFragment extends Fragment {
     private ArrayList<SongInfo> filteredSongs = new ArrayList<>();
     private ArrayList<AlbumInfo> filteredAlbums = new ArrayList<>();
     private ArrayList<ArtistInfo> filteredArtists = new ArrayList<>();
+    private ArrayList<SongInfo> songList = new ArrayList<>();
 
     public SearchFragment() {
         // Required empty public constructor
@@ -108,7 +110,9 @@ public class SearchFragment extends Fragment {
         tracksAdapter = new TracksAdapter(MainActivity.songs, getActivity(), new TracksAdapter.RecyclerItemClickListener() {
             @Override
             public void onClickListener(SongInfo song, int position) {
-
+                songList.clear();
+                songList.add(song);
+                Utility.playSong(song, songList, position, getActivity()    );
             }
         }, false, null);
 
@@ -116,25 +120,30 @@ public class SearchFragment extends Fragment {
                 new AlbumsPreviewAdapter.RecyclerItemClickListener() {
                     @Override
                     public void onClickListener(AlbumInfo albumInfo, int position) {
-
+                        FragmentTransaction fragmentTransaction = MainActivity.fragmentManager.beginTransaction();
+                        Bundle bundle = new Bundle();
+                        bundle.putLong("albumId", albumInfo.getId());
+                        bundle.putString("albumName", albumInfo.getTitle());
+                        bundle.putString("artistName", albumInfo.getArtistName());
+                        AlbumDetailsFragment frag = new AlbumDetailsFragment();
+                        frag.setArguments(bundle);
+                        //ImageView albumImage = view2.findViewById(R.id.realAlbumArt);
+                        //Uri albumArtUri = Utility.getAlbumArtUri(albumInfo.getId());
+                        fragmentTransaction.replace(R.id.fragment_home, frag).addToBackStack("ALBUMS").commit();
                     }
                 }, false);
 
         artistsPreviewAdapter = new ArtistsPreviewAdapter(getActivity(), MainActivity.artists, new ArtistsPreviewAdapter.RecyclerItemClickListener() {
             @Override
             public void onClickListener(ArtistInfo artistInfo, int position) {
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                FragmentTransaction fragmentTransaction = MainActivity.fragmentManager.beginTransaction();
                 Bundle bundle = new Bundle();
                 bundle.putInt("artistAlbumId", artistInfo.getSongId());
                 bundle.putLong("artistId", artistInfo.get_id());
                 bundle.putString("artistName", artistInfo.getArtistName());
                 ArtistDetailsFragment frag = new ArtistDetailsFragment();
                 frag.setArguments(bundle);
-                //ImageView albumImage = view2.findViewById(R.id.realAlbumArt);
-                //Uri albumArtUri = Utility.getAlbumArtUri(albumInfo.getId());
                 fragmentTransaction.replace(R.id.fragment_home, frag).addToBackStack("ALBUMS").commit();
-                //Picasso.with(getContext()).load(albumArtUri.toString()).placeholder(R.drawable.placeholder1).into(albumImage);
             }
         }, false);
     }

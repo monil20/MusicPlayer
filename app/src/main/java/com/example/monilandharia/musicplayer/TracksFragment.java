@@ -21,6 +21,8 @@ import com.example.monilandharia.musicplayer.dataLoaders.TrackLoader;
 import com.example.monilandharia.musicplayer.models.SongInfo;
 import com.example.monilandharia.musicplayer.services.MyService;
 import com.example.monilandharia.musicplayer.utilities.Utility;
+import com.l4digital.fastscroll.FastScrollRecyclerView;
+import com.l4digital.fastscroll.FastScroller;
 import com.ohoussein.playpause.PlayPauseView;
 
 import java.util.ArrayList;
@@ -32,13 +34,12 @@ import java.util.ArrayList;
 public class TracksFragment extends Fragment {
 
     private LinearLayoutManager layoutManager;
-    private RecyclerView recyclerTracks;
+    private FastScrollRecyclerView recyclerTracks;
     private TracksAdapter tracksAdapter;
 
     public TracksFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

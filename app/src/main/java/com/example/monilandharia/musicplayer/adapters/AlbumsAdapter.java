@@ -15,12 +15,13 @@ import com.example.monilandharia.musicplayer.MainActivity;
 import com.example.monilandharia.musicplayer.R;
 import com.example.monilandharia.musicplayer.models.AlbumInfo;
 import com.example.monilandharia.musicplayer.utilities.Utility;
+import com.l4digital.fastscroll.FastScroller;
 import com.ohoussein.playpause.PlayPauseView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.ViewHolder> {
+public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.ViewHolder> implements FastScroller.SectionIndexer {
     private ArrayList<AlbumInfo> albumInfos;
     private Context context;
     private RecyclerItemClickListener listener;
@@ -141,6 +142,11 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.ViewHolder
     @Override
     public int getItemViewType(int position) {
         return R.layout.item_all_albums;
+    }
+
+    @Override
+    public String getSectionText(int position) {
+        return String.valueOf(albumInfos.get(position).getTitle().charAt(0));
     }
 
     public interface RecyclerItemClickListener {

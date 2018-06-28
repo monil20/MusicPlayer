@@ -4,8 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:scrollbars="none"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:overScrollMode="never"
+    android:scrollbars="none">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"

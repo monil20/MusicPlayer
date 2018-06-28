@@ -13,12 +13,13 @@ import android.widget.TextView;
 import com.example.monilandharia.musicplayer.R;
 import com.example.monilandharia.musicplayer.models.ArtistInfo;
 import com.example.monilandharia.musicplayer.utilities.Utility;
+import com.l4digital.fastscroll.FastScroller;
 import com.ohoussein.playpause.PlayPauseView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder>{
+public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder> implements FastScroller.SectionIndexer{
     private ArrayList<ArtistInfo> artistInfos;
     private Context context;
     private RecyclerItemClickListener listener;
@@ -89,6 +90,12 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ViewHolder
     public int getItemViewType(int position) {
         return R.layout.item_all_albums;
     }
+
+    @Override
+    public String getSectionText(int position) {
+        return String.valueOf(artistInfos.get(position).getArtistName().charAt(0));
+    }
+
 
     public interface RecyclerItemClickListener {
 
